@@ -6,12 +6,13 @@ class Todo {
         this.date     = date;
         this.id       = id;
     }
+    
+    updateTodo (todoInput, newTodoData) {
 
-    updateTodo (newTitle, newDetails, newDate) {
-        this.title   = newTitle;
-        this.details = newDetails;
-        this.date    = newDate;
+        if (todoInput && newTodoData.details) {
+            todoInput.details = newTodoData.details;
+        }
     }
 }
 
-export { Todo };
+export default Todo;
