@@ -6,11 +6,23 @@ class Todo {
         this.date     = date;
         this.id       = id;
     }
-    
-    updateTodo (todoInput, newTodoData) {
 
-        if (todoInput && newTodoData.details) {
-            todoInput.details = newTodoData.details;
+    validateTodo (todoInput, todoValue) {
+        const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-_]*$/;
+
+        if (pattern.test(todoInput)) {
+            console.log('Validate todo works');
+            todoInput = todoValue;
+        } else {
+            console.log('Validation failed');
+        }
+    }
+
+    removeTodo (todoID) {
+        const index = this.todoList.findIndex(todo => todo.id === todoID);
+        
+        if (index !== -1) {
+            this.todoList.splice(index, 1);
         }
     }
 }
