@@ -1,10 +1,9 @@
 class Todo {
-    constructor (title, details, date, id) {
-        this.todoList = [];
+    constructor (title, details, date) {
         this.title    = title;
         this.details  = details;
         this.date     = date;
-        this.id       = id;
+        this.id       = TodoList.generateID();
     }
 
     validateTodo (todoInput, todoValue) {
@@ -13,17 +12,41 @@ class Todo {
         if (pattern.test(todoInput)) {
             console.log('Validate todo works');
             todoInput = todoValue;
+            return true
         } else {
             console.log('Validation failed');
+            return false;
         }
+    }
+}
+
+class TodoList {
+    constructor () {
+        this.todos = [];
+    }
+
+    addTodo (todo) {
+        this.todos.push(todo);
     }
 
     removeTodo (todoID) {
-        const index = this.todoList.findIndex(todo => todo.id === todoID);
+        const index = this.todos.findIndex(todo => todo.id === todoID);
         
         if (index !== -1) {
-            this.todoList.splice(index, 1);
+            this.todos.splice(index, 1);
         }
+    }
+
+    updateTodo (title, details, date) {
+        
+    }
+
+    getAllTodos () {
+        return this.todos;
+    }
+
+    static generateID (id) {
+        return Math.floor(Math.random() * 1000000);
     }
 }
 
