@@ -1,3 +1,5 @@
+// extend this and projects class for next time
+
 class Todo {
     constructor (title, details, date) {
         this.title    = title;
@@ -6,20 +8,19 @@ class Todo {
         this.id       = TodoList.generateID();
     }
 
-//     You're calling this.validateTodo(newTitle), this.validateTodo(newDetails), and this.validateTodo(newDate) for each field individually, but there's a couple of things to keep in mind:
+    validate (todoInput) {
+        if (todoInput && todoInput.trim() !== '') {
+            const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-_]*$/;
 
-// Validate only the fields that are provided (non-null/empty): You might want to check if a field is provided before validating it. Otherwise, empty or undefined fields could get passed into your validation logic.
-// Validation failure should be handled: If validation fails, you should either skip updating that field or return an error message.
-// Additionally, it's possible that the validation function (which I assume belongs to Todo) could handle more complex logic, such as ensuring the field is not just valid in format, but also non-empty (depending on your requirements).
-
-    validateTodo (todoInput) {
-        const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-_]*$/;
-
-        if (pattern.test(todoInput)) {
-            console.log('Validate todo works');
-            return true
+            if (pattern.test(todoInput)) {
+                console.log('Validate todo works');
+                return true
+            } else {
+                console.log('Validation failed: Invalid characters');
+                return false;
+            }
         } else {
-            console.log('Validation failed');
+            console.log('Validation failed: Input is empty or invalid');
             return false;
         }
     }
