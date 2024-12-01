@@ -1,29 +1,12 @@
-class Task {
+export class Task {
     constructor (title, details) {
-        this.title    = title;
-        this.details  = details;
-        this.id       = TaskList.generateID();
-    }
-
-    validate (taskInput) {
-        if (taskInput && taskInput.trim() !== '') {
-            const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-_]*$/;
-
-            if (pattern.test(taskInput)) {
-                console.log('Validate task works');
-                return true
-            } else {
-                console.log('Validation failed: Invalid characters');
-                return false;
-            }
-        } else {
-            console.log('Validation failed: Input is empty or invalid');
-            return false;
-        }
+        this.title   = title;
+        this.details = details;
+        this.id      = TaskList.generateID('task');
     }
 }
 
-class TaskList {
+export class TaskList {
     constructor () {
         this.tasks = [];
     }
@@ -51,12 +34,12 @@ class TaskList {
         let updated = false;
 
         if (newTitle && this.validate(newTitle)) {
-            this.task = newTitle;
+            task.title = newTitle;
             updated = true;
         }
         
         if (newDetails && this.validate(newDetails)) {
-            this.task = newDetails;
+            task.details = newDetails;
             updated = true;
         }
 
@@ -69,7 +52,7 @@ class TaskList {
         return this.tasks;
     }
 
-    static generateID () {
-        return Math.floor(Math.random() * 1000000);
+    static generateID (type) {
+        return `${type}-${Math.floor(Math.random() * 1000000)}`;
     }
 }

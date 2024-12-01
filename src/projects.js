@@ -1,30 +1,17 @@
-class Project {
-    constructor (title, details, id) {
-        this.title = title;
-        this.details = details;
-        this.id    = id;
-    }
+import { Task, TaskList } from "./task";
 
-    validateProject (projectInput) {
-        if (projectInput && projectInput.trim() !== '') {
-            const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|-_]*$/;
-
-            if (pattern.test(projectInput)) {
-                console.log('Validate project works');
-                return true
-            } else {
-                console.log('Validation failed: Invalid characters');
-                return false;
-            }
-        } else {
-            console.log('Validation failed: Input is empty or invalid');
-            return false;
-        }
+class Project extends Task {
+    constructor (title, details) {
+        super (title, details)
+        this.id = TaskList.generateID('project');
     }
 }
 
-class ProjectList {
+class ProjectList extends TaskList {
     constructor () {
+        super();
         this.projects = [];
     }
 }
+
+export default Project;
