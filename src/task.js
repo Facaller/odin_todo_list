@@ -4,6 +4,27 @@ export class Task {
         this.details = details;
         this.id      = TaskList.generateID('task');
     }
+
+    validateField (field) {
+        const pattern = /^[a-zA-Z0-9\s!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\|_-]*$/;
+
+        if (field && field.trim() !== '') {
+            if (!pattern.test(field)) {
+                console.log(`${field === this.title ? 'Task title' : 'Task details'} contains invalid characters`);
+                return false;
+            }
+        } else {
+            console.log(`${field === this.title ? 'Task title' : 'Task details'} is empty or invalid`);
+            return false;
+        }
+        return true;
+    }
+
+    validate () {
+        if (!this.validateField(this.title)) return false;
+        if (!this.validateField(this.details)) return false;
+        return true;
+    }
 }
 
 export class TaskList {
@@ -12,7 +33,11 @@ export class TaskList {
     }
 
     addTask (task) {
-        this.tasks.push(task);
+        if (task instanceof Task && task.validate()) {
+            this.tasks.push(task);
+        } else {
+            console.log('Failed to add task due to validation errors');
+        }
     }
 
     removeTask (taskID) {
@@ -33,18 +58,18 @@ export class TaskList {
 
         let updated = false;
 
-        if (newTitle && this.validate(newTitle)) {
+        if (newTitle && newTitle !== task.title) {
             task.title = newTitle;
             updated = true;
         }
-        
-        if (newDetails && this.validate(newDetails)) {
+
+        if (newDetails && newDetails !== task.details) {
             task.details = newDetails;
             updated = true;
         }
 
-        if (!updated) {
-            console.log('No valid chnages')
+        if (updated && !task.validate()) {
+            console.log('Failed to update task due to validation errors');
         }
     }
 

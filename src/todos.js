@@ -4,7 +4,21 @@ export class Todo extends Task {
     constructor (title, details, date) {
         super (title, details);
         this.date = date;
-        this.id   = TaskList.generateID('todo');
+        this.id   = TodoList.generateID('todo');
+    }
+
+    validate () {
+        const parentValidation = super.validate();
+        if (!parentValidation) {
+            return false;
+        }
+
+        if (this.date && !isNaN(Date.parse(this.date))) {
+            console.log('Valid date');
+        } else {
+            console.log('Invalid date');
+            return false;
+        }
     }
 }
 
@@ -17,22 +31,22 @@ export class TodoList extends TaskList {
     updateTask (id, newTitle, newDetails, newDate) {
         super.updateTask(id, newTitle, newDetails)
 
-        const task = this.tasks.find(task => task.id === id);
+        const todo = this.todos.find(task => task.id === id);
 
-        if (!task) {
-            console.log('Task not found');
+        if (!todo) {
+            console.log('Task not found')
             return;
         }
 
         let updated = false;
 
-        if (newDate && this.validate(newDate)) {
-        task.date = newDate
-        updated = true;
+        if (newDate && newDate !== todo.date) {
+            todo.date = newDate;
+            updated = true;
         }
 
-        if (!updated) {
-            console.log('No valid changes');
+        if (updated && !todo.validate()) {
+            console.log('Failed to update task due to validation errors');
         }
     }
 
