@@ -15,6 +15,7 @@ export class Todo extends Task {
 
         if (this.date && !isNaN(Date.parse(this.date))) {
             console.log('Valid date');
+            return true;
         } else {
             console.log('Invalid date');
             return false;
@@ -26,6 +27,15 @@ export class TodoList extends TaskList {
     constructor () {
         super();
         this.todos = [];
+    }
+
+    addTask (todo) {
+        super.addTask()
+        if (todo instanceof Todo && todo.validate()) {
+            this.todos.push(todo);
+        } else {
+            console.log('Failed to add todo due to validation errors');
+        }
     }
 
     updateTask (id, newTitle, newDetails, newDate) {

@@ -81,3 +81,60 @@ export class TaskList {
         return `${type}-${Math.floor(Math.random() * 1000000)}`;
     }
 }
+
+// export class TaskList {
+//     constructor() {
+//         this.tasks = [];
+//     }
+
+//     updateTask(id, newTitle, newDetails) {
+//         const task = this.tasks.find(task => task.id === id);
+//         if (!task) {
+//             console.log('Task not found');
+//             return;
+//         }
+
+//         let updated = false;
+
+//         if (newTitle && newTitle !== task.title) {
+//             task.title = newTitle;
+//             updated = true;
+//         }
+
+//         if (newDetails && newDetails !== task.details) {
+//             task.details = newDetails;
+//             updated = true;
+//         }
+
+//         // Call the subclass-specific update method (if any) for more specific updates
+//         if (task instanceof Todo) {
+//             updated = this.updateTodo(task, updated);
+//         } else if (task instanceof Project) {
+//             updated = this.updateProject(task, updated);
+//         }
+
+//         if (updated && !task.validate()) {
+//             console.log('Failed to update task due to validation errors');
+//         }
+//     }
+
+//     // Specific update logic for Todo
+//     updateTodo(todo, updated) {
+//         // For example, updating the date for a Todo
+//         if (todo instanceof Todo && todo.date !== todo.date) {
+//             todo.date = todo.date;  // Simplified as example
+//             updated = true;
+//         }
+//         return updated;
+//     }
+
+//     // Specific update logic for Project
+//     updateProject(project, updated) {
+//         // For example, updating the status for a Project
+//         if (project instanceof Project && project.status !== project.status) {
+//             project.status = project.status;  // Simplified as example
+//             updated = true;
+//         }
+//         return updated;
+//     }
+// }
