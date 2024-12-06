@@ -11,7 +11,6 @@ class Project extends Task {
 class ProjectList extends TaskList {
     constructor () {
         super();
-        this.projects = [];
     }
 }
 

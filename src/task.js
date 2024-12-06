@@ -1,3 +1,5 @@
+import { Todo } from './todos.js';
+
 export class Task {
     constructor (title, details) {
         this.title   = title;
