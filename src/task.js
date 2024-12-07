@@ -47,7 +47,11 @@ export class TaskList {
         
         if (index !== -1) {
             this.tasks.splice(index, 1);
+            console.log('Task removed')
+            return true;
         }
+        console.log('Task not removed')
+        return false;
     }
 
     updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
@@ -95,6 +99,33 @@ export class TaskList {
             updated = true;
         }
         return updated;
+    }
+
+    markComplete (taskID) {
+        const task = this.tasks.find(task => task.id === taskID);
+        const taskComplete = false;
+
+        if (!task) {
+            console.log('Task not found')
+            return;
+        }
+
+        if (task) {
+            taskComplete = true;
+            return taskComplete;
+        }
+    }
+
+    markImportant () {
+
+    }
+
+    unmarkComplete () {
+
+    }
+
+    unmarkImportant () {
+        
     }
 
     getAllTasks () {

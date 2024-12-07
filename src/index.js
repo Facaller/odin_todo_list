@@ -2,7 +2,7 @@ import "./styles.css"
 import { Todo, TodoList } from "./todos.js";
 import Project from "./projects.js";
 
-const project = new Project("Build website", "Create a personal portfolio");
+const project = new Project("Build website", "Create a personal portfolio", "Complete");
 const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2024-12-01");
 const todolist = new TodoList()
 
@@ -15,3 +15,6 @@ console.log(project.id);
 console.log(todo);
 console.log(project);
 console.log(todolist.getAllTasks());
+console.log(todolist.removeTask(todo.id));
+console.log(todolist.getAllTasks());
+console.log(todo);
