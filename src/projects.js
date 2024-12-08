@@ -1,10 +1,12 @@
 import { Task, TaskList } from "./task";
+import { generateID } from './utility.js';
+
 
 class Project extends Task {
     constructor (title, details, status) {
         super (title, details);
         this.status = status;
-        this.id = TaskList.generateID('project');
+        this.id = generateID('project');
     }
 
     validate () {

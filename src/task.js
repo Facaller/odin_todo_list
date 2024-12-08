@@ -1,10 +1,10 @@
-import { Todo } from './todos.js';
+import { generateID } from './utility.js';
 
 export class Task {
     constructor (title, details) {
         this.title   = title;
         this.details = details;
-        this.id      = TaskList.generateID('task');
+        this.id      = generateID('task');
     }
 
     validateField (field) {
@@ -103,36 +103,61 @@ export class TaskList {
 
     markComplete (taskID) {
         const task = this.tasks.find(task => task.id === taskID);
-        const taskComplete = false;
 
         if (!task) {
             console.log('Task not found')
             return;
         }
+        console.log('Task marked as complete:', task)
+        task.isComplete = true;
+        return true;
+    }
 
-        if (task) {
-            taskComplete = true;
-            return taskComplete;
+    markImportant (taskID) {
+        const task = this.tasks.find(task => task.id === taskID);
+
+        if (!task) {
+            console.log('Task not found')
+            return;
         }
+        console.log('Task marked as important:', task)
+        task.isImportant = true;
+        return true;
     }
 
-    markImportant () {
+    unmarkComplete (taskID) {
+        const task = this.tasks.find(task => task.id === taskID);
 
-    }
-
-    unmarkComplete () {
-
+        if (!task) {
+            console.log('Task not found')
+            return;
+        }
+        console.log('Task unmarked as complete:', task)
+        task.isComplete = false;
+        return false;
     }
 
     unmarkImportant () {
-        
+        const task = this.tasks.find(task => task.id === taskID);
+
+        if (!task) {
+            console.log('Task not found')
+            return;
+        }
+        console.log('Task unmarked as important:', task)
+        task.isImportant = false;
+        return false;
     }
 
     getAllTasks () {
         return this.tasks;
     }
 
-    static generateID (type) {
-        return `${type}-${Math.floor(Math.random() * 1000000)}`;
+    getAllCompletedTasks () {
+        return this.tasks.filter(task => task.isComplete);
+    }
+
+    getAllImportantTasks () {
+        return this.tasks.filter(task => task.isImportant);
     }
 }

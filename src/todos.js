@@ -1,10 +1,11 @@
-import { Task, TaskList } from "./task";
+import { Task, TaskList } from './task';
+import { generateID } from './utility.js';
 
 export class Todo extends Task {
     constructor (title, details, date) {
         super (title, details);
         this.date = date;
-        this.id   = TaskList.generateID('todo');
+        this.id   = generateID('todo');
     }
 
     validate () {

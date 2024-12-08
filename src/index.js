@@ -18,3 +18,5 @@ console.log(todolist.getAllTasks());
 console.log(todolist.removeTask(todo.id));
 console.log(todolist.getAllTasks());
 console.log(todo);
+console.log(todolist.markComplete(project.id));
+console.log(todolist.getAllCompletedTasks());
