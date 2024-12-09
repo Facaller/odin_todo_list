@@ -161,3 +161,43 @@ export class TaskList {
         return this.tasks.filter(task => task.isImportant);
     }
 }
+
+// updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
+//     const task = this.tasks.find(task => task.id === id);
+
+//     if (!task) {
+//         console.log('Task not found');
+//         return;
+//     }
+
+//     let updated = false;
+
+//     if (newTitle && newTitle !== task.title) {
+//         task.title = newTitle;
+//         updated = true;
+//     }
+
+//     if (newDetails && newDetails !== task.details) {
+//         task.details = newDetails;
+//         updated = true;
+//     }
+
+//     // Use a generic handler for specialized updates (remove the instanceof checks)
+//     updated = this.updateSpecializedFields(task, newDate, newStatus, updated);
+
+//     if (updated && !task.validate()) {
+//         console.log('Failed to update task due to validation errors');
+//     }
+// }
+
+// // Abstracted handler for specialized task updates
+// updateSpecializedFields (task, newDate, newStatus, updated) {
+//     if (task.type === 'todo' && newDate && newDate !== task.date) {
+//         task.date = newDate;
+//         updated = true;
+//     } else if (task.type === 'project' && newStatus && newStatus !== task.status) {
+//         task.status = newStatus;
+//         updated = true;
+//     }
+//     return updated;
+// }
