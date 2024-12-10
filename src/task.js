@@ -84,7 +84,7 @@ export class TaskList {
             console.log('Failed to update task due to validation errors');
         }
     }
-
+// Try to understand PGT soluion, made sense after an hour rofl
     updateTodo (todo, newDate, updated) {
         if (newDate && newDate !== todo.date) {
             todo.date = newDate;
