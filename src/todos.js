@@ -3,7 +3,7 @@ import { generateID } from './utility.js';
 
 export class Todo extends Task {
     constructor (title, details, date) {
-        super (title, details);
+        super (title, details, 'todo');
         this.date = date;
         this.id   = generateID('todo');
     }

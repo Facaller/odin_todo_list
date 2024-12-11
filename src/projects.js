@@ -4,7 +4,7 @@ import { generateID } from './utility.js';
 
 class Project extends Task {
     constructor (title, details, status) {
-        super (title, details);
+        super (title, details, 'project');
         this.status = status;
         this.id = generateID('project');
     }

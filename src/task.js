@@ -1,10 +1,13 @@
 import { generateID } from './utility.js';
 
 export class Task {
-    constructor (title, details) {
-        this.title   = title;
-        this.details = details;
-        this.id      = generateID('task');
+    constructor (title, details, type) {
+        this.title       = title;
+        this.details     = details;
+        this.id          = generateID('task');
+        this.type        = type;
+        this.isComplete  = false;
+        this.isImportant = false;
     }
 
     validateField (field) {
@@ -74,17 +77,22 @@ export class TaskList {
             updated = true;
         }
 
-        if (task instanceof Todo) {
-            updated = this.updateTodo (task, newDate, updated);
-        } else if (task instanceof Project) {
-            updated = this.updateProject (task, newStatus, updated);
-        }
+        updated = this.updateSpecificTask (task, newDate, newStatus, updated)
 
         if (updated && !task.validate()) {
             console.log('Failed to update task due to validation errors');
         }
     }
-// Try to understand PGT soluion, made sense after an hour rofl
+
+    updateSpecificTask (task, newDate, newStatus, updated) {
+        if (task.type === 'todo') {
+            updated = this.updateTodo (task, newDate, updated);
+        } else if (task.type === 'project') {
+            updated = this.updateProject (task, newStatus, updated);
+        }
+        return updated;
+    }
+
     updateTodo (todo, newDate, updated) {
         if (newDate && newDate !== todo.date) {
             todo.date = newDate;
@@ -100,53 +108,36 @@ export class TaskList {
         }
         return updated;
     }
-
-    markComplete (taskID) {
-        const task = this.tasks.find(task => task.id === taskID);
-
-        if (!task) {
-            console.log('Task not found')
-            return;
+// used dynamic property assignment here. Didn't know about this really and would
+// not have thought of it myself, but was suggested by GPT and looked up how it worked
+// does seem like a better approach than numerous if statements, which was my method
+// keeping it to become more familiar with it in future.
+    markTaskProperty (taskID, property) {
+        const validProperties = ['complete', 'important'];
+        if (!validProperties.includes(property)) {
+            console.log('Invalid property');
+            return false;
         }
-        console.log('Task marked as complete:', task)
-        task.isComplete = true;
+
+        const task = this.tasks.find(task => task.id === taskID);
+        if (!task) return false;
+
+        task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
         return true;
     }
 
-    markImportant (taskID) {
-        const task = this.tasks.find(task => task.id === taskID);
-
-        if (!task) {
-            console.log('Task not found')
-            return;
+    unmarkTaskProperty (taskID, property) {
+        const validProperties = ['complete', 'important'];
+        if (!validProperties.includes(property)) {
+            console.log('Invalid property')
+            return false;
         }
-        console.log('Task marked as important:', task)
-        task.isImportant = true;
+
+        const task = this.tasks.find(task => task.id === taskID);
+        if (!task) return false;
+
+        task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         return true;
-    }
-
-    unmarkComplete (taskID) {
-        const task = this.tasks.find(task => task.id === taskID);
-
-        if (!task) {
-            console.log('Task not found')
-            return;
-        }
-        console.log('Task unmarked as complete:', task)
-        task.isComplete = false;
-        return false;
-    }
-
-    unmarkImportant () {
-        const task = this.tasks.find(task => task.id === taskID);
-
-        if (!task) {
-            console.log('Task not found')
-            return;
-        }
-        console.log('Task unmarked as important:', task)
-        task.isImportant = false;
-        return false;
     }
 
     getAllTasks () {
@@ -161,43 +152,3 @@ export class TaskList {
         return this.tasks.filter(task => task.isImportant);
     }
 }
-
-// updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
-//     const task = this.tasks.find(task => task.id === id);
-
-//     if (!task) {
-//         console.log('Task not found');
-//         return;
-//     }
-
-//     let updated = false;
-
-//     if (newTitle && newTitle !== task.title) {
-//         task.title = newTitle;
-//         updated = true;
-//     }
-
-//     if (newDetails && newDetails !== task.details) {
-//         task.details = newDetails;
-//         updated = true;
-//     }
-
-//     // Use a generic handler for specialized updates (remove the instanceof checks)
-//     updated = this.updateSpecializedFields(task, newDate, newStatus, updated);
-
-//     if (updated && !task.validate()) {
-//         console.log('Failed to update task due to validation errors');
-//     }
-// }
-
-// // Abstracted handler for specialized task updates
-// updateSpecializedFields (task, newDate, newStatus, updated) {
-//     if (task.type === 'todo' && newDate && newDate !== task.date) {
-//         task.date = newDate;
-//         updated = true;
-//     } else if (task.type === 'project' && newStatus && newStatus !== task.status) {
-//         task.status = newStatus;
-//         updated = true;
-//     }
-//     return updated;
-// }
