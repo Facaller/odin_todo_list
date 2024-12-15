@@ -29,6 +29,17 @@ class ProjectList extends TaskList {
     constructor () {
         super();
     }
+
+    getProjectID (projectTitle) {
+        const project = this.tasks.find(task => task.title === projectTitle);
+
+        if (!project) {
+            console.log('Project does not exist');
+            return null
+        }
+
+        return project.id;
+    }
 }
 
 export default Project;
