@@ -2,7 +2,7 @@ import { Task, TaskList } from "./task";
 import { generateID } from './utility.js';
 
 
-class Project extends Task {
+export class Project extends Task {
     constructor (title, details, status) {
         super (title, details, 'project');
         this.status = status;
@@ -25,7 +25,7 @@ class Project extends Task {
     }
 }
 
-class ProjectList extends TaskList {
+export class ProjectList extends TaskList {
     constructor () {
         super();
     }
@@ -37,9 +37,6 @@ class ProjectList extends TaskList {
             console.log('Project does not exist');
             return null
         }
-
         return project.id;
     }
 }
-
-export default Project;
