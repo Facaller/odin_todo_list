@@ -1,15 +1,15 @@
 import { Task, TaskList } from './task';
 import { generateID } from './utility.js';
 import { ProjectList } from './projects.js';
-// add project parameter, can only be instantiated if parameter exists. in project.js
-// add method to show todos linked to specific project
+
 export class Todo extends Task {
-    constructor (title, details, date, projectTitle) {
+    constructor (title, details, date, projectTitle, taskList) {
         super (title, details, 'todo');
         this.date = date;
         this.id   = generateID('todo');
-        const projectList = new ProjectList();
-        const projectID = projectList.getProjectID(projectTitle);
+
+        const projectID = taskList.getProjectID(projectTitle);
+
         if (projectID) {
             this.projectID = projectID
         } else {
