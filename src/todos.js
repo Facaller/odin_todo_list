@@ -1,14 +1,13 @@
 import { Task, TaskList } from './task';
 import { generateID } from './utility.js';
-import { ProjectList } from './projects.js';
 
 export class Todo extends Task {
-    constructor (title, details, date, projectTitle, taskList) {
+    constructor (title, details, date, projectTitle, projectList) {
         super (title, details, 'todo');
         this.date = date;
         this.id   = generateID('todo');
 
-        const projectID = taskList.getProjectID(projectTitle);
+        const projectID = projectList.getProjectID(projectTitle);
 
         if (projectID) {
             this.projectID = projectID
