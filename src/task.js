@@ -108,6 +108,30 @@ export class TaskList {
         }
         return updated;
     }
+
+    getProjectID (projectTitle) {
+        const project = this.tasks.find(task => task instanceof Task
+            && task.title === projectTitle);
+        console.log(project);
+        if (!project) {
+            console.log('Project does not exist');
+            return null
+        }
+        return project.id;
+    }
+
+    getTaskID (id, todoID = null, projectID = null) {
+        const task = this.tasks.find(task => task.id === id);
+
+        if (task.type === 'todo') {
+            task.id = todoID;
+            return todoID;
+        } else if (task.type === 'project') {
+            task.id = projectID;
+            return projectID;
+        }
+    }
+
 // used dynamic property assignment here. Didn't know about this really and would
 // not have thought of it myself, but was suggested by GPT and looked up how it worked
 // does seem like a better approach than numerous if statements, which was my method
