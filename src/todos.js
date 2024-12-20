@@ -2,18 +2,17 @@ import { Task, TaskList } from './task';
 import { generateID } from './utility.js';
 
 export class Todo extends Task {
-    constructor (title, details, date, projectTitle, projectList) {
+    constructor (title, details, date, objectID, taskList) {
         super (title, details, 'todo');
         this.date = date;
         this.id   = generateID('todo');
 
-        const projectID = projectList.getProjectID(projectTitle);
+        const projectID = taskList.getTaskID(objectID);
 
         if (projectID) {
             this.projectID = projectID
         } else {
-            console.log('Project not found')
-            return;
+            throw new Error('Project not found');
         }
     }
 

@@ -30,14 +30,7 @@ export class ProjectList extends TaskList {
         super();
     }
 
-    getProjectID (projectTitle) {
-        const project = this.tasks.find(task => task instanceof Project
-            && task.title === projectTitle);
-        console.log(project);
-        if (!project) {
-            console.log('Project does not exist');
-            return null
-        }
-        return project.id;
+    getTodos () {
+        
     }
 }

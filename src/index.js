@@ -9,8 +9,10 @@ const taskList = new TaskList();
 const project = new Project("Build website", "Create a personal portfolio", "Complete");
 taskList.addTask(project);
 
-const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2024-12-01", project.title, taskList);
+const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2024-12-01", project.id, taskList);
+const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2024-12-02", project.id, taskList);
 taskList.addTask(todo);
+taskList.addTask(todo2);
 
 console.log(taskList.tasks)
 
