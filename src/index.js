@@ -1,6 +1,6 @@
 import "./styles.css"
-import { Todo } from "./todos.js";
-import { Project, ProjectList } from "./projects.js";
+import { Todo, TodoList } from "./todos.js";
+import { Project } from "./projects.js";
 import { TaskList } from "./task.js";
 
 // create a get ID method in TaskList for "general use (it's only for Projects ;))" 
@@ -13,6 +13,9 @@ const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2024-12-01", proje
 const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2024-12-02", project.id, taskList);
 taskList.addTask(todo);
 taskList.addTask(todo2);
+
+const projectTodos = taskList.getTodosByProject(project.id);
+console.log(projectTodos);
 
 console.log(taskList.tasks)
 

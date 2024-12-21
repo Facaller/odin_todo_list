@@ -29,8 +29,4 @@ export class ProjectList extends TaskList {
     constructor () {
         super();
     }
-
-    getTodos () {
-        
-    }
 }

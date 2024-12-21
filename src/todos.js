@@ -36,4 +36,9 @@ export class TodoList extends TaskList {
     constructor () {
         super();
     }
+
+    getTodosByProject (projectID) {
+        const todos = this.tasks.filter(task => task.projectID === projectID && task.type === 'todo');
+        return todos;
+    }
 }
