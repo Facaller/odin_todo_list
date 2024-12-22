@@ -24,9 +24,3 @@ export class Project extends Task {
         }
     }
 }
-
-export class ProjectList extends TaskList {
-    constructor () {
-        super();
-    }
-}

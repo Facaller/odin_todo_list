@@ -56,7 +56,7 @@ export class TaskList {
         console.log('Task not removed')
         return false;
     }
-
+// setter methods
     updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
         const task = this.tasks.find(task => task.id === id);
 
@@ -109,15 +109,6 @@ export class TaskList {
         return updated;
     }
 
-    getTaskID (id) {
-        const task = this.tasks.find(task => task.id === id);
-        if (!task) {
-            console.log('Task does not exist');
-            return null;
-        }
-        return task.id;
-    }
-
 // used dynamic property assignment here. Didn't know about this really and would
 // not have thought of it myself, but was suggested by GPT and looked up how it worked
 // does seem like a better approach than numerous if statements, which was my method
@@ -148,6 +139,24 @@ export class TaskList {
 
         task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         return true;
+    }
+// getter methods
+    getTaskID (id) {
+        const task = this.tasks.find(task => task.id === id);
+        if (!task) {
+            console.log('Task does not exist');
+            return null;
+        }
+        return task.id;
+    }
+
+    getTaskByType (type) {
+        return this.tasks.filter(task => task.type === type)
+    }
+
+    getTodosByProject (projectID) {
+        const todos = this.tasks.filter(task => task.projectID === projectID && task.type === 'todo');
+        return todos;
     }
 
     getAllTasks () {
