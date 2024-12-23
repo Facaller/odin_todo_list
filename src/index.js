@@ -20,18 +20,21 @@ taskList.addTask(todo3);
 console.log(projectTodos);
 
 console.log(taskList.tasks)
+console.log(taskList.getAllCompletedTasks());
+taskList.markAllProjectTasks(project.id, 'todo', 'complete');
+console.log(taskList.getAllCompletedTasks());
 
-// todolist.updateTask(todo.id, "Buy burgers", "Cheese", "2010-10-10")
+// tasklist.updateTask(todo.id, "Buy burgers", "Cheese", "2010-10-10")
 
 // console.log(todo.id);
 // console.log(project.id);
 // console.log(todo);
 // console.log(project);
-// console.log(todolist.getAllTasks());
-// console.log(todolist.removeTask(todo.id));
-// console.log(todolist.getAllTasks());
+// console.log(tasklist.getAllTasks());
+// console.log(tasklist.removeTask(todo.id));
+// console.log(tasklist.getAllTasks());
 // console.log(todo);
-// console.log(todolist.markTaskProperty(project.id, 'complete'));
-// console.log(todolist.getAllCompletedTasks());
+// console.log(tasklist.markTaskProperty(project.id, 'complete'));
+// console.log(tasklist.getAllCompletedTasks());
 // console.log(todo.isComplete);
 // console.log(project.isComplete);

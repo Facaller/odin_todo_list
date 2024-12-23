@@ -109,10 +109,13 @@ export class TaskList {
         return updated;
     }
 
+// marking and unmarking tasks
+
 // used dynamic property assignment here. Didn't know about this really and would
 // not have thought of it myself, but was suggested by GPT and looked up how it worked
 // does seem like a better approach than numerous if statements, which was my method
 // keeping it to become more familiar with it in future.
+
     markTaskProperty (taskID, property) {
         const validProperties = ['complete', 'important'];
         if (!validProperties.includes(property)) {
@@ -140,6 +143,35 @@ export class TaskList {
         task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         return true;
     }
+
+    markAllProjectTasks (id, type, property) {
+        const validProperties = ['complete', 'important'];
+        
+        if (!validProperties.includes(property)) {
+            console.log('Invalid property');
+            return false;
+        }
+        
+        if (id && type === 'todo') {
+            this.tasks.forEach(task => {
+                task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
+            });
+            return true
+        }
+    }
+
+    unmarkAllProjectTasks (id, type, property) {
+        const validProperties = ['complete', 'important'];
+        if (!validProperties.includes(property)) {
+            console.log('Invalid proeperty');
+            return false;
+        }
+        this.tasks.forEach(task => {
+            task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
+        });
+        return true;
+    }
+
 // getter methods
     getTaskID (id) {
         const task = this.tasks.find(task => task.id === id);
