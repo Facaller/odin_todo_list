@@ -143,7 +143,7 @@ export class TaskList {
         task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         return true;
     }
-
+//figure this shit out you close
     markAllProjectTasks (id, type, property) {
         const validProperties = ['complete', 'important'];
         
@@ -151,8 +151,11 @@ export class TaskList {
             console.log('Invalid property');
             return false;
         }
+
+        const taskType = this.getTaskType(type);
+        const taskID   = this.getTaskID(id);
         
-        if (id && type === 'todo') {
+        if (taskID === id && taskType === type) {
             this.tasks.forEach(task => {
                 task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
             });
@@ -182,7 +185,12 @@ export class TaskList {
         return task.id;
     }
 
-    getTaskByType (type) {
+    getTaskType (type) {
+        const task = this.tasks.find(task => task.type === type);
+        return task.type
+    }
+
+    getTasksByType (type) {
         return this.tasks.filter(task => task.type === type)
     }
 
