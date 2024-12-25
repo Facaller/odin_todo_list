@@ -144,7 +144,7 @@ export class TaskList {
         return true;
     }
 //figure this shit out you close
-    markAllProjectTasks (id, type, property) {
+    markAllProjectTodos (projectID, property) {
         const validProperties = ['complete', 'important'];
         
         if (!validProperties.includes(property)) {
@@ -152,24 +152,35 @@ export class TaskList {
             return false;
         }
 
-        const taskType = this.getTaskType(type);
-        const taskID   = this.getTaskID(id);
+        const projectTodos = this.getTodosByProject(projectID);
         
-        if (taskID === id && taskType === type) {
-            this.tasks.forEach(task => {
-                task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
-            });
-            return true
-        }
-    }
-
-    unmarkAllProjectTasks (id, type, property) {
-        const validProperties = ['complete', 'important'];
-        if (!validProperties.includes(property)) {
-            console.log('Invalid proeperty');
+        if (projectTodos.length === 0) {
+            console.log('No todos found for this project');
             return false;
         }
-        this.tasks.forEach(task => {
+        
+        projectTodos.forEach(task => {
+            task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
+        });
+
+        return true
+    }
+
+    unmarkAllProjectTodos (projectID, property) {
+        const validProperties = ['complete', 'important'];
+        if (!validProperties.includes(property)) {
+            console.log('Invalid property');
+            return false;
+        }
+
+        const projectTodos = this.getTodosByProject(projectID);
+
+        if (projectTodos.length === 0) {
+            console.log('No todos found for this project');
+            return false;
+        }
+
+        projectTodos.forEach(task => {
             task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         });
         return true;

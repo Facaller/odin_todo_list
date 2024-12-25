@@ -1,4 +1,4 @@
-import { Task, TaskList } from './task';
+import { Task} from './task';
 import { generateID } from './utility.js';
 
 export class Todo extends Task {

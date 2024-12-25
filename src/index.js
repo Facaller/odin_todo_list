@@ -19,9 +19,12 @@ const todo3 = new Todo ("Make groceries", "Organic", "2024-02-22", project.id, t
 taskList.addTask(todo3);
 console.log(projectTodos);
 
+
 console.log(taskList.tasks)
+
+taskList.markAllProjectTodos(project.id, 'complete');
 console.log(taskList.getAllCompletedTasks());
-taskList.markAllProjectTasks(project.id, 'todo', 'complete');
+taskList.unmarkAllProjectTodos(project.id, 'complete');
 console.log(taskList.getAllCompletedTasks());
 
 // tasklist.updateTask(todo.id, "Buy burgers", "Cheese", "2010-10-10")
