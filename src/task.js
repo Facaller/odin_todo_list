@@ -56,6 +56,29 @@ export class TaskList {
         console.log('Task not removed')
         return false;
     }
+// valid properties shouldn't be strings (title, date)
+    sortTasks (property, ascending = true) {
+        const validProperties = ['title', 'date', 'isComplete', 'isImportant'];
+        
+        if (!validProperties.includes(property)) {
+            console.log('Invalid property to sort by');
+            return;
+        }
+
+        this.tasks.sort((a, b) => {
+            if (a[property] < b[property]) return ascending ? -1 : 1
+            if (a[property] > b[property]) return ascending ? 1 : -1
+            return 0
+        });
+    }
+
+    sortTasksByDate () {
+
+    }
+
+    sortTasksByStatus () {
+
+    }
 // setter methods
     updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
         const task = this.tasks.find(task => task.id === id);
@@ -143,7 +166,7 @@ export class TaskList {
         task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
         return true;
     }
-//figure this shit out you close
+
     markAllProjectTodos (projectID, property) {
         const validProperties = ['complete', 'important'];
         
