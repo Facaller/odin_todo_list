@@ -58,9 +58,10 @@ export class TaskList {
     }
 // valid properties shouldn't be strings (title, date)
     sortTasks (property, ascending = true) {
+
         const validProperties = ['title', 'date', 'isComplete', 'isImportant'];
         
-        if (!validProperties.includes(property)) {
+        if (!validProperties.includes(property) && property !== null) {
             console.log('Invalid property to sort by');
             return;
         }
@@ -70,15 +71,9 @@ export class TaskList {
             if (a[property] > b[property]) return ascending ? 1 : -1
             return 0
         });
+        return this.tasks;
     }
 
-    sortTasksByDate () {
-
-    }
-
-    sortTasksByStatus () {
-
-    }
 // setter methods
     updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
         const task = this.tasks.find(task => task.id === id);
@@ -217,6 +212,24 @@ export class TaskList {
             return null;
         }
         return task.id;
+    }
+
+    getTasksTitles (title) {
+        const tasksTitles = this.tasks.filter(task => task.title === title);
+        if (!tasksTitles) {
+            console.log('Task does not exist');
+            return null;
+        }
+        return tasksTitles.title
+    }
+
+    getTasksDates (date) {
+        const tasksDates = this.tasks.filter(task => task.date === date);
+        if (!tasksDates) {
+            console.log('Task does not exist');
+            return null;
+        }
+        return tasksDates.date
     }
 
     getTaskType (type) {
