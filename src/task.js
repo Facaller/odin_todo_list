@@ -1,4 +1,5 @@
 import { generateID } from './utility.js';
+import { format } from 'date-fns';
 
 export class Task {
     constructor (title, details, type) {
@@ -56,7 +57,7 @@ export class TaskList {
         console.log('Task not removed')
         return false;
     }
-// valid properties shouldn't be strings (title, date)
+
     sortTasks (property, ascending = true) {
 
         const validProperties = ['title', 'date', 'isComplete', 'isImportant'];
@@ -180,7 +181,6 @@ export class TaskList {
         projectTodos.forEach(task => {
             task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
         });
-
         return true
     }
 
