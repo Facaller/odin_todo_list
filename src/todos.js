@@ -2,12 +2,20 @@ import { Task} from './task';
 import { generateID } from './utility.js';
 import { format, isValid } from 'date-fns';
 
-
 export class Todo extends Task {
     constructor (title, details, date, objectID, taskList) {
         super (title, details, 'todo');
         this.date = date;
         this.id   = generateID('todo');
+
+        const formattedDate = format(new Date(this.date), 'dd/MM/yyyy');
+        const parsedDate = isValid(formattedDate) ? formattedDate : null;
+
+        if (parsedDate) {
+            formattedDate = parsedDate;
+        } else {
+            throw new Error('Invalid date format');
+        }
 
         const projectID = taskList.getTaskID(objectID);
 
@@ -24,7 +32,7 @@ export class Todo extends Task {
             return false;
         }
 
-        if (this.date && !isNaN(Date.parse(this.date))) {
+        if (this.date && isValid(this.date)) {
             console.log('Valid date');
             return true;
         } else {
