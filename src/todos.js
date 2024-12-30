@@ -8,14 +8,13 @@ export class Todo extends Task {
         this.date = date;
         this.id   = generateID('todo');
 
-        const formattedDate = format(new Date(this.date), 'dd/MM/yyyy');
-        const parsedDate = isValid(formattedDate) ? formattedDate : null;
+        const parsedDate = new Date(this.date)
 
-        if (parsedDate) {
-            formattedDate = parsedDate;
-        } else {
-            throw new Error('Invalid date format');
+        if (!isValid(parsedDate)) {
+            throw new Error('Invalid date');
         }
+    
+        this.date = format(parsedDate, 'dd/MM/yyyy');
 
         const projectID = taskList.getTaskID(objectID);
 
@@ -32,7 +31,9 @@ export class Todo extends Task {
             return false;
         }
 
-        if (this.date && isValid(this.date)) {
+        const parsedDate = new Date(this.date)
+
+        if (isValid(parsedDate)) {
             console.log('Valid date');
             return true;
         } else {
