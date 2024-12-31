@@ -15,7 +15,7 @@ taskList.addTask(todo);
 taskList.addTask(todo2);
 
 const projectTodos = taskList.getTodosByProject(project.id);
-const todo3 = new Todo ("Make groceries", "Organic", "2024-02-22", project.id, taskList);
+const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, taskList);
 taskList.addTask(todo3);
 console.log(projectTodos);
 

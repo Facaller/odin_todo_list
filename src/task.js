@@ -205,6 +205,21 @@ export class TaskList {
     }
 
 // getter methods
+
+    getTasksDueToday () {
+        const today = new Date().toLocaleDateString();
+        return this.tasks.filter(task =>
+            task.type === 'todo' && task.date && new Date(task.date).toLocaleDateString() === today
+        );
+    }
+
+    getOverDueTasks () {
+        const today = new Date();
+        return this.tasks.filter(task => 
+            task.type === 'todo' && task.date && new Date(task.date) > today
+        );
+    }
+
     getTaskID (id) {
         const task = this.tasks.find(task => task.id === id);
         if (!task) {
