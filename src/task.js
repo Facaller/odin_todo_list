@@ -1,5 +1,5 @@
 import { generateID } from './utility.js';
-import { format } from 'date-fns';
+import { format, eachDayOfInterval, startOfDay, endOfDay, addDays } from 'date-fns';
 
 export class Task {
     constructor (title, details, type) {
@@ -205,19 +205,31 @@ export class TaskList {
     }
 
 // getter methods
-
+// use APi for these methods
     getTasksDueToday () {
-        const today = new Date().toLocaleDateString();
+        const today = new Date();
+        const endDate = endOfDay(today);
         return this.tasks.filter(task =>
-            task.type === 'todo' && task.date && new Date(task.date).toLocaleDateString() === today
+            task.type === 'todo'
+            && task.date
+            && new Date(task.date) < endDate
+            && task.isComplete === false
         );
     }
 
     getOverDueTasks () {
         const today = new Date();
         return this.tasks.filter(task => 
-            task.type === 'todo' && task.date && new Date(task.date) > today
+            task.type === 'todo' && task.date && new Date(task.date) < today
         );
+    }
+
+    getNextWeeksTasks () {
+        const today = new Date();
+        const startDate = new Date(today)
+        return this.tasks.filter(task => 
+            task.type === 'todo' && task.date && new Date(task.date) > today
+        )
     }
 
     getTaskID (id) {
