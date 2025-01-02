@@ -1,5 +1,5 @@
 import { generateID } from './utility.js';
-import { format, eachDayOfInterval, startOfDay, endOfDay, addDays } from 'date-fns';
+import { format, eachDayOfInterval, startOfDay, endOfDay, addDays, isToday } from 'date-fns';
 
 export class Task {
     constructor (title, details, type) {
@@ -207,14 +207,12 @@ export class TaskList {
 // getter methods
 // use APi for these methods
     getTasksDueToday () {
-        const today = new Date();
-        const endDate = endOfDay(today);
-        return this.tasks.filter(task =>
-            task.type === 'todo'
-            && task.date
-            && new Date(task.date) < endDate
-            && task.isComplete === false
-        );
+        return this.tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            const isDueToday = isToday(task.date);
+            const isIncomplete = !task.isComplete;
+            
+            return task.type === 'todo' && taskDate && isDueToday && isIncomplete});
     }
 
     getOverDueTasks () {
@@ -224,12 +222,18 @@ export class TaskList {
         );
     }
 
-    getNextWeeksTasks () {
+    getTasksForNextSevenDays() {
+
         const today = new Date();
-        const startDate = new Date(today)
-        return this.tasks.filter(task => 
-            task.type === 'todo' && task.date && new Date(task.date) > today
-        )
+        const startDate = startOfDay(today);
+        const endDate = endOfDay(addDays(today, 6))
+        
+        const tasksForNextSevenDays = this.tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            return taskDate >= startDate && taskDate <= endDate
+        });
+        
+        return tasksForNextSevenDays;
     }
 
     getTaskID (id) {

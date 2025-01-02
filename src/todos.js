@@ -1,6 +1,6 @@
 import { Task} from './task';
 import { generateID } from './utility.js';
-import { format, isValid } from 'date-fns';
+import { parse, format, isValid } from 'date-fns';
 
 export class Todo extends Task {
     constructor (title, details, date, objectID, taskList) {
@@ -8,13 +8,14 @@ export class Todo extends Task {
         this.date = date;
         this.id   = generateID('todo');
 
-        const parsedDate = new Date(this.date)
+        const parsedDate = parse(this.date, 'yyyy-MM-dd', new Date());
 
         if (!isValid(parsedDate)) {
             throw new Error('Invalid date');
         }
-    
-        this.date = format(parsedDate, 'dd/MM/yyyy');
+        
+        this.rawDate = parsedDate;
+        this.formattedDate = format(parsedDate, 'dd/MM/yyyy');
 
         const projectID = taskList.getTaskID(objectID);
 
@@ -31,14 +32,6 @@ export class Todo extends Task {
             return false;
         }
 
-        const parsedDate = new Date(this.date)
-
-        if (isValid(parsedDate)) {
-            console.log('Valid date');
-            return true;
-        } else {
-            console.log('Invalid date');
-            return false;
-        }
+        return isValid(new Date(this.date));
     }
 }
