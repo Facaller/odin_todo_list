@@ -66,12 +66,17 @@ export class TaskList {
             console.log('Invalid property to sort by');
             return;
         }
-
+        // values are checked against 'date',
+        // if false they are checked against other properties
         this.tasks.sort((a, b) => {
-            if (a[property] < b[property]) return ascending ? -1 : 1
-            if (a[property] > b[property]) return ascending ? 1 : -1
+            const ValueA = property === 'date' ? a.rawDate : a[property];
+            const ValueB = property === 'date' ? b.rawDate : a[property];
+
+            if (ValueA < ValueB) return ascending ? -1 : 1
+            if (ValueA > ValueB) return ascending ? 1 : -1
             return 0
         });
+
         return this.tasks;
     }
 
@@ -223,7 +228,6 @@ export class TaskList {
     }
 
     getTasksForNextSevenDays() {
-
         const today = new Date();
         const startDate = startOfDay(today);
         const endDate = endOfDay(addDays(today, 6))
