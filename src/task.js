@@ -1,5 +1,5 @@
 import { generateID } from './utility.js';
-import { format, eachDayOfInterval, startOfDay, endOfDay, addDays, isToday } from 'date-fns';
+import { format, startOfDay, endOfDay, addDays, isToday } from 'date-fns';
 
 export class Task {
     constructor (title, details, type) {
@@ -69,8 +69,8 @@ export class TaskList {
         // values are checked against 'date',
         // if false they are checked against other properties
         this.tasks.sort((a, b) => {
-            const ValueA = property === 'date' ? a.rawDate : a[property];
-            const ValueB = property === 'date' ? b.rawDate : a[property];
+            const ValueA = property === 'date' ? a.date : a[property];
+            const ValueB = property === 'date' ? b.date : b[property];
 
             if (ValueA < ValueB) return ascending ? -1 : 1
             if (ValueA > ValueB) return ascending ? 1 : -1
@@ -210,7 +210,6 @@ export class TaskList {
     }
 
 // getter methods
-// use APi for these methods
     getTasksDueToday () {
         return this.tasks.filter(task => {
             const taskDate = new Date(task.date);
@@ -222,6 +221,7 @@ export class TaskList {
 
     getOverDueTasks () {
         const today = new Date();
+        today.setHours(0, 0, 0, 0)
         return this.tasks.filter(task => 
             task.type === 'todo' && task.date && new Date(task.date) < today
         );

@@ -9,8 +9,8 @@ const taskList = new TaskList();
 const project = new Project("Build website", "Create a personal portfolio", "Complete");
 taskList.addTask(project);
 
-const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2024-12-01", project.id, taskList);
-const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2024-12-02", project.id, taskList);
+const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2025-01-04", project.id, taskList);
+const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2025-01-05", project.id, taskList);
 taskList.addTask(todo);
 taskList.addTask(todo2);
 
@@ -18,10 +18,11 @@ const projectTodos = taskList.getTodosByProject(project.id);
 const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, taskList);
 taskList.addTask(todo3);
 console.log(projectTodos);
+console.log(taskList.sortTasks('title'));
 
-console.log(taskList.tasks);
+// console.log(taskList.tasks);
 
-console.log(taskList.sortTasks('title'))
+// console.log(taskList.sortTasks('title'))
 
 // taskList.markAllProjectTodos(project.id, 'complete');
 // console.log(taskList.getAllCompletedTasks());

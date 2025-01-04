@@ -14,7 +14,7 @@ export class Todo extends Task {
             throw new Error('Invalid date');
         }
         
-        this.rawDate = parsedDate;
+        this.date = parsedDate;
         this.formattedDate = format(parsedDate, 'dd/MM/yyyy');
 
         const projectID = taskList.getTaskID(objectID);
