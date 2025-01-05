@@ -1,4 +1,57 @@
-.asd {
+@font-face {
+    font-family: 'andbasr';
+    src:
+        url('./assets/fonts/andbasr-webfont.woff2') format('woff2'),
+        url('./assets/fonts/andbasr-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+}
+
+
+
+@font-face {
+    font-family: 'dalekpinpoint';
+    src:
+        url('./assets/fonts/dalekpinpointbold-webfont.woff2') format('woff2'),
+        url('./assets/fonts/dalekpinpointbold-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+}
+
+@font-face {
+    font-family: 'romanica';
+    src:
+        url('./assets/fonts/romanica-webfont.woff2') format('woff2'),
+        url('./assets/fonts/romanica-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+}
+
+/* 
+Colour Palette:
+--isabelline: #f0ede7ff;
+--timberwolf: #dcd3c9ff;
+--battleship-gray: #9b968eff;
+--coyote: #70644cff;
+--dark-moss-green: #4b5d16ff;
+
+--isabelline: hsla(40, 23%, 92%, 1);
+--timberwolf: hsla(32, 21%, 83%, 1);
+--battleship-gray: hsla(37, 6%, 58%, 1);
+--coyote: hsla(40, 19%, 37%, 1);
+--dark-moss-green: hsla(75, 62%, 23%, 1);
+ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #FCD581;
+}
+
+.header {
     background-color: orange;
     font-size: 40px;
+    font-family: 'dalekpinpoint';
 }
+
