@@ -49,9 +49,43 @@ Colour Palette:
     background-color: #FCD581;
 }
 
+body, html {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
+p {
+    font-family: 'andbasr';
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button:hover,
+label:hover,
+a:hover {
+    cursor: pointer;
+}
+
 .header {
-    background-color: orange;
+    grid-column: 2 / 3;
+    background-color: #4b5d16ff;
     font-size: 40px;
     font-family: 'dalekpinpoint';
 }
 
+.sidebar {
+    grid-column: 1 / 2;
+    background-color: #70644cff;
+}
+
+.main-content {
+    background-color: #9b968eff;
+}
+
+.footer {
+    grid-row: 2 / 3;
+    background-color: #dcd3c9ff;
+}
