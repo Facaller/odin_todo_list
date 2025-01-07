@@ -46,12 +46,16 @@ Colour Palette:
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #FCD581;
 }
 
-body, html {
+html, body {
+    height: 100%;
+}
+
+.container {
     display: grid;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr 4fr .5fr;
 }
 
 p {
@@ -69,23 +73,57 @@ a:hover {
     cursor: pointer;
 }
 
+/* header area */
+
 .header {
     grid-column: 2 / 3;
+    display: flex;
+    justify-content: center;
     background-color: #4b5d16ff;
-    font-size: 40px;
     font-family: 'dalekpinpoint';
+    text-align: center;
 }
+
+h1 {
+    padding: 8px 12px;
+}
+
+/* sidebar area */
 
 .sidebar {
-    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    padding: 8px 12px;
     background-color: #70644cff;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
 }
 
+h2 {
+    padding: 8px 12px;
+    
+}
+
+h3 {
+    border-bottom: 2px solid black;
+}
+
+.sidebar > div {
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+/* main content area */
+
 .main-content {
+    
     background-color: #9b968eff;
 }
 
+/* footer area */
+
 .footer {
-    grid-row: 2 / 3;
+    grid-column: 1 / 3;
     background-color: #dcd3c9ff;
 }
