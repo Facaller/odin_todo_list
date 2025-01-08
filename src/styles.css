@@ -58,13 +58,21 @@ html, body {
     grid-template-rows: 1fr 4fr .5fr;
 }
 
-p {
+p,
+button {
     font-family: 'andbasr';
 }
 
 a {
     text-decoration: none;
     color: inherit;
+}
+
+button {
+    padding: 5px;
+    border: none;
+    font-size: 1.1em;
+    background-color: transparent;
 }
 
 button:hover,
@@ -86,6 +94,7 @@ a:hover {
 
 h1 {
     padding: 8px 12px;
+    font-size: 3em;
 }
 
 /* sidebar area */
@@ -94,24 +103,35 @@ h1 {
     grid-row: 1 / 3;
     padding: 8px 12px;
     background-color: #70644cff;
-    display: flex;
-    flex-direction: column;
-    align-items: left;
+}
+
+h2, h3 {
+    font-family: 'romanica';
 }
 
 h2 {
-    padding: 8px 12px;
-    
+    font-size: 2em;
 }
 
 h3 {
+    padding-bottom: 6px;
     border-bottom: 2px solid black;
+    font-size: 1.5em;
 }
 
 .sidebar > div {
+    padding-top: 15px;
+}
+
+.sidebar > div > div {
     display: flex;
     flex-direction: column;
-    padding-top: 15px;
+    align-items: flex-start;
+}
+
+.sidebar > div > div:hover {
+    filter: brightness(1.1);
+
 }
 
 /* main content area */
