@@ -54,8 +54,8 @@ html, body {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-template-rows: 1fr 4fr .5fr;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: .6fr 4fr .4fr;
 }
 
 p,
@@ -72,7 +72,7 @@ button {
     padding: 5px;
     border: none;
     font-size: 1.1em;
-    background-color: transparent;
+    background-color: #70644cff;
 }
 
 button:hover,
@@ -84,7 +84,7 @@ a:hover {
 /* header area */
 
 .header {
-    grid-column: 2 / 3;
+    grid-column: 1 / 3;
     display: flex;
     justify-content: center;
     background-color: #4b5d16ff;
@@ -100,7 +100,7 @@ h1 {
 /* sidebar area */
 
 .sidebar {
-    grid-row: 1 / 3;
+    grid-row: 2 / 3;
     padding: 8px 12px;
     background-color: #70644cff;
 }
@@ -119,6 +119,11 @@ h3 {
     font-size: 1.5em;
 }
 
+.sidebar button {
+    text-align: left;
+    border-radius: 4px;
+}
+
 .sidebar > div {
     padding-top: 15px;
 }
@@ -126,19 +131,26 @@ h3 {
 .sidebar > div > div {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    transition: filter 0.3s ease; /* Smooth transition for brightness */
 }
 
 .sidebar > div > div:hover {
-    filter: brightness(1.1);
-
+    filter: brightness(1.6);
 }
 
 /* main content area */
 
 .main-content {
-    
     background-color: #9b968eff;
+    display: flex;
+    row-gap: 12px;
+}
+
+.project-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+    border-radius: 8px;
 }
 
 /* footer area */
