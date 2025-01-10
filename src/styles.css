@@ -42,6 +42,8 @@ Colour Palette:
 --dark-moss-green: hsla(75, 62%, 23%, 1);
  */
 
+/* General styling */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -61,6 +63,7 @@ html, body {
 p,
 button {
     font-family: 'andbasr';
+    font-size: 1em;
 }
 
 a {
@@ -79,6 +82,18 @@ button:hover,
 label:hover,
 a:hover {
     cursor: pointer;
+}
+
+h2, h3, h4 {
+    font-family: 'romanica';
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h4 {
+    font-size: 1.2em;
 }
 
 /* header area */
@@ -105,15 +120,7 @@ h1 {
     background-color: #70644cff;
 }
 
-h2, h3 {
-    font-family: 'romanica';
-}
-
-h2 {
-    font-size: 2em;
-}
-
-h3 {
+.sidebar h3 {
     padding-bottom: 6px;
     border-bottom: 2px solid black;
     font-size: 1.5em;
@@ -121,7 +128,7 @@ h3 {
 
 .sidebar button {
     text-align: left;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 .sidebar > div {
@@ -142,15 +149,23 @@ h3 {
 
 .main-content {
     background-color: #9b968eff;
-    display: flex;
-    row-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
+    gap: 30px;
+    align-items: start;
+    padding: 30px;
 }
 
 .project-container {
     display: flex;
     flex-direction: column;
-    padding: 16px 24px;
+    padding: 30px;
     border-radius: 8px;
+    background-color: #70644cff;
+}
+
+.todo {
+    padding-bottom: 30px;
 }
 
 /* footer area */
