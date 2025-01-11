@@ -154,14 +154,33 @@ h1 {
     gap: 30px;
     align-items: start;
     padding: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+    grid-auto-flow: column;
 }
-
+/* busy with exit button align right */
 .project-container {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     padding: 30px;
     border-radius: 8px;
+    min-width: 300px;
     background-color: #70644cff;
+}
+
+.project-container p,
+.project-container h4 {
+    white-space: normal;
+}
+
+
+.project-container button {
+    padding-left: 0;
+}
+
+.project-container .todo:last-child {
+    padding-bottom: 0;
 }
 
 .todo {
