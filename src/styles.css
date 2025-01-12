@@ -29,11 +29,11 @@
 
 /* 
 Colour Palette:
---isabelline: #f0ede7ff;
---timberwolf: #dcd3c9ff;
---battleship-gray: #9b968eff;
---coyote: #70644cff;
---dark-moss-green: #4b5d16ff;
+--Timberwolf: #D3D3D3;
+--Silver: #C0C0C0;
+--Silver: #B4B4B4;
+--Silver: #A9A9A9;
+--OU Crimson: #8B2A2A;
 
 --isabelline: hsla(40, 23%, 92%, 1);
 --timberwolf: hsla(32, 21%, 83%, 1);
@@ -151,22 +151,23 @@ h1 {
     background-color: #9b968eff;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 2fr));
-    gap: 30px;
+    gap: 45px;
     align-items: start;
     padding: 30px;
     overflow-x: auto;
     white-space: nowrap;
     grid-auto-flow: column;
 }
-/* busy with exit button align right */
+
 .project-container {
     display: flex;
-    flex-direction: column;
     flex-shrink: 0;
     padding: 30px;
+    margin: 0px 10px;
     border-radius: 8px;
-    min-width: 300px;
+    min-width: 320px;
     background-color: #70644cff;
+    position: relative;
 }
 
 .project-container p,
@@ -174,17 +175,30 @@ h1 {
     white-space: normal;
 }
 
-
-.project-container button {
-    padding-left: 0;
+.project-exit {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
 }
 
-.project-container .todo:last-child {
+.project-container .todos div:last-child {
     padding-bottom: 0;
 }
 
-.todo {
+.todos > div {
+    display: flex;
+    flex-direction: column;
     padding-bottom: 30px;
+}
+
+.todos button {
+    padding-left: 0;
 }
 
 /* footer area */
