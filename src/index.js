@@ -1,5 +1,5 @@
 import "./styles.css"
-import { Todo, TodoList } from "./todos.js";
+import { Todo } from "./todos.js";
 import { Project } from "./projects.js";
 import { TaskList } from "./task.js";
 
