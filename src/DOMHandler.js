@@ -1,7 +1,8 @@
 class DOMElements {
     constructor () {
         this.sidebarNav = document.getElementById('sidebarNav');
-        this.projects   = document.querySelector('.project-container')
+        this.todo      = document.querySelector('.todo');
+        this.exitBtn    = document.querySelector('.project-exit');
     }
 }
 
@@ -27,10 +28,15 @@ class DOMHandler {
         });
     }
 
-    projectEvents () {
-        this.elements.projects.addEventListener('click', (event) => {
-            if () {
-                
+    todoEvents () {
+        this.elements.todo.addEventListener('click', (event) => {
+            const todoElement = event.target.closest('.todo').id;
+            if (todoElement === 'important') {
+                markTaskProperty (taskID, property)
+            } else if (todoElement === 'complete') {
+                markTaskProperty (taskID, property)
+            } else if (todoElement === 'edit') {
+
             }
         })
     }

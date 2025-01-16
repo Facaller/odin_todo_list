@@ -187,17 +187,17 @@ h1 {
     cursor: pointer;
 }
 
-.project-container .todos div:last-child {
+.project-container .todos-box div:last-child {
     padding-bottom: 0;
 }
 
-.todos > div {
+.todos-box > div {
     display: flex;
     flex-direction: column;
     padding-bottom: 30px;
 }
 
-.todos button {
+.todos-box button {
     padding-left: 0;
 }
 
