@@ -30,13 +30,21 @@ class DOMHandler {
 
     todoEvents () {
         this.elements.todo.addEventListener('click', (event) => {
-            const todoElement = event.target.closest('.todo').id;
-            if (todoElement === 'important') {
-                markTaskProperty (taskID, property)
-            } else if (todoElement === 'complete') {
-                markTaskProperty (taskID, property)
-            } else if (todoElement === 'edit') {
-
+            if (event.target.tagname === 'BUTTON') {
+                const todoElement = event.target.closest('.todo').id;
+                const buttonID = event.target.id;
+                // can't set data attribute in constructor because it doesn't exist yet
+                if (buttonID === 'important') {
+                    const todoID = todoElement.todo.id;
+                    markTaskProperty (todoID, 'important')
+                } else if (buttonID === 'complete') {
+                    const todoID = todoElement.todo.id;
+                    markTaskProperty (todoID, 'complete')
+                } else if (buttonID === 'edit') {
+                    const todoID = todoElement.todo.id;
+                    updateTask (todoID, newTitle, newDetails)
+                    //need to create input form, will use that for other params
+                }
             }
         })
     }

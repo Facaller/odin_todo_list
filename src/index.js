@@ -19,6 +19,7 @@ const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, t
 taskList.addTask(todo3);
 console.log(projectTodos);
 console.log(taskList.sortTasks('title'));
+console.log(todo.id);
 
 // console.log(taskList.tasks);
 
