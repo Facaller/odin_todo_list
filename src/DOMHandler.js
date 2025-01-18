@@ -1,7 +1,7 @@
 class DOMElements {
     constructor () {
         this.sidebarNav = document.getElementById('sidebarNav');
-        this.todo      = document.querySelector('.todo');
+        this.todoBox    = document.querySelector('.todos-box');
         this.exitBtn    = document.querySelector('.project-exit');
     }
 }
@@ -11,8 +11,19 @@ class DOMHandler {
         this.app = app;
         this.elements = new DOMElements();
     }
+    //produce form
+    //use values from form for parameters
+    //call addTask method with arguments
+    //
+    createProject () {
 
-    sidebarEvents () {
+    }
+
+    createTodo () {
+        
+    }
+
+    bindSidebarButtons () {
         this.elements.sidebarNav.addEventListener('click', (event) => {
             if (event.target.id === 'allTasks') {
                 getAllTasks();
@@ -28,12 +39,12 @@ class DOMHandler {
         });
     }
 
-    todoEvents () {
-        this.elements.todo.addEventListener('click', (event) => {
+    bindTodoButtons () {
+        this.elements.todoBox.addEventListener('click', (event) => {
             if (event.target.tagname === 'BUTTON') {
-                const todoElement = event.target.closest('.todo').id;
+                const todoElement = event.target.closest('.todo');
                 const buttonID = event.target.id;
-                // can't set data attribute in constructor because it doesn't exist yet
+
                 if (buttonID === 'important') {
                     const todoID = todoElement.todo.id;
                     markTaskProperty (todoID, 'important')
