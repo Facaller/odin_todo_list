@@ -19,6 +19,32 @@
         </div>
         <div>
             <h3>Projects</h3>
+            <div class="project-form" id="projectForm">
+                <form action="">
+                    <label for="projectTitle"></label>
+                    <input type="text" name="projectTitle" id="projectTitle" placeholder="Enter Project Name" required>
+                    <label for="projectDetails"></label>
+                    <input type="text" name="projectDetails" id="projectDetails" placeholder="Enter Project Details" required>
+                    <div class="radio-buttons">
+                        <div>
+                            <label for="contemplativePrio">Contemplative</label>
+                            <input type="radio" name="Priority" id="contemplativePrio" value="contemplative" required>
+                        </div>
+                        <div>
+                            <label for="pragmaticPrio">Pragmatic</label>
+                            <input type="radio" name="Priority" id="pragmaticPrio" value="pragmatic" required>
+                        </div>
+                        <div>
+                            <label for="eminentPrio">Eminent</label>
+                            <input type="radio" name="Priority" id="eminentPrio" value="eminent" required>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit">Add</button>
+                        <button>Cancel</button>
+                    </div>
+                </form>
+            </div>
             <div id="addProject"><button>Add Project</button></div>
         </div>
     </aside>
