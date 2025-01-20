@@ -56,8 +56,8 @@ html, body {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: .6fr 4fr .4fr;
+    grid-template-columns: 1fr 6fr;
+    grid-template-rows: .4fr 4fr .2fr;
 }
 
 p,
@@ -82,7 +82,8 @@ button {
 }
 
 button:hover,
-a:hover {
+a:hover,
+label:hover {
     cursor: pointer;
 }
 
@@ -125,26 +126,50 @@ h1 {
 .sidebar h3 {
     padding-bottom: 6px;
     border-bottom: 2px solid black;
+    margin-bottom: 15px;
     font-size: 1.5em;
+}
+
+.sidebar > div:nth-of-type(2) > h3 {
+    margin-bottom: 20px;
 }
 
 .sidebar button {
     text-align: left;
     border-radius: 6px;
+    margin: 5px 0;
 }
 
 .sidebar > div {
-    padding-top: 15px;
+    margin-bottom: 20px;
 }
 
-.sidebar > div > div {
+.sidebar > div:first-of-type > div,
+.sidebar > div:nth-of-type(2) > div {
     display: flex;
     flex-direction: column;
     transition: filter 0.3s ease; /* Smooth transition for brightness */
+    
 }
 
 .sidebar > div > div:hover {
     filter: brightness(1.6);
+}
+
+.project-form {
+    display: none;
+}
+
+.project-form input[type="text"] {
+    padding: 3px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+    outline: none;
+}
+
+.radio-buttons {
+    margin-top: 5px;
 }
 
 .radio-buttons > div {
