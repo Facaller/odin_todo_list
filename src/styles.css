@@ -145,7 +145,7 @@ h1 {
 }
 
 .sidebar > div:first-of-type > div,
-.sidebar > div:nth-of-type(2) > div {
+.sidebar > div:nth-of-type(2) > div:last-of-type {
     display: flex;
     flex-direction: column;
     transition: filter 0.3s ease; /* Smooth transition for brightness */
@@ -157,7 +157,7 @@ h1 {
 }
 
 .project-form {
-    display: none;
+    /* display: none; */
 }
 
 .project-form input[type="text"] {
@@ -168,6 +168,23 @@ h1 {
     outline: none;
 }
 
+form > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
+
+form > div:last-of-type {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+form > div:last-of-type button {
+    text-align: center;
+    width: 60px;
+    font-size: .9em;
+}
+
 .radio-buttons {
     margin-top: 5px;
 }
@@ -175,6 +192,7 @@ h1 {
 .radio-buttons > div {
     display: flex;
     justify-content: space-between;
+    margin: 8px 0;
 }
 
 /* main content area */

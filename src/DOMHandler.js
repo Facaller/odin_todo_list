@@ -1,8 +1,10 @@
 class DOMElements {
     constructor () {
-        this.sidebarNav = document.getElementById('sidebarNav');
-        this.todoBox    = document.querySelector('.todos-box');
-        this.exitBtn    = document.querySelector('.project-exit');
+        this.sidebarNav  = document.getElementById('sidebarNav');
+        this.todoBox     = document.querySelector('.todos-box');
+        this.exitBtn     = document.querySelector('.project-exit');
+        this.addProject  = document.getElementById('addProject');
+        this.projectForm = document.getElementById('projectForm')
     }
 }
 
@@ -16,7 +18,9 @@ class DOMHandler {
     //call addTask method with arguments
     //
     createProject () {
-
+        this.elements.addProject.addEventListener('click', () => {
+            this.elements.projectForm.style.display = 'block'
+        })
     }
 
     createTodo () {
