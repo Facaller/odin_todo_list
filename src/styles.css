@@ -56,7 +56,7 @@ html, body {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 6fr;
+    grid-template-columns: 1.3fr 6fr;
     grid-template-rows: .4fr 4fr .2fr;
 }
 
@@ -76,7 +76,10 @@ a {
 
 button {
     padding: 5px;
+    border-radius: 6px;
     border: none;
+    margin: 5px 0;
+    text-align: left;
     font-size: 1.1em;
     background-color: #8B2A2A;
 }
@@ -134,12 +137,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.sidebar button {
-    text-align: left;
-    border-radius: 6px;
-    margin: 5px 0;
-}
-
 .sidebar > div {
     margin-bottom: 20px;
 }
@@ -158,9 +155,15 @@ h1 {
 
 .project-form {
     /* display: none; */
+    padding: 10px;
+    border-radius: 6px;
+    margin: 20px 0;
+    background-color: #D3D3D3;
 }
 
-.project-form input[type="text"] {
+.project-form input[type="text"],
+.todo-form input[type="text"],
+.todo-form input[type="date"] {
     padding: 3px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -173,13 +176,13 @@ form > div:first-of-type {
     flex-direction: column;
 }
 
-form > div:last-of-type {
+.form-buttons {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-form > div:last-of-type button {
+.form-buttons button {
     text-align: center;
     width: 60px;
     font-size: .9em;
@@ -211,7 +214,7 @@ form > div:last-of-type button {
 
 .project-container {
     display: flex;
-    flex-shrink: 0;
+    flex-direction: column;
     padding: 30px;
     margin: 0px 10px;
     border-radius: 8px;
@@ -235,6 +238,18 @@ form > div:last-of-type button {
     font-size: 20px;
     color: #fff;
     cursor: pointer;
+}
+
+.todo-form {
+    padding: 10px;
+    border-radius: 6px;
+    margin: 20px 0;
+    background-color: #D3D3D3;
+}
+
+.todo-form > form {
+    display: flex;
+    flex-direction: column;
 }
 
 .project-container .todos-box div:last-child {

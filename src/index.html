@@ -42,9 +42,9 @@
                             <input type="radio" name="Priority" id="imperativePrio" value="imperative" required>
                         </div>
                     </div>
-                    <div>
-                        <button type="submit" id="submit">Add</button>
-                        <button id="cancel">Cancel</button>
+                    <div class="form-buttons">
+                        <button type="submit" id="submitProject">Add</button>
+                        <button id="cancelProject">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -63,23 +63,19 @@
                         <button id="edit">Btn3</button>
                     </div>
                 </div>
-                <div class="todo">
-                    <h4>Test 2</h4>
-                    <p>Details of test</p>
-                    <div>
-                        <button>Btn1</button>
-                        <button>Btn2</button>
-                        <button>Btn3</button>
-                    </div>
-                </div>
-                <div class="todo">
-                    <h4>Test 5</h4>
-                    <p>Details of test dfg dfgdf yrtu rtuh rfhg dgs teyh erdsg dhjr jhr hfghfdghdhgdfg edtyh eh dgh dg dg</p>
-                    <div>
-                        <button>Btn1</button>
-                        <button>Btn2</button>
-                        <button>Btn3</button>
-                    </div>
+            </div>
+            <div class="todo-form">
+                <form action="">
+                    <label for="todoTitle"></label>
+                    <input type="text" name="todoTitle" id="todoTitle" placeholder="Enter Todo Name" required>
+                    <label for="todoDetails"></label>
+                    <input type="text" name="todoDetails" id="todoDetails" placeholder="Enter Todo Details" required>
+                    <label for="todoDate"></label>
+                    <input type="date" name="todoDate" id="todoDate">
+                </form>
+                <div class="form-buttons">
+                    <button type="submit" id="submitTodo">Add</button>
+                    <button id="cancelTodo">Cancel</button>
                 </div>
             </div>
             <button class="project-exit">X</button>
