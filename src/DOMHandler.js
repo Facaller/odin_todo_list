@@ -4,7 +4,9 @@ class DOMElements {
         this.todoBox     = document.querySelector('.todos-box');
         this.exitBtn     = document.querySelector('.project-exit');
         this.addProject  = document.getElementById('addProject');
-        this.projectForm = document.getElementById('projectForm')
+        this.projectForm = document.getElementById('projectForm');
+        this.addTodo     = document.getElementById('addTodo');
+        this.todoForm    = document.getElementById('todoForm');
     }
 }
 
@@ -17,14 +19,16 @@ class DOMHandler {
     //use values from form for parameters
     //call addTask method with arguments
     //
-    createProject () {
+    renderProjectForm () {
         this.elements.addProject.addEventListener('click', () => {
             this.elements.projectForm.style.display = 'block'
         })
     }
 
-    createTodo () {
-        
+    renderTodoForm () {
+        this.elements.addTodo.addEventListener('click', () => {
+            this.elements.todoForm.style.display = 'blcok'
+        })
     }
 
     bindSidebarButtons () {
