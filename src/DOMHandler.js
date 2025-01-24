@@ -1,12 +1,22 @@
 class DOMElements {
     constructor () {
-        this.sidebarNav  = document.getElementById('sidebarNav');
-        this.todoBox     = document.querySelector('.todos-box');
-        this.exitBtn     = document.querySelector('.project-exit');
-        this.addProject  = document.getElementById('addProject');
-        this.projectForm = document.getElementById('projectForm');
-        this.addTodo     = document.getElementById('addTodo');
-        this.todoForm    = document.getElementById('todoForm');
+        this.sidebarNav     = document.getElementById('sidebarNav');
+        this.todoBox        = document.querySelector('.todos-box');
+        this.exitBtn        = document.querySelector('.project-exit');
+        this.addProject     = document.getElementById('addProject');
+        this.projectForm    = document.getElementById('projectForm');
+        this.addTodo        = document.getElementById('addTodo');
+        this.todoForm       = document.getElementById('todoForm');
+        this.projectTitle   = document.getElementById('projectTitle');
+        this.projectDetails = document.getElementById('projectDetails');
+        this.projectPrio    = document.getElementById('priority');
+        this.submitProject  = document.getElementById('submitProject');
+        this.cancelProject  = document.getElementById('cancelProject');
+        this.todoTitle      = document.getElementById('todoTitle');
+        this.todoDetails    = document.getElementById('todoDetails');
+        this.todoDate       = document.getElementById('todoDate');
+        this.submitTodo     = document.getElementById('submitTodo');
+        this.cancelTodo     = document.getElementById('cancelTodo');
     }
 }
 
@@ -27,8 +37,18 @@ class DOMHandler {
 
     renderTodoForm () {
         this.elements.addTodo.addEventListener('click', () => {
-            this.elements.todoForm.style.display = 'blcok'
+            this.elements.todoForm.style.display = 'block'
         })
+    }
+
+    getProjectValues () {
+        const newTitle    = this.elements
+        const newDetails  = this.elements
+        const newPriority = this.elements
+    }
+
+    getTodoValues () {
+
     }
 
     bindSidebarButtons () {
