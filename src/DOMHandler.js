@@ -1,3 +1,6 @@
+import { Project } from "./projects";
+import { TaskList } from "./task";
+
 class DOMElements {
     constructor () {
         this.sidebarNav     = document.getElementById('sidebarNav');
@@ -5,13 +8,13 @@ class DOMElements {
         this.exitBtn        = document.querySelector('.project-exit');
         this.addProject     = document.getElementById('addProject');
         this.projectForm    = document.getElementById('projectForm');
-        this.addTodo        = document.getElementById('addTodo');
-        this.todoForm       = document.getElementById('todoForm');
         this.projectTitle   = document.getElementById('projectTitle');
         this.projectDetails = document.getElementById('projectDetails');
         this.projectPrio    = document.getElementById('priority');
         this.submitProject  = document.getElementById('submitProject');
         this.cancelProject  = document.getElementById('cancelProject');
+        this.addTodo        = document.getElementById('addTodo');
+        this.todoForm       = document.getElementById('todoForm');
         this.todoTitle      = document.getElementById('todoTitle');
         this.todoDetails    = document.getElementById('todoDetails');
         this.todoDate       = document.getElementById('todoDate');
@@ -32,6 +35,12 @@ class DOMHandler {
     renderProjectForm () {
         this.elements.addProject.addEventListener('click', () => {
             this.elements.projectForm.style.display = 'block'
+        });
+
+        this.elements.submitProject.addEventListener('click', (event) => {
+            event.preventDefault();
+            const newProject = this.getProjectValues();
+            taskList.addTask(newProject);
         })
     }
 
@@ -42,13 +51,21 @@ class DOMHandler {
     }
 
     getProjectValues () {
-        const newTitle    = this.elements
-        const newDetails  = this.elements
-        const newPriority = this.elements
+        const newTitle    = this.elements.projectTitle.value.trim();
+        const newDetails  = this.elements.projectDetails.value.trim();
+        const newPriority = this.elements.projectPrio.value.trim();
+
+        const newProject =  new Project(newTitle, newDetails, newPriority);
+
+        return newProject;
     }
 
     getTodoValues () {
+        const newTitle   =  this.elements.todoTitle.value.trim();
+        const newDetails =  this.elements.todoDetails.value.trim();
+        const newDate    =  this.elements.todoDate.value.trim();
 
+        const newTodo = new Todo(newTitle, newDetails, newDate)
     }
 
     bindSidebarButtons () {
@@ -62,14 +79,14 @@ class DOMHandler {
             } else if (event.target.id === 'Important') {
                 getAllImportantTasks();
             } else if (event.target.id === 'addProject') {
-                addTask(task);
+                renderProjectForm();
             }
         });
     }
 
     bindTodoButtons () {
         this.elements.todoBox.addEventListener('click', (event) => {
-            if (event.target.tagname === 'BUTTON') {
+            if (event.target.tagName === 'BUTTON') {
                 const todoElement = event.target.closest('.todo');
                 const buttonID = event.target.id;
 
