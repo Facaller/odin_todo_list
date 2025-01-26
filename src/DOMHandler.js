@@ -36,12 +36,6 @@ class DOMHandler {
         this.elements.addProject.addEventListener('click', () => {
             this.elements.projectForm.style.display = 'block'
         });
-
-        this.elements.submitProject.addEventListener('click', (event) => {
-            event.preventDefault();
-            const newProject = this.getProjectValues();
-            taskList.addTask(newProject);
-        })
     }
 
     renderTodoForm () {
@@ -50,10 +44,28 @@ class DOMHandler {
         })
     }
 
+    submitProjectForm () {
+        this.elements.submitProject.addEventListener('click', (event) => {
+            event.preventDefault();
+            const newProject = this.getProjectValues();
+            this.app.addProject(newProject);
+            // render array here
+        })
+    }
+
+    submitTodoForm () {
+        this.elements.submitTodo.addEventListener('click', (event) => {
+            event.preventDefault();
+            const newTodo = this.getTodoValues();
+            this.app.addProject(newTodo);
+            // render array here
+        })
+    }
+
     getProjectValues () {
         const newTitle    = this.elements.projectTitle.value.trim();
         const newDetails  = this.elements.projectDetails.value.trim();
-        const newPriority = this.elements.projectPrio.value.trim();
+        const newPriority = [this.elements.projectPrio].find(prio => prio.checked)?.value || '';
 
         const newProject =  new Project(newTitle, newDetails, newPriority);
 
@@ -66,6 +78,17 @@ class DOMHandler {
         const newDate    =  this.elements.todoDate.value.trim();
 
         const newTodo = new Todo(newTitle, newDetails, newDate)
+
+        return newTodo;
+    }
+
+    renderProjectList () {
+        const projectContainer = document.querySelector('project-container');
+        
+    }
+
+    renderTodoList () {
+
     }
 
     bindSidebarButtons () {
