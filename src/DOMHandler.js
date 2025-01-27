@@ -1,25 +1,29 @@
+import { container } from "webpack";
 import { Project } from "./projects";
 import { TaskList } from "./task";
 
 class DOMElements {
     constructor () {
-        this.sidebarNav     = document.getElementById('sidebarNav');
-        this.todoBox        = document.querySelector('.todos-box');
-        this.exitBtn        = document.querySelector('.project-exit');
-        this.addProject     = document.getElementById('addProject');
-        this.projectForm    = document.getElementById('projectForm');
-        this.projectTitle   = document.getElementById('projectTitle');
-        this.projectDetails = document.getElementById('projectDetails');
-        this.projectPrio    = document.getElementById('priority');
-        this.submitProject  = document.getElementById('submitProject');
-        this.cancelProject  = document.getElementById('cancelProject');
-        this.addTodo        = document.getElementById('addTodo');
-        this.todoForm       = document.getElementById('todoForm');
-        this.todoTitle      = document.getElementById('todoTitle');
-        this.todoDetails    = document.getElementById('todoDetails');
-        this.todoDate       = document.getElementById('todoDate');
-        this.submitTodo     = document.getElementById('submitTodo');
-        this.cancelTodo     = document.getElementById('cancelTodo');
+        this.sidebarNav      = document.getElementById('sidebarNav');
+        this.sidebarProjects = document.querySelector('sidebarProjects');
+        this.todoBox         = document.querySelector('.todos-box');
+        this.mainContent     = document.querySelector('.main-content');
+        this.projectBox      = document.querySelector('project-container');
+        this.exitBtn         = document.querySelector('.project-exit');
+        this.addProject      = document.getElementById('addProject');
+        this.projectForm     = document.getElementById('projectForm');
+        this.projectTitle    = document.getElementById('projectTitle');
+        this.projectDetails  = document.getElementById('projectDetails');
+        this.projectPrio     = document.getElementById('priority');
+        this.submitProject   = document.getElementById('submitProject');
+        this.cancelProject   = document.getElementById('cancelProject');
+        this.addTodo         = document.getElementById('addTodo');
+        this.todoForm        = document.getElementById('todoForm');
+        this.todoTitle       = document.getElementById('todoTitle');
+        this.todoDetails     = document.getElementById('todoDetails');
+        this.todoDate        = document.getElementById('todoDate');
+        this.submitTodo      = document.getElementById('submitTodo');
+        this.cancelTodo      = document.getElementById('cancelTodo');
     }
 }
 
@@ -82,12 +86,25 @@ class DOMHandler {
         return newTodo;
     }
 
-    renderProjectList () {
-        const projectContainer = document.querySelector('project-container');
+    renderProject () {
         
     }
 
-    renderTodoList () {
+    renderProjectToMain () {
+        const div = document.createElement('div');
+        div.classList.add('.project-container');
+        
+        this.elements.mainContent.appendChild(div)
+    }
+
+    renderProjectToNav (project) {
+        const div = document.createElement('div');
+        // div.classList.add('.');
+
+        this.elements.sidebarProjects.appendChild(div);
+    }
+
+    renderTodo () {
 
     }
 
