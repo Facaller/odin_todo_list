@@ -86,26 +86,49 @@ class DOMHandler {
         return newTodo;
     }
 
-    renderProject () {
-        
-    }
-
     renderProjectToMain () {
         const div = document.createElement('div');
         div.classList.add('.project-container');
         
-        this.elements.mainContent.appendChild(div)
+        this.elements.mainContent.appendChild(div);
     }
 
     renderProjectToNav (project) {
         const div = document.createElement('div');
         // div.classList.add('.');
+        div.textContent = project.title;
 
-        this.elements.sidebarProjects.appendChild(div);
+        this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
 
-    renderTodo () {
+    renderTodo (todo) {
+        const div = document.createElement('div');
+        div.classList.add('.todo');
 
+        const h4 = document.createElement('h4');
+        h4.textContent = todo.title;
+        div.appendChild(h4);
+
+        const p = document.createElement('p');
+        p.textContent = todo.details;
+        div.appendChild(p);
+
+        const buttonDiv = document.createElement('div');
+        div.appendChild(buttonDiv);
+
+        const importantBtn = document.createElement('button');
+        importantBtn.id = 'important';
+        buttonDiv.appendChild(importantBtn);
+
+        const completeBtn = document.createElement('button');
+        completeBtn.id = 'complete';
+        buttonDiv.appendChild(completeBtn);
+
+        const editBtn = document.createElement('button');
+        editBtn.id = 'edit';
+        buttonDiv.appendChild(editBtn);
+
+        this.elements.todoBox.insertBefore(div, this.elements.todoForm);
     }
 
     bindSidebarButtons () {

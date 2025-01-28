@@ -141,7 +141,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.sidebar > div:first-of-type > div,
+.sidebar-home > div,
 .add-project,
 .add-todo {
     display: flex;
