@@ -53,7 +53,7 @@ class DOMHandler {
             event.preventDefault();
             const newProject = this.getProjectValues();
             this.tasklist.addProject(newProject);
-            // render array here
+            this.renderProject()
         })
     }
 
@@ -86,13 +86,15 @@ class DOMHandler {
         return newTodo;
     }
 // consider adding parameter for project to use ID if necessary
-    createProjectForMain () {
+    createProjectForMain (project) {
         const div = document.createElement('div');
-        div.classList.add('.project-container');
+        div.classList.add('project-container');
 
         const box = document.createElement('div');
-        box.classList.add('.todos-box')
+        box.classList.add('todos-box')
         div.appendChild(box);
+
+        div.setAttribute('data-id', project.id);
         
         this.elements.mainContent.appendChild(div);
     }
@@ -110,7 +112,7 @@ class DOMHandler {
 
     createTodo (todo) {
         const div = document.createElement('div');
-        div.classList.add('.todo');
+        div.classList.add('todo');
 
         const h4 = document.createElement('h4');
         h4.textContent = todo.title;
@@ -139,8 +141,9 @@ class DOMHandler {
     }
 
     renderProject () {
-        this.tasklist.tasks.forEach(() => {
-            this.createProjectForMain();
+        this.tasklist.tasks.forEach(project => {
+            this.createProjectForMain(project);
+            this.createProjectForNav(project);
         })
     }
 

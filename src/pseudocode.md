@@ -114,6 +114,8 @@ Event Listeners: For form submission, make sure you're preventing the default fo
 
 Let me know if you want more help with any specific section or if you’re looking to improve other areas!
 
+*****************************
+
 4. DOMHandler Adjustments
 When you render projects and todos in the DOM, you'll likely be dealing with an array of Project objects in your main tasklist. So, when rendering the project list or a specific task, make sure that your DOMHandler knows how to handle both types of tasks (projects and todos).
 
