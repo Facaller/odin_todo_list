@@ -1,5 +1,6 @@
 import { container } from "webpack";
 import { Project } from "./projects";
+import { Todo } from "./todos.js";
 import { TaskList } from "./task";
 
 class DOMElements {
@@ -107,6 +108,8 @@ class DOMHandler {
         projectBtn.textContent = project.title;
         div.appendChild(projectBtn);
 
+        div.setAttribute('data-id', project.id);
+
         this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
 
@@ -142,8 +145,13 @@ class DOMHandler {
 
     renderProject () {
         this.tasklist.tasks.forEach(project => {
-            this.createProjectForMain(project);
-            this.createProjectForNav(project);
+            if (getTaskType('project')) { 
+                const projectExists = this.elements.mainContent.querySelector(`[data-id='${this.task.id}']`)
+                if (!projectExists) {
+                    this.createProjectForMain(project);
+                    this.createProjectForNav(project);
+                }
+            }
         })
     }
 
