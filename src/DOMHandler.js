@@ -30,8 +30,24 @@ class DOMElements {
 
 class DOMHandler {
     constructor (tasklist) {
-        this.tasklist = tasklist;
-        this.elements = new DOMElements();
+        this.tasklist      = tasklist;
+        this.elements      = new DOMElements();
+        this.renderedTasks = [];
+    }
+
+    markTaskAsRendered (taskID) {
+        this.renderedTasks.push(taskID);
+    }
+
+    checkRenderedTask (taskID) {
+        return this.renderedTasks.includes(taskID);
+    }
+
+    removeRenderedTask (taskID) {
+        const index = this.renderedTasks.indexOf(taskID);
+        if (index !== -1) {
+            this.renderedTasks.splice(index, 1);
+        }
     }
     //produce form
     //use values from form for parameters
@@ -145,11 +161,11 @@ class DOMHandler {
 
     renderProject () {
         this.tasklist.tasks.forEach(project => {
-            if (getTaskType('project')) { 
-                const projectExists = this.elements.mainContent.querySelector(`[data-id='${this.task.id}']`)
-                if (!projectExists) {
+            if (getTaskType(task) === 'project') { 
+                if (!this.checkRenderedTask(taskID)) {
                     this.createProjectForMain(project);
                     this.createProjectForNav(project);
+                    this.markTaskAsRendered(taskID);
                 }
             }
         })
