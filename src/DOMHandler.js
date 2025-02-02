@@ -49,6 +49,14 @@ class DOMHandler {
             this.renderedTasks.splice(index, 1);
         }
     }
+
+    targetProject (projectID, div) {
+        const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
+        if (projectContainer) {
+            const todoBox = projectContainer.querySelector('.todos-box');
+            todoBox.appendChild(div);
+        }
+    }
     //produce form
     //use values from form for parameters
     //call addTask method with arguments
@@ -79,7 +87,7 @@ class DOMHandler {
             event.preventDefault();
             const newTodo = this.getTodoValues();
             this.tasklist.addProject(newTodo);
-            // render array here
+            this.renderTodo();
         })
     }
 
@@ -129,7 +137,7 @@ class DOMHandler {
         this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
 
-    createTodo (todo) {
+    createTodo (todo, projectID) {
         const div = document.createElement('div');
         div.classList.add('todo');
 
@@ -156,7 +164,9 @@ class DOMHandler {
         editBtn.id = 'edit';
         buttonDiv.appendChild(editBtn);
 
-        this.elements.todoBox.insertBefore(div, this.elements.todoForm);
+        div.setAttribute('data-id', todo.id);
+
+        this.targetProject(projectID, div);
     }
 
     renderProject () {
@@ -172,7 +182,14 @@ class DOMHandler {
     }
 
     renderTodo () {
-
+        this.tasklist.tasks.forEach(todo => {
+            if (getTaskType(task) === 'todo') {
+                if (!this.checkRenderedTask(taskID)) {
+                    this.createTodo(todo, projectID);
+                    this.markTaskAsRendered(taskID);
+                }
+            }
+        })
     }
 
     bindSidebarButtons () {
