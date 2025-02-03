@@ -50,7 +50,7 @@ class DOMHandler {
         }
     }
 
-    targetProject (projectID, div) {
+    targetProjectForTodo (projectID, div) {
         const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
         if (projectContainer) {
             const todoBox = projectContainer.querySelector('.todos-box');
@@ -166,7 +166,7 @@ class DOMHandler {
 
         div.setAttribute('data-id', todo.id);
 
-        this.targetProject(projectID, div);
+        this.targetProjectForTodo(projectID, div);
     }
 
     renderProject () {
@@ -227,5 +227,41 @@ class DOMHandler {
                 }
             }
         })
+    }
+
+    // removeProject (projectID) {
+    //     this.elements.exitBtn.addEventListener('click', (event) => {
+    //         const projectContainer = event.target.closest('.project-container');
+    //         const projectContainerID = projectContainer?.dataset.id;
+    
+    //         if (projectContainerID === projectID) {
+    //             projectContainer.style.display = 'none'; // Hides the project container
+    //             this.removeRenderedTask(projectContainerID); // Keeps it out of the rendered task list
+    //         }
+    //     });
+    // }
+    
+
+    removeProject (projectID) {
+        this.elements.exitBtn.addEventListener('click', (event) => {
+            const projectContainer = event.target.closest('.project-container');
+            const projectContainerID = event.target.id;
+            if (projectContainerID === projectID) {
+                projectContainer.style.display = 'none';
+                this.removeRenderedTask(projectContainerID);
+            }
+        })
+    }
+
+    removeTodo () {
+
+    }
+
+    cancelProjectForm () {
+
+    }
+
+    cancelTodoForm () {
+
     }
 }
