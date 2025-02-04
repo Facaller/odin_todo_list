@@ -33,6 +33,8 @@ class DOMHandler {
         this.tasklist      = tasklist;
         this.elements      = new DOMElements();
         this.renderedTasks = [];
+
+        this.removeProject();
     }
 
     markTaskAsRendered (taskID) {
@@ -229,28 +231,22 @@ class DOMHandler {
         })
     }
 
-    // removeProject (projectID) {
-    //     this.elements.exitBtn.addEventListener('click', (event) => {
-    //         const projectContainer = event.target.closest('.project-container');
-    //         const projectContainerID = projectContainer?.dataset.id;
-    
-    //         if (projectContainerID === projectID) {
-    //             projectContainer.style.display = 'none'; // Hides the project container
-    //             this.removeRenderedTask(projectContainerID); // Keeps it out of the rendered task list
-    //         }
-    //     });
-    // }
-    
+    removeProject () {
+        this.elements.mainContent.addEventListener('click', this.handleRemoveProject)
+    }
 
-    removeProject (projectID) {
-        this.elements.exitBtn.addEventListener('click', (event) => {
-            const projectContainer = event.target.closest('.project-container');
-            const projectContainerID = event.target.id;
-            if (projectContainerID === projectID) {
-                projectContainer.style.display = 'none';
-                this.removeRenderedTask(projectContainerID);
+    handleRemoveProject = (event) => {
+        const exitButton = event.target.closest('.project-exit');
+            
+            if (exitButton) {
+                const projectContainer = exitButton.closest('.project-container');
+                const projectContainerID = projectContainer?.id;
+
+                if (projectContainerID === projectID) {
+                    projectContainer.style.display = 'none';
+                    this.removeRenderedTask(projectContainerID);
+                }
             }
-        })
     }
 
     removeTodo () {
