@@ -196,39 +196,60 @@ class DOMHandler {
 
     bindSidebarButtons () {
         this.elements.sidebarNav.addEventListener('click', (event) => {
-            if (event.target.id === 'allTasks') {
-                getAllTasks();
-            } else if (event.target.id === 'today') {
-                getTasksDueToday();
-            } else if (event.target.id === 'next7Days') {
-                getTasksForNextSevenDays();
-            } else if (event.target.id === 'Important') {
-                getAllImportantTasks();
-            } else if (event.target.id === 'addProject') {
-                renderProjectForm();
+            const sidebarBtn = event.target.closest('button');
+            
+            if (sidebarBtn) {
+                const BtnID = sidebarBtn.id;
+
+                switch (BtnID) {
+                    case 'allTasks':
+                        getAllTasks();
+                        break
+                    case 'today':
+                        getTasksDueToday();
+                        break
+                    case 'next7Days':
+                        getTasksForNextSevenDays();
+                        break
+                    case 'important':
+                        getAllImportantTasks();
+                        break
+                    case 'addProject':
+                        this.renderProjectForm();
+                        break
+                    default:
+                        break
+                }
             }
         });
     }
-
+//come back to updateTask method and check
     bindTodoButtons () {
         this.elements.todoBox.addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
+            const button = event.target.closest('button');
+            if (button) {
                 const todoElement = event.target.closest('.todo');
                 const buttonID = event.target.id;
-
-                if (buttonID === 'important') {
+            
+                if (todoElement) {
                     const todoID = todoElement.todo.id;
-                    markTaskProperty (todoID, 'important')
-                } else if (buttonID === 'complete') {
-                    const todoID = todoElement.todo.id;
-                    markTaskProperty (todoID, 'complete')
-                } else if (buttonID === 'edit') {
-                    const todoID = todoElement.todo.id;
-                    updateTask (todoID, newTitle, newDetails)
-                    //need to create input form, will use that for other params
+            
+                    switch (buttonID) {
+                        case 'important':
+                            markTaskProperty(todoID, 'important');
+                            break
+                        case 'complete':
+                            markTaskProperty(todoID, 'complete');
+                            break
+                        case 'edit':
+                            updateTask(todoID, newTitle, newDetails);
+                            break
+                        default:
+                            break
+                    }
                 }
             }
-        })
+        });
     }
 
     removeProject () {
