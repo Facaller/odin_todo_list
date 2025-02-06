@@ -271,7 +271,13 @@ class DOMHandler {
     }
 
     removeTodo () {
-
+        this.elements.todoBox.addEventListener('click', this.handleRemoveTodo)
+    }
+// create var for edit button in todo (will change purpose)
+//button will serve as X
+// complete removeTodo logic
+    handleRemoveTodo = (event) => {
+        const 
     }
 
     cancelProjectForm () {
