@@ -25,6 +25,7 @@ class DOMElements {
         this.todoDate         = document.getElementById('todoDate');
         this.submitTodo       = document.getElementById('submitTodo');
         this.cancelTodo       = document.getElementById('cancelTodo');
+        this.editTodo         = document.getElementById('edit');
     }
 }
 
@@ -59,10 +60,7 @@ class DOMHandler {
             todoBox.appendChild(div);
         }
     }
-    //produce form
-    //use values from form for parameters
-    //call addTask method with arguments
-    //
+
     renderProjectForm () {
         this.elements.addProject.addEventListener('click', () => {
             this.elements.projectForm.style.display = 'block'
@@ -112,7 +110,7 @@ class DOMHandler {
 
         return newTodo;
     }
-// consider adding parameter for project to use ID if necessary
+
     createProjectForMain (project) {
         const div = document.createElement('div');
         div.classList.add('project-container');
@@ -263,21 +261,45 @@ class DOMHandler {
                 const projectContainer = exitButton.closest('.project-container');
                 const projectContainerID = projectContainer?.id;
 
-                if (projectContainerID === projectID) {
+                if (projectContainerID === project.id) {
                     projectContainer.style.display = 'none';
                     this.removeRenderedTask(projectContainerID);
                 }
             }
     }
 
-    removeTodo () {
-        this.elements.todoBox.addEventListener('click', this.handleRemoveTodo)
+    deleteProject () {
+        this.elements.mainContent.addEventListener('click', this)
     }
-// create var for edit button in todo (will change purpose)
-//button will serve as X
-// complete removeTodo logic
-    handleRemoveTodo = (event) => {
-        const 
+
+    handleDeleteProject () {
+        const deleteProjectBtn = 
+    }
+
+    deleteTodo () {
+        this.elements.todoBox.addEventListener('click', this.handleDeleteTodo)
+    }
+
+    handleDeleteTodo = (event) => {
+        const editButton = event.target.closest('edit');
+
+        if (editButton) {
+            const todoContainer = editButton.closest('todo');
+            const todoContainerID = todoContainer?.id;
+
+            if (todoContainerID === todo.id) {
+                todoContainer.remove();
+                todoContainer = null;
+                
+                const DOMIndex = this.renderedTasks.findIndex(todo => todo.id === todoContainerID);
+                const businessIndex = this.tasklist.tasks.findIndex(todo => todo.id === todoContainerID);
+                
+                if (DOMIndex !== -1 && businessIndex !== -1) {
+                    this.renderedTasks.splice(DOMIndex, 1);
+                    this.tasklist.removeTask(businessIndex);
+                }
+            }
+        }
     }
 
     cancelProjectForm () {
