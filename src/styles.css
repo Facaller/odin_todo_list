@@ -157,6 +157,15 @@ h1 {
     filter: brightness(1.6);
 }
 
+.new-project {
+    display: flex;
+    column-gap: 6px;
+}
+
+.nav-project-exit {
+    margin-left: auto;
+}
+
 .project-form, .todo-form {
     /* display: none; */
     padding: 10px;

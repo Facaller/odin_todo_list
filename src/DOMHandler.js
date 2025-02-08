@@ -10,7 +10,8 @@ class DOMElements {
         this.todoBox          = document.querySelector('.todos-box');
         this.mainContent      = document.querySelector('.main-content');
         this.projectContainer = document.querySelector('.project-container');
-        this.exitBtn          = document.querySelector('.project-exit');
+        this.projectExitBtn   = document.querySelector('.project-exit');
+        this.navProjectExit   = document.querySelector('.nav-project-exit');
         this.addProject       = document.getElementById('addProject');
         this.projectForm      = document.getElementById('projectForm');
         this.projectTitle     = document.getElementById('projectTitle');
@@ -126,11 +127,19 @@ class DOMHandler {
 
     createProjectForNav (project) {
         const div = document.createElement('div');
-        // div.classList.add('.');
+        div.classList.add('new-project');
+
+        const projectImg = document.createElement('img');
+        div.appendChild(projectImg);
 
         const projectBtn = document.createElement('button');
         projectBtn.textContent = project.title;
         div.appendChild(projectBtn);
+
+        const projectX = document.createElement('button');
+        projectX.textContent = 'X';
+        projectX.classList.add('nav-project-exit')
+        div.appendChild(projectX);
 
         div.setAttribute('data-id', project.id);
 
