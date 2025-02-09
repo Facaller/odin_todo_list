@@ -6,12 +6,13 @@ import { TaskList } from "./task";
 class DOMElements {
     constructor () {
         this.sidebarNav       = document.getElementById('sidebarNav');
-        this.sidebarProjects  = document.querySelector('.sidebarProjects');
+        this.sidebarProjects  = document.querySelector('.sidebar-projects');
         this.todoBox          = document.querySelector('.todos-box');
         this.mainContent      = document.querySelector('.main-content');
         this.projectContainer = document.querySelector('.project-container');
         this.projectExitBtn   = document.querySelector('.project-exit');
         this.navProjectExit   = document.querySelector('.nav-project-exit');
+        this.newProject       = document.querySelector('.new-project');
         this.addProject       = document.getElementById('addProject');
         this.projectForm      = document.getElementById('projectForm');
         this.projectTitle     = document.getElementById('projectTitle');
@@ -281,8 +282,26 @@ class DOMHandler {
         this.elements.mainContent.addEventListener('click', this)
     }
 
-    handleDeleteProject () {
-        const deleteProjectBtn = 
+    handleDeleteProject = (event) => {
+        const projectNav = event.target.closest('nav-project-exit');
+
+        if (projectNav) {
+            const navProject = projectNav.closest('.new-project');
+            const navProjectID = navProject?.id;
+
+            if (navProjectID === project.id) {
+                navProject.remove();
+                navProject = null;
+
+                const DOMIndex = this.renderedTasks.findIndex(project => project.id === navProjectID);
+                const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
+                
+                if (DOMIndex !== -1 && businessProject) {
+                    this.renderedTasks.splice(DOMIndex, 1);
+                    this.tasklist.removeTask(businessProject.id);
+                }
+            }
+        }
     }
 
     deleteTodo () {
@@ -301,11 +320,11 @@ class DOMHandler {
                 todoContainer = null;
                 
                 const DOMIndex = this.renderedTasks.findIndex(todo => todo.id === todoContainerID);
-                const businessIndex = this.tasklist.tasks.findIndex(todo => todo.id === todoContainerID);
+                const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
                 
-                if (DOMIndex !== -1 && businessIndex !== -1) {
+                if (DOMIndex !== -1 && businessTodo) {
                     this.renderedTasks.splice(DOMIndex, 1);
-                    this.tasklist.removeTask(businessIndex);
+                    this.tasklist.removeTask(businessTodo.id);
                 }
             }
         }
