@@ -70,16 +70,3 @@ Make sure the id or data-id attributes are set correctly on your HTML elements f
 The deletion logic in the tasklist.tasks array assumes that the tasks array contains project objects, and that you have access to this array in your tasklist module.
 If the removeTask() method is actually a part of your business logic (in tasklist), you might need to adjust this method accordingly.
 This updated logic should properly handle both the DOM removal and the internal business logic removal of projects. Let me know if anything needs further clarification or adjustment!
-
-
-
-
-Get smarter responses, upload files and images, and more.
-
-Log in
-
-Sign up
-
-
-
-
