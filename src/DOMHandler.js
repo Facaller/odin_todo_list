@@ -211,16 +211,16 @@ class DOMHandler {
 
                 switch (BtnID) {
                     case 'allTasks':
-                        getAllTasks();
+                        this.tasklist.getAllTasks();
                         break
                     case 'today':
-                        getTasksDueToday();
+                        this.tasklist.getTasksDueToday();
                         break
                     case 'next7Days':
-                        getTasksForNextSevenDays();
+                        this.tasklist.getTasksForNextSevenDays();
                         break
                     case 'important':
-                        getAllImportantTasks();
+                        this.tasklist.getAllImportantTasks();
                         break
                     case 'addProject':
                         this.renderProjectForm();
@@ -296,24 +296,20 @@ class DOMHandler {
             const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
 
             if (businessProject) {
-                const DOMIndex = this.renderedTasks.findIndex(project => project.id === navProjectID);
+                this.removeRenderedTask(navProjectID);
 
-                if (DOMIndex !== -1) {
-                    this.renderedTasks.splice(DOMIndex, 1);
+                const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
+                const projectNavContainer = document.querySelector(`.new-project[data-id='${navProjectID}']`);
 
-                    const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
-                    const projectNavContainer = document.querySelector(`.new-project[data-id='${navProjectID}']`);
-
-                    if (projectContainer) {
-                        projectContainer.remove();
-                    }
-
-                    if (projectNavContainer) {
-                        projectNavContainer.remove();
-                    }
-
-                    this.tasklist.removeTask(navProjectID);
+                if (projectContainer) {
+                    projectContainer.remove();
                 }
+
+                if (projectNavContainer) {
+                    projectNavContainer.remove();
+                }
+
+                this.tasklist.removeTask(navProjectID);
             }
         }
     }
@@ -332,22 +328,22 @@ class DOMHandler {
             const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
 
             if (businessTodo) {
-                const DOMIndex = this.renderedTasks.findIndex(todo => todo.id ===todoContainerID);
-
-                if (DOMIndex !== -1) {
-                    this.renderedTasks.splice(DOMIndex, 1);
-                    todoContainer.remove();
-                    this.tasklist.removeTask(todoContainerID);
-                }
+                this.removeRenderedTask(todoContainerID)
+                todoContainer.remove();
+                this.tasklist.removeTask(todoContainerID);
             }
         }
     }
 
     cancelProjectForm () {
-
+        this.elements.cancelProject.addEventListener('click', () => {
+            this.elements.projectForm.reset();
+        });
     }
 
     cancelTodoForm () {
-
+        this.elements.cancelTodo.addEventListener('click', () => {
+            this.elements.todoForm.reset();
+        });
     }
 }
