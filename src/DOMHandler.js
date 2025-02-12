@@ -1,7 +1,6 @@
 import { container } from "webpack";
 import { Project } from "./projects";
 import { Todo } from "./todos.js";
-import { TaskList } from "./task";
 
 class DOMElements {
     constructor () {
