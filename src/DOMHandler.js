@@ -78,16 +78,35 @@ class DOMHandler {
         this.elements.submitProject.addEventListener('click', (event) => {
             event.preventDefault();
             const newProject = this.getProjectValues();
-            this.tasklist.addProject(newProject);
+            this.tasklist.addTask(newProject);
             this.renderProject()
+        })
+    }
+// create two methods. 1 for new todo & 1 for update todo
+// in submitTodoForm, do a checkRenderedTask to see if todo exists
+// if it does, run update, if it doesn't run create
+//
+    submitTodoForm () {
+        this.elements.submitTodo.addEventListener('click', (event) => {
+            event.preventDefault();
+            const newTodo = this.getTodoValues();
+            this.tasklist.addTask(newTodo);
+            this.renderTodo();
         })
     }
 
     submitTodoForm () {
         this.elements.submitTodo.addEventListener('click', (event) => {
+            if (this.checkRenderedTask(todoID)) {
+                // the todo has been rendered so it exists, so it must be updated
+                //update logic or methods here
+            } else if (!this.checkRenderedTask(todoID)) {
+                // the todo has not been rendered so it does not exist, so it must be created
+                //create logic or methods here
+            }
             event.preventDefault();
             const newTodo = this.getTodoValues();
-            this.tasklist.addProject(newTodo);
+            this.tasklist.addTask(newTodo);
             this.renderTodo();
         })
     }
@@ -249,7 +268,9 @@ class DOMHandler {
                             markTaskProperty(todoID, 'complete');
                             break
                         case 'edit':
+                            this.elements.projectForm.style.display = 'block'
                             updateTask(todoID, newTitle, newDetails);
+//
                             break
                         default:
                             break
