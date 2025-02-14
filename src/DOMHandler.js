@@ -35,6 +35,7 @@ class DOMHandler {
         this.tasklist      = tasklist;
         this.elements      = new DOMElements();
         this.renderedTasks = [];
+        this.editTodo      = null;
 
         this.removeProject();
     }
@@ -97,17 +98,17 @@ class DOMHandler {
 
     submitTodoForm () {
         this.elements.submitTodo.addEventListener('click', (event) => {
-            if (this.checkRenderedTask(todoID)) {
-                // the todo has been rendered so it exists, so it must be updated
-                //update logic or methods here
-            } else if (!this.checkRenderedTask(todoID)) {
-                // the todo has not been rendered so it does not exist, so it must be created
-                //create logic or methods here
-            }
             event.preventDefault();
             const newTodo = this.getTodoValues();
-            this.tasklist.addTask(newTodo);
-            this.renderTodo();
+            const todoID = newTodo.getAttribute('data-id');
+
+            if (this.editTodo) {
+                this.tasklist.updateTask(todoID, newTodo.title, newTodo.details);
+                this.editTodo = false;
+            } else {
+                this.tasklist.addTask(newTodo);
+                this.renderTodo();
+            }
         })
     }
 
@@ -269,8 +270,9 @@ class DOMHandler {
                             break
                         case 'edit':
                             this.elements.projectForm.style.display = 'block'
-                            updateTask(todoID, newTitle, newDetails);
-//
+                            this.todoTitle.placeholder = todoElement.title;
+                            this.todoDetails.placeholder = todoElement.details;
+                            this.editTodo = true;
                             break
                         default:
                             break
