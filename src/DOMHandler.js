@@ -83,32 +83,31 @@ class DOMHandler {
             this.renderProject()
         })
     }
-// create two methods. 1 for new todo & 1 for update todo
-// in submitTodoForm, do a checkRenderedTask to see if todo exists
-// if it does, run update, if it doesn't run create
-//
-    submitTodoForm () {
-        this.elements.submitTodo.addEventListener('click', (event) => {
-            event.preventDefault();
-            const newTodo = this.getTodoValues();
-            this.tasklist.addTask(newTodo);
-            this.renderTodo();
-        })
-    }
 
     submitTodoForm () {
         this.elements.submitTodo.addEventListener('click', (event) => {
             event.preventDefault();
-            const newTodo = this.getTodoValues();
-            const todoID = newTodo.getAttribute('data-id');
 
             if (this.editTodo) {
-                this.tasklist.updateTask(todoID, newTodo.title, newTodo.details);
-                this.editTodo = false;
+                const todoID = this.editTodo.id;
+                const existingTodo = this.tasklist.tasks.find(todo => todo.id === todoID);
+                
+                if (existingTodo) {
+                    const newTitle   = this.elements.todoTitle.value.trim();
+                    const newDetails = this.elements.todoDetails.value.trim();
+                    const newDate    = this.elements.todoDate.value.trim();
+
+                    this.tasklist.updateTask(todoID, newTitle, newDetails, newDate);
+                    this.editTodo = null;
+                    this.renderTodo();
+                }
             } else {
+                const newTodo = this.getTodoValues();
                 this.tasklist.addTask(newTodo);
                 this.renderTodo();
             }
+            this.elements.todoForm.reset();
+            this.elements.todoForm.style.display = 'none'
         })
     }
 
@@ -259,7 +258,8 @@ class DOMHandler {
                 const buttonID = event.target.id;
             
                 if (todoElement) {
-                    const todoID = todoElement.todo.id;
+                    const todoID = todoElement.getAttribute('data-id');
+                    const todo = this.tasklist.tasks.find(task => task.id === todoID);
             
                     switch (buttonID) {
                         case 'important':
@@ -269,10 +269,11 @@ class DOMHandler {
                             markTaskProperty(todoID, 'complete');
                             break
                         case 'edit':
-                            this.elements.projectForm.style.display = 'block'
-                            this.todoTitle.placeholder = todoElement.title;
-                            this.todoDetails.placeholder = todoElement.details;
-                            this.editTodo = true;
+                            this.todoTitle.value   = todoElement.title;
+                            this.todoDetails.value = todoElement.details;
+                            this.todoDate.value    = todoElement.date;
+                            this.editTodo = todo;
+                            this.elements.projectForm.style.display = 'block';
                             break
                         default:
                             break
