@@ -277,7 +277,7 @@ export class TaskList {
     }
 
     getTodosByProject (projectID) {
-        const todos = this.tasks.filter(task => task.projectID === projectID && task.type === 'todo');
+        const todos = this.tasks.filter(task => task.id === projectID && task.type === 'todo');
         return todos;
     }
 

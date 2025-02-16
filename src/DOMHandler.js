@@ -98,8 +98,8 @@ class DOMHandler {
                     const newDate    = this.elements.todoDate.value.trim();
 
                     this.tasklist.updateTask(todoID, newTitle, newDetails, newDate);
+                    this.updateTodoDOM();
                     this.editTodo = null;
-                    this.renderTodo();
                 }
             } else {
                 const newTodo = this.getTodoValues();
@@ -122,9 +122,9 @@ class DOMHandler {
     }
 
     getTodoValues () {
-        const newTitle   =  this.elements.todoTitle.value.trim();
-        const newDetails =  this.elements.todoDetails.value.trim();
-        const newDate    =  this.elements.todoDate.value.trim();
+        const newTitle   = this.elements.todoTitle.value.trim();
+        const newDetails = this.elements.todoDetails.value.trim();
+        const newDate    = this.elements.todoDate.value.trim();
 
         const newTodo = new Todo(newTitle, newDetails, newDate)
 
@@ -218,6 +218,25 @@ class DOMHandler {
                 }
             }
         })
+    }
+
+    updateTodoDOM () {
+        const todo = this.editTodo.closest('todo');
+        const todoID = todo?.getAttribute('data-id');
+        
+        if (todoID) {
+            const title   = this.elements.todoTitle.value.trim();
+            const details = this.elements.todoDetails.value.trim();
+            const date    = this.elements.todoDate.value.trim();
+
+            todo.querySelector('h4').textContent = title;
+            todo.querySelector('p').textContent = details;
+            
+            const dateElement = todo.this.todoDate; 
+            if (dateElement) {
+                dateElement.textContent = date;
+            }
+        }
     }
 
     bindSidebarButtons () {
