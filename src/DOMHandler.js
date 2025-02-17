@@ -26,7 +26,9 @@ class DOMElements {
         this.todoDate         = document.getElementById('todoDate');
         this.submitTodo       = document.getElementById('submitTodo');
         this.cancelTodo       = document.getElementById('cancelTodo');
-        this.editTodo         = document.getElementById('edit');
+        this.todoMore         = document.getElementById('todoMore');
+        this.moreOptionsTodo  = document.getElementById('moreOptionsTodo');
+        this.editTodo         = document.getElementById('editTodo');
     }
 }
 
@@ -354,6 +356,20 @@ class DOMHandler {
                 this.tasklist.removeTask(navProjectID);
             }
         }
+    }
+
+    showHideOptionsTodo () {
+        this.elements.todoMore.addEventListener('click', (event) => {
+            const todo = event.target.closest('todo');
+            const moreOptions = todo.closest('moreOptionsTodo');
+
+            if (todo && moreOptions.style.display === 'none') {
+                moreOptions.style.display ='block';
+            } else {
+                moreOptions.style.display ='none';
+            }
+            this.elements.moreOptionsTodo.style.display = 'block';
+        });
     }
 
     deleteTodo () {

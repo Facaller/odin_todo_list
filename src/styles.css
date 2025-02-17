@@ -267,6 +267,31 @@ form > div:first-of-type {
     padding-bottom: 30px;
 }
 
+.todo-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.todo-more {
+    margin-left: auto;
+}
+
+.more-options {
+    display: flex;
+    flex-direction: column;
+    background-color: #C0C0C0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.more-options button {
+    text-align: center;
+}
+
+.more-options button:hover {
+    background-color: #0056b3;
+}
+
 .todos-box button {
     padding-left: 0;
 }
