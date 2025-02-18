@@ -257,7 +257,7 @@ form > div:first-of-type {
     flex-direction: column;
 }
 
-.project-container .todos-box div:last-child {
+.todos-box > div:last-child {
     padding-bottom: 0;
 }
 
@@ -269,27 +269,30 @@ form > div:first-of-type {
 
 .todo-buttons {
     display: flex;
-    gap: 4px;
+    align-items: center;
+    column-gap: 10px;
 }
 
 .todo-more {
+    position: relative;
     margin-left: auto;
 }
 
 .more-options {
     display: flex;
+    /* display: none; */
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
     flex-direction: column;
     background-color: #C0C0C0;
-    padding: 15px;
-    border-radius: 5px;
+    padding: 3px;
+    border-radius: 6px;
 }
 
 .more-options button {
     text-align: center;
-}
-
-.more-options button:hover {
-    background-color: #0056b3;
+    margin: 0px;
 }
 
 .todos-box button {

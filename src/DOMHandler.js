@@ -28,7 +28,7 @@ class DOMElements {
         this.cancelTodo       = document.getElementById('cancelTodo');
         this.todoMore         = document.getElementById('todoMore');
         this.moreOptionsTodo  = document.getElementById('moreOptionsTodo');
-        this.editTodo         = document.getElementById('editTodo');
+        this.editTodoButton   = document.getElementById('editTodoBtn');
     }
 }
 
@@ -166,7 +166,7 @@ class DOMHandler {
 
         this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
-
+//adjusted todo don't forget to add classes for new layout
     createTodo (todo, projectID) {
         const div = document.createElement('div');
         div.classList.add('todo');
@@ -190,9 +190,21 @@ class DOMHandler {
         completeBtn.id = 'complete';
         buttonDiv.appendChild(completeBtn);
 
-        const editBtn = document.createElement('button');
-        editBtn.id = 'edit';
-        buttonDiv.appendChild(editBtn);
+        const todoMore = document.createElement('div');
+        todoMore.id = 'todoMore';
+        buttonDiv.appendChild(todoMore);
+
+        const moreOptions = document.createElement('div');
+        moreOptions.id = 'moreOptionsTodo';
+        todoMore.appendChild(moreOptions);
+
+        const editTodoBtn = document.createElement('button');
+        editTodoBtn.id = 'editTodoBtn';
+        moreOptions.appendChild(editTodoBtn);
+
+        const deleteTodo = document.createElement('button');
+        deleteTodo.id = 'deleteTodo';
+        moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
 
@@ -223,7 +235,7 @@ class DOMHandler {
     }
 
     updateTodoDOM () {
-        const todo = this.editTodo.closest('todo');
+        const todo = this.editTodoButton.closest('todo');
         const todoID = todo?.getAttribute('data-id');
         
         if (todoID) {
@@ -289,7 +301,7 @@ class DOMHandler {
                         case 'complete':
                             markTaskProperty(todoID, 'complete');
                             break
-                        case 'edit':
+                        case 'editTodoBtn':
                             this.todoTitle.value   = todoElement.title;
                             this.todoDetails.value = todoElement.details;
                             this.todoDate.value    = todoElement.date;
@@ -375,12 +387,13 @@ class DOMHandler {
     deleteTodo () {
         this.elements.todoBox.addEventListener('click', this.handleDeleteTodo)
     }
-
+// change 'edit' references to moreOptions (that's the div,
+// 'edit' is the actual edit button now)
     handleDeleteTodo = (event) => {
-        const editButton = event.target.closest('edit');
+        const moreOptions = event.target.closest('editTodoBtn');
 
-        if (editButton) {
-            const todoContainer = editButton.closest('todo');
+        if (moreOptions) {
+            const todoContainer = moreOptions.closest('todo');
             const todoContainerID = todoContainer?.getAttribute('data-id');
 
             const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
