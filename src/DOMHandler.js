@@ -301,7 +301,7 @@ class DOMHandler {
                         case 'complete':
                             markTaskProperty(todoID, 'complete');
                             break
-                        case 'editTodoBtn':
+                        case 'todoMore':
                             this.todoTitle.value   = todoElement.title;
                             this.todoDetails.value = todoElement.details;
                             this.todoDate.value    = todoElement.date;
@@ -372,15 +372,17 @@ class DOMHandler {
 
     showHideOptionsTodo () {
         this.elements.todoMore.addEventListener('click', (event) => {
+            const moreOptions = event.target.closest('.moreOptionsTodo');
+            if (!moreOptions) return;
+            
             const todo = event.target.closest('todo');
-            const moreOptions = todo.closest('moreOptionsTodo');
 
-            if (todo && moreOptions.style.display === 'none') {
+            if (moreOptions.style.display === 'none') {
                 moreOptions.style.display ='block';
             } else {
                 moreOptions.style.display ='none';
             }
-            this.elements.moreOptionsTodo.style.display = 'block';
+            // this.elements.moreOptionsTodo.style.display = 'block';
         });
     }
 
@@ -390,10 +392,10 @@ class DOMHandler {
 // change 'edit' references to moreOptions (that's the div,
 // 'edit' is the actual edit button now)
     handleDeleteTodo = (event) => {
-        const moreOptions = event.target.closest('editTodoBtn');
+        const removeTodo = event.target.closest('deleteTodo');
 
-        if (moreOptions) {
-            const todoContainer = moreOptions.closest('todo');
+        if (removeTodo) {
+            const todoContainer = removeTodo.closest('todo');
             const todoContainerID = todoContainer?.getAttribute('data-id');
 
             const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);

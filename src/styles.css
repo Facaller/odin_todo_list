@@ -159,11 +159,8 @@ h1 {
 
 .new-project {
     display: flex;
-    column-gap: 6px;
-}
-
-.nav-project-exit {
-    margin-left: auto;
+    align-items: center;
+    column-gap: 10px;
 }
 
 .project-form, .todo-form {
@@ -273,7 +270,7 @@ form > div:first-of-type {
     column-gap: 10px;
 }
 
-.todo-more {
+.more {
     position: relative;
     margin-left: auto;
 }
@@ -288,6 +285,7 @@ form > div:first-of-type {
     background-color: #C0C0C0;
     padding: 3px;
     border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .more-options button {
