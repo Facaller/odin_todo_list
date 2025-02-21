@@ -1,37 +1,39 @@
-//EDIT WHERE I REARRANGED METHODS. IF SOMETHING IS MISSING RESTORE THE ONE
-//BEFORE THIS ONE
 import { container } from "webpack";
 import { Project } from "./projects";
 import { Todo } from "./todos.js";
 
 class DOMElements {
     constructor () {
-        this.sidebarNav       = document.getElementById('sidebarNav');
-        this.sidebarProjects  = document.querySelector('.sidebar-projects');
-        this.todoBox          = document.querySelector('.todos-box');
-        this.mainContent      = document.querySelector('.main-content');
-        this.projectContainer = document.querySelector('.project-container');
-        this.projectExitBtn   = document.querySelector('.project-exit');
-        this.navProjectExit   = document.querySelector('.nav-project-exit');
-        this.newProject       = document.querySelector('.new-project');
-        this.addProject       = document.getElementById('addProject');
-        this.projectForm      = document.getElementById('projectForm');
-        this.projectTitle     = document.getElementById('projectTitle');
-        this.projectDetails   = document.getElementById('projectDetails');
-        this.projectPrio      = document.getElementById('priority');
-        this.submitProject    = document.getElementById('submitProject');
-        this.cancelProject    = document.getElementById('cancelProject');
-        this.addTodo          = document.getElementById('addTodo');
-        this.todoForm         = document.getElementById('todoForm');
-        this.todoTitle        = document.getElementById('todoTitle');
-        this.todoDetails      = document.getElementById('todoDetails');
-        this.todoDate         = document.getElementById('todoDate');
-        this.submitTodo       = document.getElementById('submitTodo');
-        this.cancelTodo       = document.getElementById('cancelTodo');
-        this.todoMore         = document.getElementById('todoMore');
-        this.moreOptionsTodo  = document.getElementById('moreOptionsTodo');
-        this.editTodoButton   = document.getElementById('editTodoBtn');
-        this.deleteTodoBtn    = document.getElementById('deleteTodoBtn');
+        this.sidebarNav         = document.getElementById('sidebarNav');
+        this.sidebarProjects    = document.querySelector('.sidebar-projects');
+        this.todoBox            = document.querySelector('.todos-box');
+        this.mainContent        = document.querySelector('.main-content');
+        this.projectContainer   = document.querySelector('.project-container');
+        this.projectExitBtn     = document.querySelector('.project-exit');
+        this.navProjectExit     = document.querySelector('.nav-project-exit');
+        this.newProject         = document.querySelector('.new-project');
+        this.addProject         = document.getElementById('addProject');
+        this.projectForm        = document.getElementById('projectForm');
+        this.projectTitle       = document.getElementById('projectTitle');
+        this.projectDetails     = document.getElementById('projectDetails');
+        this.projectPrio        = document.getElementById('priority');
+        this.submitProject      = document.getElementById('submitProject');
+        this.cancelProject      = document.getElementById('cancelProject');
+        this.projectMore        = document.getElementById('projectMore');
+        this.moreOptionsProject = document.getElementById('moreOptionsProject');
+        this.editProjectBtn     = document.getElementById('editProjectBtn');
+        this.deleteProjectBtn   = document.getElementById('deleteProjectBtn');
+        this.addTodo            = document.getElementById('addTodo');
+        this.todoForm           = document.getElementById('todoForm');
+        this.todoTitle          = document.getElementById('todoTitle');
+        this.todoDetails        = document.getElementById('todoDetails');
+        this.todoDate           = document.getElementById('todoDate');
+        this.submitTodo         = document.getElementById('submitTodo');
+        this.cancelTodo         = document.getElementById('cancelTodo');
+        this.todoMore           = document.getElementById('todoMore');
+        this.moreOptionsTodo    = document.getElementById('moreOptionsTodo');
+        this.editTodoButton     = document.getElementById('editTodoBtn');
+        this.deleteTodoBtn      = document.getElementById('deleteTodoBtn');
     }
 }
 
@@ -41,6 +43,7 @@ class DOMHandler {
         this.elements      = new DOMElements();
         this.renderedTasks = [];
         this.editTodo      = null;
+        this.editProject   = null;
 
         this.removeProject();
     }
@@ -392,16 +395,31 @@ class DOMHandler {
             const todo = event.target.closest('todo');
 
             if (moreOptions.style.display === 'none') {
-                moreOptions.style.display ='block';
+                moreOptions.style.display = 'block';
             } else {
-                moreOptions.style.display ='none';
+                moreOptions.style.display = 'none';
             }
             // this.elements.moreOptionsTodo.style.display = 'block';
         });
     }
 
+    showHideOptionsProject () {
+        this.elements.projectMore.addEventListener('click', (event) => {
+            const moreOptions = event.target.closest('moreOptionsProject');
+            if (!moreOptions) return;
+
+            if (moreOptions.style.display === 'none') {
+                moreOptions.style.display = 'block';
+            } else {
+                moreOptions.style.display = 'none';
+            }
+            // this.elements.moreOptionsProject.style.display = 'block';
+        });
+    }
+
     updateTodoDOM () {
         const todo = this.editTodo;
+        //keep an eye out, might have to set, instead of get ID
         const todoID = todo?.getAttribute('data-id');
         
         if (todoID) {
@@ -415,6 +433,37 @@ class DOMHandler {
             const dateElement = todo.this.todoDate; 
             if (dateElement) {
                 dateElement.textContent = date;
+            }
+        }
+    }
+
+    updateProjectDOM () {
+        const project = this.editProject;
+        //keep an eye out, might have to set, instead of get ID
+        const projectID = project?.getAttribute('data-id');
+
+        if (projectID) {
+            const title   = this.elements.projectTitle.value.trim();
+            const details = this.elements.projectDetails.value.trim();
+            //might not need status variable depening on img change method
+            const status  = this.elements.projectPrio.value.trim();
+
+            project.querySelector('h4').textContent = title;
+            project.querySelector('p').textContent = details;
+
+            const statusElement = project.this.projectPrio;
+            if (statusElement) {
+
+                switch (statusElement.checked.id) {
+                    case 'contemplativePrio':
+                        //change image method here
+                        break
+                    case 'pragmaticPrio':
+                        //change image method here
+                        break
+                    case 'imperativePrio':
+                        //change image method here
+                }
             }
         }
     }
@@ -433,7 +482,8 @@ class DOMHandler {
                     this.todoDetails.value = todoElement.details;
                     this.todoDate.value    = todoElement.date;
                     this.editTodo = todo;
-                    this.showHideOptionsTodo();
+                    this.elements.todoMore.style.display = 'none';
+                    this.renderTodoForm();
                 }
             }
         });
