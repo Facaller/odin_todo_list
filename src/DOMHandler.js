@@ -16,7 +16,10 @@ class DOMElements {
         this.projectForm        = document.getElementById('projectForm');
         this.projectTitle       = document.getElementById('projectTitle');
         this.projectDetails     = document.getElementById('projectDetails');
-        this.projectPrio        = document.getElementById('priority');
+        this.projectPrio        = document.querySelectorAll('input[name="priority"]');
+        this.contemplativePrio  = document.getElementById('contemplativePrio');
+        this.pragmaticPrio      = document.getElementById('pragmaticPrio');
+        this.imperativePrio     = document.getElementById('imperativePrio');
         this.submitProject      = document.getElementById('submitProject');
         this.cancelProject      = document.getElementById('cancelProject');
         this.projectMore        = document.getElementById('projectMore');
@@ -491,7 +494,7 @@ class DOMHandler {
 
     editProjectValues () {
         this.editProjectBtn.addEventListener('click', (event) => {
-            const edit = event.target.closest('editProjectBtn');
+            const edit = event.target.closest('.editProjectBtn');
             if (edit) {
                 const projectElement = event.target.closest('.new-project');
 
@@ -499,10 +502,18 @@ class DOMHandler {
                     const projectID = projectElement.getAttribute('data-id');
                     const project = this.tasklist.tasks.find(task => task.id === projectID);
 
-                    this.projectTitle.value = projectElement.title
-                    this.projectDetails.value = projectElement.details
-                    //need an if statement here to change prio depending
-                    //on the image (or which prio is currently checked)
+                    this.projectTitle.value = project.title
+                    this.projectDetails.value = project.details
+                    
+                    const prioID = this.getPriorityID();
+                    if (prioID === 'contemplativePrio') {
+                        this.contemplativePrio.checked = true;
+                    } else if (prioID === 'pragmaticPrio') {
+                        this.pragmaticPrio.checked = true;
+                    } else if (prioID === 'imperativePrio') {
+                        this.imperativePrio.checked = true;
+                    }
+
                     this.editProject = project;
                     this.elements.projectMore.style.display = 'none';
                     this.renderProjectForm();
@@ -511,19 +522,12 @@ class DOMHandler {
         })
     }
 
-    getPriority () {
-        const priority = [this.elements.projectPrio].find(prio => prio.checked)?.value || '';
-        if (priority.id === 'contemplativePrio') {
-            this.elements.projectPrio.
+    getPriorityID () {
+        for (let radio of this.projectPrio) {
+            if (radio.checked) {
+                return radio.id;
+            }
         }
+        return  null;
     }
-
-    // setPriorityRadioButton(priority) {
-    //     const radios = document.querySelectorAll('input[name="priority"]');
-    //     radios.forEach(radio => {
-    //         if (radio.value === priority) {
-    //             radio.checked = true; // Set the matching radio button as checked
-    //         }
-    //     });
-    // }
 }
