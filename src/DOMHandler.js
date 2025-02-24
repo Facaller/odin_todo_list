@@ -13,6 +13,11 @@ class DOMElements {
         this.navProjectExit     = document.querySelector('.nav-project-exit');
         this.newProject         = document.querySelector('.new-project');
         this.addProject         = document.getElementById('addProject');
+        this.projectImage       = document.getElementById('projectImg');
+        this.projectMore        = document.getElementById('projectMore');
+        this.moreOptionsProject = document.getElementById('moreOptionsProject');
+        this.editProjectBtn     = document.getElementById('editProjectBtn');
+        this.deleteProjectBtn   = document.getElementById('deleteProjectBtn');
         this.projectForm        = document.getElementById('projectForm');
         this.projectTitle       = document.getElementById('projectTitle');
         this.projectDetails     = document.getElementById('projectDetails');
@@ -22,21 +27,17 @@ class DOMElements {
         this.imperativePrio     = document.getElementById('imperativePrio');
         this.submitProject      = document.getElementById('submitProject');
         this.cancelProject      = document.getElementById('cancelProject');
-        this.projectMore        = document.getElementById('projectMore');
-        this.moreOptionsProject = document.getElementById('moreOptionsProject');
-        this.editProjectBtn     = document.getElementById('editProjectBtn');
-        this.deleteProjectBtn   = document.getElementById('deleteProjectBtn');
         this.addTodo            = document.getElementById('addTodo');
+        this.todoMore           = document.getElementById('todoMore');
+        this.moreOptionsTodo    = document.getElementById('moreOptionsTodo');
+        this.editTodoButton     = document.getElementById('editTodoBtn');
+        this.deleteTodoBtn      = document.getElementById('deleteTodoBtn');
         this.todoForm           = document.getElementById('todoForm');
         this.todoTitle          = document.getElementById('todoTitle');
         this.todoDetails        = document.getElementById('todoDetails');
         this.todoDate           = document.getElementById('todoDate');
         this.submitTodo         = document.getElementById('submitTodo');
         this.cancelTodo         = document.getElementById('cancelTodo');
-        this.todoMore           = document.getElementById('todoMore');
-        this.moreOptionsTodo    = document.getElementById('moreOptionsTodo');
-        this.editTodoButton     = document.getElementById('editTodoBtn');
-        this.deleteTodoBtn      = document.getElementById('deleteTodoBtn');
     }
 }
 
@@ -314,7 +315,7 @@ class DOMHandler {
             }
         });
     }
-
+// add a method to show project again once hidden
     removeProject () {
         this.elements.mainContent.addEventListener('click', this.handleRemoveProject)
     }
@@ -340,9 +341,9 @@ class DOMHandler {
     deleteProject () {
         this.elements.mainContent.addEventListener('click', this.handleDeleteProject)
     }
-
+// create element or reference for nav-project-exit, in general relook at this
     handleDeleteProject = (event) => {
-        const projectNav = event.target.closest('nav-project-exit');
+        const projectNav = event.target.closest('#deleteProjectBtn');
 
         if (projectNav) {
             const navProject = projectNav.closest('.new-project');
@@ -374,10 +375,10 @@ class DOMHandler {
     }
 
     handleDeleteTodo = (event) => {
-        const removeTodo = event.target.closest('deleteTodoBtn');
+        const removeTodo = event.target.closest('#deleteTodoBtn');
 
         if (removeTodo) {
-            const todoContainer = removeTodo.closest('todo');
+            const todoContainer = removeTodo.closest('.todo');
             const todoContainerID = todoContainer?.getAttribute('data-id');
 
             const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
@@ -392,10 +393,10 @@ class DOMHandler {
 //UI Manipulations
     showHideOptionsTodo () {
         this.elements.todoMore.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('.moreOptionsTodo');
+            const moreOptions = event.target.closest('#moreOptionsTodo');
             if (!moreOptions) return;
             //forgot why I added this, keeping it until I remember
-            const todo = event.target.closest('todo');
+            const todo = event.target.closest('.todo');
 
             if (moreOptions.style.display === 'none') {
                 moreOptions.style.display = 'block';
@@ -408,7 +409,7 @@ class DOMHandler {
 
     showHideOptionsProject () {
         this.elements.projectMore.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('moreOptionsProject');
+            const moreOptions = event.target.closest('#moreOptionsProject');
             if (!moreOptions) return;
 
             if (moreOptions.style.display === 'none') {
@@ -448,32 +449,24 @@ class DOMHandler {
         if (projectID) {
             const title   = this.elements.projectTitle.value.trim();
             const details = this.elements.projectDetails.value.trim();
-            //might not need status variable depening on img change method
-            const status  = this.elements.projectPrio.value.trim();
+            const prioID  = this.getPriorityID();
 
             project.querySelector('h4').textContent = title;
             project.querySelector('p').textContent = details;
 
-            const statusElement = project.this.projectPrio;
-            if (statusElement) {
-
-                switch (statusElement.checked.id) {
-                    case 'contemplativePrio':
-                        //change image method here
-                        break
-                    case 'pragmaticPrio':
-                        //change image method here
-                        break
-                    case 'imperativePrio':
-                        //change image method here
-                }
+            if (prioID === 'contemplativePrio') {
+                this.projectImage = //img here
+            } else if (prioID === 'pragmaticPrio') {
+                this.projectImage = //img here
+            } else if (prioID === 'imperativePrio') {
+                this.projectImage = //img here
             }
         }
     }
 
     editTodoValues () {
         this.editTodoButton.addEventListener('click', (event) => {
-            const edit = event.target.closest('editTodoBtn');
+            const edit = event.target.closest('#editTodoBtn');
             if (edit) {
                 const todoElement = event.target.closest('.todo');
 
@@ -481,9 +474,9 @@ class DOMHandler {
                     const todoID = todoElement.getAttribute('data-id');
                     const todo = this.tasklist.tasks.find(task => task.id === todoID);
 
-                    this.todoTitle.value   = todoElement.title;
-                    this.todoDetails.value = todoElement.details;
-                    this.todoDate.value    = todoElement.date;
+                    this.todoTitle.value   = todo.title;
+                    this.todoDetails.value = todo.details;
+                    this.todoDate.value    = todo.date;
                     this.editTodo = todo;
                     this.elements.todoMore.style.display = 'none';
                     this.renderTodoForm();
@@ -494,7 +487,7 @@ class DOMHandler {
 
     editProjectValues () {
         this.editProjectBtn.addEventListener('click', (event) => {
-            const edit = event.target.closest('.editProjectBtn');
+            const edit = event.target.closest('#editProjectBtn');
             if (edit) {
                 const projectElement = event.target.closest('.new-project');
 
