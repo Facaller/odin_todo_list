@@ -10,7 +10,6 @@ class DOMElements {
         this.mainContent        = document.querySelector('.main-content');
         this.projectContainer   = document.querySelector('.project-container');
         this.projectExitBtn     = document.querySelector('.project-exit');
-        this.navProjectExit     = document.querySelector('.nav-project-exit');
         this.newProject         = document.querySelector('.new-project');
         this.addProject         = document.getElementById('addProject');
         this.projectImage       = document.getElementById('projectImg');
@@ -315,38 +314,56 @@ class DOMHandler {
             }
         });
     }
-// add a method to show project again once hidden
+
+    showProject () {
+        this.elements.sidebarNav.addEventListener('click', this.handleShowProject);
+    }
+
+    handleShowProject = (event) => {
+        const navProject = event.target.closest('.new-project');
+
+        if (navProject) {
+            const navProjectID = navProject?.getAttribute('data-id');
+            const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
+
+            if (navProjectID) {
+                projectContainer.style.display = 'block';
+                this.markTaskAsRendered(navProjectID);
+            }
+        }
+    }
+
     removeProject () {
-        this.elements.mainContent.addEventListener('click', this.handleRemoveProject)
+        this.elements.mainContent.addEventListener('click', this.handleRemoveProject);
     }
 
     handleRemoveProject = (event) => {
         const exitButton = event.target.closest('.project-exit');
             
-            if (exitButton) {
-                const projectContainer = exitButton.closest('.project-container');
-                const projectContainerID = projectContainer?.getAttribute('data-id');
+        if (exitButton) {
+            const projectContainer = exitButton.closest('.project-container');
+            const projectContainerID = projectContainer?.getAttribute('data-id');
 
-                if (projectContainerID) {
-                    const businessProject = this.tasklist.tasks.find(project => project.id === projectContainerID);
+            if (projectContainerID) {
+                const businessProject = this.tasklist.tasks.find(project => project.id === projectContainerID);
 
-                    if (businessProject) {
-                        projectContainer.style.display = 'none';
-                        this.removeRenderedTask(projectContainerID);
-                    }
+                if (businessProject) {
+                    projectContainer.style.display = 'none';
+                    this.removeRenderedTask(projectContainerID);
                 }
             }
+        }
     }
 
     deleteProject () {
-        this.elements.mainContent.addEventListener('click', this.handleDeleteProject)
+        this.elements.sidebarNav.addEventListener('click', this.handleDeleteProject);
     }
-// create element or reference for nav-project-exit, in general relook at this
-    handleDeleteProject = (event) => {
-        const projectNav = event.target.closest('#deleteProjectBtn');
 
-        if (projectNav) {
-            const navProject = projectNav.closest('.new-project');
+    handleDeleteProject = (event) => {
+        const deleteBtn = event.target.closest('#deleteProjectBtn');
+
+        if (deleteBtn) {
+            const navProject = deleteBtn.closest('.new-project');
             const navProjectID = navProject?.getAttribute('data-id');
 
             const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
@@ -371,7 +388,7 @@ class DOMHandler {
     }
 
     deleteTodo () {
-        this.elements.todoBox.addEventListener('click', this.handleDeleteTodo)
+        this.elements.todoBox.addEventListener('click', this.handleDeleteTodo);
     }
 
     handleDeleteTodo = (event) => {
