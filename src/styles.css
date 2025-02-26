@@ -146,21 +146,43 @@ h1 {
 .add-todo {
     display: flex;
     flex-direction: column;
-    transition: filter 0.3s ease; /* Smooth transition for brightness */
 }
 
 .add-project, .add-todo {
     margin-top: 20px;
 }
 
-.sidebar > div > div:hover {
-    filter: brightness(1.6);
-}
-
 .new-project {
+    position: relative;
     display: flex;
     align-items: center;
     column-gap: 10px;
+}
+
+.nav-project-details {
+    padding: 4px;
+    visibility: hidden;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 40px;
+    right: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #D3D3D3;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0s 2s;
+    pointer-events: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.new-project:hover > .nav-project-details {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 2s;
+    transition: opacity 1.5s ease-in-out, visibility 0s 0s;
 }
 
 .project-form, .todo-form {
