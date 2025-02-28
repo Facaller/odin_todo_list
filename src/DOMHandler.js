@@ -107,22 +107,38 @@ class DOMHandler {
         div.classList.add('new-project');
 
         const projectImg = document.createElement('img');
+        projectImg.classList.add('project-img');
         div.appendChild(projectImg);
 
-        const projectBtn = document.createElement('button');
-        projectBtn.textContent = project.title;
-        div.appendChild(projectBtn);
+        const title = document.createElement('h4');
+        div.appendChild(title);
 
-        const projectX = document.createElement('button');
-        projectX.textContent = 'X';
-        projectX.classList.add('nav-project-exit')
-        div.appendChild(projectX);
+        const details = document.createElement('div');
+        details.classList.add('nav-project-details');
+        div.appendChild(details);
+
+        const detailsText = document.createElement('p');
+        details.appendChild(detailsText);
+
+        const more = document.createElement('div');
+        more.classList.add('more');
+        div.appendChild(more);
+
+        const moreOptions = document.createElement('div');
+        moreOptions.classList.add('more-options');
+        more.appendChild(moreOptions);
+
+        const editBtn = document.createElement('button');
+        moreOptions.appendChild(editBtn);
+
+        const deleteBtn = document.createElement('button');
+        moreOptions.appendChild(deleteBtn);
 
         div.setAttribute('data-id', project.id);
 
         this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
-//adjusted todo don't forget to add classes for new layout
+//Fix this, ID conflixts for each new todo, use classes instead and refactor
     createTodo (todo, projectID) {
         const div = document.createElement('div');
         div.classList.add('todo');
@@ -136,10 +152,11 @@ class DOMHandler {
         div.appendChild(p);
 
         const buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('todo-buttons');
         div.appendChild(buttonDiv);
 
         const importantBtn = document.createElement('button');
-        importantBtn.id = 'important';
+        importantBtn.id = 'todoImportant';
         buttonDiv.appendChild(importantBtn);
 
         const completeBtn = document.createElement('button');
@@ -148,10 +165,12 @@ class DOMHandler {
 
         const todoMore = document.createElement('div');
         todoMore.id = 'todoMore';
+        todoMore.classList.add('more');
         buttonDiv.appendChild(todoMore);
 
         const moreOptions = document.createElement('div');
         moreOptions.id = 'moreOptionsTodo';
+        moreOptions.classList.add('more-options');
         todoMore.appendChild(moreOptions);
 
         const editTodoBtn = document.createElement('button');
@@ -159,7 +178,7 @@ class DOMHandler {
         moreOptions.appendChild(editTodoBtn);
 
         const deleteTodo = document.createElement('button');
-        deleteTodo.id = 'deleteTodo';
+        deleteTodo.id = 'deleteTodoBtn';
         moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
@@ -274,7 +293,7 @@ class DOMHandler {
                     case 'next7Days':
                         this.tasklist.getTasksForNextSevenDays();
                         break
-                    case 'important':
+                    case 'navImportant':
                         this.tasklist.getAllImportantTasks();
                         break
                     case 'addProject':
@@ -298,7 +317,7 @@ class DOMHandler {
                     const todoID = todoElement.getAttribute('data-id');
             
                     switch (buttonID) {
-                        case 'important':
+                        case 'todoImportant':
                             markTaskProperty(todoID, 'important');
                             break
                         case 'complete':
