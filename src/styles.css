@@ -292,12 +292,21 @@ form > div:first-of-type {
     column-gap: 10px;
 }
 
-.more {
+.project-more,
+.todo-more {
     position: relative;
     margin-left: auto;
 }
 
-.more-options {
+.edit-todo-btn,
+.delete-todo-btn,
+.edit-project-btn,
+.delete-project-btn  {
+    margin: 0px;
+}
+
+.more-options-project,
+.more-options-todo {
     display: flex;
     /* display: none; */
     position: absolute;

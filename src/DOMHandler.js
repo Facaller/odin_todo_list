@@ -4,19 +4,18 @@ import { Todo } from "./todos.js";
 
 class DOMElements {
     constructor () {
-        this.sidebarNav         = document.getElementById('sidebarNav');
+        this.sidebarNav         = document.querySelector('.sidebar');
         this.sidebarProjects    = document.querySelector('.sidebar-projects');
         this.todoBox            = document.querySelector('.todos-box');
         this.mainContent        = document.querySelector('.main-content');
         this.projectContainer   = document.querySelector('.project-container');
         this.projectExitBtn     = document.querySelector('.project-exit');
         this.newProject         = document.querySelector('.new-project');
-        this.addProject         = document.getElementById('addProject');
-        this.projectImage       = document.getElementById('projectImg');
-        this.projectMore        = document.getElementById('projectMore');
-        this.moreOptionsProject = document.getElementById('moreOptionsProject');
-        this.editProjectBtn     = document.getElementById('editProjectBtn');
-        this.deleteProjectBtn   = document.getElementById('deleteProjectBtn');
+        this.projectImage       = document.querySelector('.project-img');
+        this.projectMore        = document.querySelector('.project-more');
+        this.moreOptionsProject = document.querySelector('.more-options-project');
+        this.editProjectBtn     = document.querySelector('.edit-project-btn');
+        this.deleteProjectBtn   = document.querySelector('.delete-project-btn');
         this.projectForm        = document.getElementById('projectForm');
         this.projectTitle       = document.getElementById('projectTitle');
         this.projectDetails     = document.getElementById('projectDetails');
@@ -26,17 +25,18 @@ class DOMElements {
         this.imperativePrio     = document.getElementById('imperativePrio');
         this.submitProject      = document.getElementById('submitProject');
         this.cancelProject      = document.getElementById('cancelProject');
-        this.addTodo            = document.getElementById('addTodo');
-        this.todoMore           = document.getElementById('todoMore');
-        this.moreOptionsTodo    = document.getElementById('moreOptionsTodo');
-        this.editTodoButton     = document.getElementById('editTodoBtn');
-        this.deleteTodoBtn      = document.getElementById('deleteTodoBtn');
+        this.addProject         = document.getElementById('addProject');
+        this.todoMore           = document.querySelector('.todo-more');
+        this.moreOptionsTodo    = document.querySelector('.more-options-todo');
+        this.editTodoButton     = document.querySelector('.edit-todo-btn');
+        this.deleteTodoBtn      = document.querySelector('.delete-todo-btn');
         this.todoForm           = document.getElementById('todoForm');
         this.todoTitle          = document.getElementById('todoTitle');
         this.todoDetails        = document.getElementById('todoDetails');
         this.todoDate           = document.getElementById('todoDate');
         this.submitTodo         = document.getElementById('submitTodo');
         this.cancelTodo         = document.getElementById('cancelTodo');
+        this.addTodo            = document.getElementById('addTodo');
     }
 }
 
@@ -156,29 +156,23 @@ class DOMHandler {
         div.appendChild(buttonDiv);
 
         const importantBtn = document.createElement('button');
-        importantBtn.id = 'todoImportant';
         buttonDiv.appendChild(importantBtn);
 
         const completeBtn = document.createElement('button');
-        completeBtn.id = 'complete';
         buttonDiv.appendChild(completeBtn);
 
         const todoMore = document.createElement('div');
-        todoMore.id = 'todoMore';
         todoMore.classList.add('more');
         buttonDiv.appendChild(todoMore);
 
         const moreOptions = document.createElement('div');
-        moreOptions.id = 'moreOptionsTodo';
         moreOptions.classList.add('more-options');
         todoMore.appendChild(moreOptions);
 
         const editTodoBtn = document.createElement('button');
-        editTodoBtn.id = 'editTodoBtn';
         moreOptions.appendChild(editTodoBtn);
 
         const deleteTodo = document.createElement('button');
-        deleteTodo.id = 'deleteTodoBtn';
         moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
@@ -305,7 +299,7 @@ class DOMHandler {
             }
         });
     }
-//come back to updateTask method and check
+//IDs wont work as check because of change to class use (for dynamic content)
     bindTodoButtons () {
         this.elements.todoBox.addEventListener('click', (event) => {
             const button = event.target.closest('button');
@@ -315,7 +309,7 @@ class DOMHandler {
             
                 if (todoElement) {
                     const todoID = todoElement.getAttribute('data-id');
-            
+            // need to change check here to some class check
                     switch (buttonID) {
                         case 'todoImportant':
                             markTaskProperty(todoID, 'important');
@@ -379,7 +373,7 @@ class DOMHandler {
     }
 
     handleDeleteProject = (event) => {
-        const deleteBtn = event.target.closest('#deleteProjectBtn');
+        const deleteBtn = event.target.closest('.delete-project-btn');
 
         if (deleteBtn) {
             const navProject = deleteBtn.closest('.new-project');
@@ -411,7 +405,7 @@ class DOMHandler {
     }
 
     handleDeleteTodo = (event) => {
-        const removeTodo = event.target.closest('#deleteTodoBtn');
+        const removeTodo = event.target.closest('.delete-todo-btn');
 
         if (removeTodo) {
             const todoContainer = removeTodo.closest('.todo');
@@ -429,7 +423,7 @@ class DOMHandler {
 //UI Manipulations
     showHideOptionsTodo () {
         this.elements.todoMore.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('#moreOptionsTodo');
+            const moreOptions = event.target.closest('.more-options-todo');
             if (!moreOptions) return;
             //forgot why I added this, keeping it until I remember
             const todo = event.target.closest('.todo');
@@ -445,7 +439,7 @@ class DOMHandler {
 
     showHideOptionsProject () {
         this.elements.projectMore.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('#moreOptionsProject');
+            const moreOptions = event.target.closest('.more-options-project');
             if (!moreOptions) return;
 
             if (moreOptions.style.display === 'none') {
@@ -502,7 +496,7 @@ class DOMHandler {
 
     editTodoValues () {
         this.editTodoButton.addEventListener('click', (event) => {
-            const edit = event.target.closest('#editTodoBtn');
+            const edit = event.target.closest('.edit-todo-btn');
             if (edit) {
                 const todoElement = event.target.closest('.todo');
 
@@ -523,7 +517,7 @@ class DOMHandler {
 
     editProjectValues () {
         this.editProjectBtn.addEventListener('click', (event) => {
-            const edit = event.target.closest('#editProjectBtn');
+            const edit = event.target.closest('.edit-project-btn');
             if (edit) {
                 const projectElement = event.target.closest('.new-project');
 
