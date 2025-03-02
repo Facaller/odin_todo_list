@@ -16,7 +16,7 @@ class DOMElements {
         this.moreOptionsProject = document.querySelector('.more-options-project');
         this.editProjectBtn     = document.querySelector('.edit-project-btn');
         this.deleteProjectBtn   = document.querySelector('.delete-project-btn');
-        this.projectForm        = document.getElementById('projectForm');
+        this.projectForm        = document.querySelector('.project-form');
         this.projectTitle       = document.getElementById('projectTitle');
         this.projectDetails     = document.getElementById('projectDetails');
         this.projectPrio        = document.querySelectorAll('input[name="priority"]');
@@ -30,7 +30,7 @@ class DOMElements {
         this.moreOptionsTodo    = document.querySelector('.more-options-todo');
         this.editTodoButton     = document.querySelector('.edit-todo-btn');
         this.deleteTodoBtn      = document.querySelector('.delete-todo-btn');
-        this.todoForm           = document.getElementById('todoForm');
+        this.todoForm           = document.querySelector('.todo-form');
         this.todoTitle          = document.getElementById('todoTitle');
         this.todoDetails        = document.getElementById('todoDetails');
         this.todoDate           = document.getElementById('todoDate');
@@ -111,6 +111,7 @@ class DOMHandler {
         div.appendChild(projectImg);
 
         const title = document.createElement('h4');
+        title.textContent = project.title;
         div.appendChild(title);
 
         const details = document.createElement('div');
@@ -118,27 +119,32 @@ class DOMHandler {
         div.appendChild(details);
 
         const detailsText = document.createElement('p');
+        detailsText.textContent = project.details;
         details.appendChild(detailsText);
 
         const more = document.createElement('div');
-        more.classList.add('more');
+        more.classList.add('project-more');
         div.appendChild(more);
 
         const moreOptions = document.createElement('div');
-        moreOptions.classList.add('more-options');
+        moreOptions.classList.add('more-options-project');
         more.appendChild(moreOptions);
 
         const editBtn = document.createElement('button');
+        editBtn.classList.add('edit-project-btn');
+        editBtn.textContent = 'Edit';
         moreOptions.appendChild(editBtn);
 
         const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete-project-btn');
+        deleteBtn.textContent = 'Delete';
         moreOptions.appendChild(deleteBtn);
 
         div.setAttribute('data-id', project.id);
 
         this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
     }
-//Fix this, ID conflixts for each new todo, use classes instead and refactor
+
     createTodo (todo, projectID) {
         const div = document.createElement('div');
         div.classList.add('todo');
@@ -154,25 +160,31 @@ class DOMHandler {
         const buttonDiv = document.createElement('div');
         buttonDiv.classList.add('todo-buttons');
         div.appendChild(buttonDiv);
-
-        const importantBtn = document.createElement('button');
+// need to add logic for background colour on img
+        const importantBtn = document.createElement('div');
+        importantBtn.classList.add('todo-important');
         buttonDiv.appendChild(importantBtn);
-
-        const completeBtn = document.createElement('button');
+// need to add logic for strikethrough and fill on img
+        const completeBtn = document.createElement('div');
+        completeBtn.classList.add('todo-completed');
         buttonDiv.appendChild(completeBtn);
 
         const todoMore = document.createElement('div');
-        todoMore.classList.add('more');
+        todoMore.classList.add('todo-more');
         buttonDiv.appendChild(todoMore);
 
         const moreOptions = document.createElement('div');
-        moreOptions.classList.add('more-options');
+        moreOptions.classList.add('more-options-todo');
         todoMore.appendChild(moreOptions);
 
         const editTodoBtn = document.createElement('button');
+        editTodoBtn.classList.add('edit-todo-btn');
+        editTodoBtn.textContent = 'Edit';
         moreOptions.appendChild(editTodoBtn);
 
         const deleteTodo = document.createElement('button');
+        deleteTodo.classList.add('delete-todo-btn');
+        deleteTodo.textContent - 'Delete';
         moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
@@ -199,7 +211,7 @@ class DOMHandler {
             this.elements.todoForm.style.display = 'block'
         })
     }
-
+// add edit project logic same as for todo
     submitProjectForm () {
         this.elements.submitProject.addEventListener('click', (event) => {
             event.preventDefault();
@@ -299,29 +311,22 @@ class DOMHandler {
             }
         });
     }
-//IDs wont work as check because of change to class use (for dynamic content)
+
     bindTodoButtons () {
         this.elements.todoBox.addEventListener('click', (event) => {
-            const button = event.target.closest('button');
+            const button = event.target.closest('div');
             if (button) {
                 const todoElement = event.target.closest('.todo');
-                const buttonID = event.target.id;
             
                 if (todoElement) {
                     const todoID = todoElement.getAttribute('data-id');
-            // need to change check here to some class check
-                    switch (buttonID) {
-                        case 'todoImportant':
-                            markTaskProperty(todoID, 'important');
-                            break
-                        case 'complete':
-                            markTaskProperty(todoID, 'complete');
-                            break
-                        case 'todoMore':
-                            this.showHideOptionsTodo();
-                            break
-                        default:
-                            break
+
+                    if (button.classList.contains('todo-important')) {
+                        markTaskProperty(todoID, 'important');
+                    } else if (button.classList.contains('todo-complete')) {
+                        markTaskProperty(todoID, 'complete');
+                    } else if (button.classList.contains('todo-more')) {
+                        this.showHideOptionsTodo();
                     }
                 }
             }
