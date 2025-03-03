@@ -36,7 +36,7 @@ class DOMElements {
         this.todoDate           = document.getElementById('todoDate');
         this.submitTodo         = document.getElementById('submitTodo');
         this.cancelTodo         = document.getElementById('cancelTodo');
-        this.addTodo            = document.getElementById('addTodo');
+        this.addTodo            = document.querySelector('.add-todo');
     }
 }
 
@@ -96,6 +96,13 @@ class DOMHandler {
         const box = document.createElement('div');
         box.classList.add('todos-box')
         div.appendChild(box);
+
+        const addTodoDiv = document.createElement('div');
+        addTodoDiv.classList.add('add-todo');
+        div.appendChild(addTodoDiv);
+
+        const addTodoBtn = document.createElement('button');
+        addTodoDiv.appendChild(addTodoBtn);
 
         div.setAttribute('data-id', project.id);
         
@@ -205,7 +212,10 @@ class DOMHandler {
             this.elements.projectForm.style.display = 'block'
         });
     }
-
+// form can't be attached to project container because container doesn't exist yet
+// let form be free standing block that attaches to specific container when add
+// todo button is clicked. if clicked on separate containers, it removes from the
+// one and attaches to another, getting a new project container ID 
     renderTodoForm () {
         this.elements.addTodo.addEventListener('click', () => {
             this.elements.todoForm.style.display = 'block'
@@ -430,15 +440,12 @@ class DOMHandler {
         this.elements.todoMore.addEventListener('click', (event) => {
             const moreOptions = event.target.closest('.more-options-todo');
             if (!moreOptions) return;
-            //forgot why I added this, keeping it until I remember
-            const todo = event.target.closest('.todo');
 
             if (moreOptions.style.display === 'none') {
                 moreOptions.style.display = 'block';
             } else {
                 moreOptions.style.display = 'none';
             }
-            // this.elements.moreOptionsTodo.style.display = 'block';
         });
     }
 
@@ -452,7 +459,6 @@ class DOMHandler {
             } else {
                 moreOptions.style.display = 'none';
             }
-            // this.elements.moreOptionsProject.style.display = 'block';
         });
     }
 
