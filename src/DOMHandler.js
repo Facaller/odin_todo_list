@@ -191,7 +191,7 @@ class DOMHandler {
 
         const deleteTodo = document.createElement('button');
         deleteTodo.classList.add('delete-todo-btn');
-        deleteTodo.textContent - 'Delete';
+        deleteTodo.textContent = 'Delete';
         moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
@@ -208,7 +208,8 @@ class DOMHandler {
     }
 //Form Handling
     renderProjectForm () {
-        this.elements.addProject.addEventListener('click', () => {
+        const addProject = this.elements.addProject;
+        addProject.addEventListener('click', () => {
             this.elements.projectForm.style.display = 'block'
         });
     }
@@ -217,22 +218,43 @@ class DOMHandler {
 // todo button is clicked. if clicked on separate containers, it removes from the
 // one and attaches to another, getting a new project container ID 
     renderTodoForm () {
-        this.elements.addTodo.addEventListener('click', () => {
+        const addTodo = this.elements.addTodo;
+        addTodo.addEventListener('click', () => {
             this.elements.todoForm.style.display = 'block'
         })
     }
 // add edit project logic same as for todo
     submitProjectForm () {
-        this.elements.submitProject.addEventListener('click', (event) => {
+        const submitProject = this.elements.submitProject;
+        submitProject.addEventListener('click', (event) => {
             event.preventDefault();
-            const newProject = this.getProjectValues();
-            this.tasklist.addTask(newProject);
-            this.renderProject()
+
+            if (this.editProject) {
+                const projectID = this.editProject.id;
+                const existingProject = this.tasklist.tasks.find(project => project.id === projectID);
+
+                if (existingProject) {
+                    const newTitle    = this.elements.projectTitle.value.trim();
+                    const newDetails  = this.elements.projectDetails.value.trim();
+                    const newPriority = Array.from(this.elements.projectPrio).find(prio => prio.checked)?.value || '';
+
+                    this.tasklist.updateTask(projectID, newTitle, newDetails, newPriority);
+                    this.updateProjectDOM();
+                    this.editProject = null;
+                }
+            } else {
+                const newProject = this.getProjectValues();
+                this.tasklist.addTask(newProject);
+                this.renderProject()
+            }
+            this.elements.projectForm.reset();
+            this.elements.projectForm.style.display = 'none';
         })
     }
 
     submitTodoForm () {
-        this.elements.submitTodo.addEventListener('click', (event) => {
+        const submitTodo = this.elements.submitTodo;
+        submitTodo.addEventListener('click', (event) => {
             event.preventDefault();
 
             if (this.editTodo) {
@@ -259,14 +281,16 @@ class DOMHandler {
     }
 
     cancelProjectForm () {
-        this.elements.cancelProject.addEventListener('click', () => {
+        const cancelProject = this.elements.cancelProject;
+        cancelProject.addEventListener('click', () => {
             this.elements.projectForm.reset();
             this.elements.projectForm.style.display = 'none';
         });
     }
 
     cancelTodoForm () {
-        this.elements.cancelTodo.addEventListener('click', () => {
+        const cancelTodo = this.elements.cancelTodo;
+        cancelTodo.addEventListener('click', () => {
             this.elements.todoForm.reset();
             this.elements.todoForm.style.display = 'none';
         });
@@ -293,7 +317,8 @@ class DOMHandler {
     }
 //Event Handlers
     bindSidebarButtons () {
-        this.elements.sidebarNav.addEventListener('click', (event) => {
+        const sidebarNav = this.elements.sidebarNav;
+        sidebarNav.addEventListener('click', (event) => {
             const sidebarBtn = event.target.closest('button');
             
             if (sidebarBtn) {
@@ -323,7 +348,8 @@ class DOMHandler {
     }
 
     bindTodoButtons () {
-        this.elements.todoBox.addEventListener('click', (event) => {
+        const todoBox = this.elements.todoBox;
+        todoBox.addEventListener('click', (event) => {
             const button = event.target.closest('div');
             if (button) {
                 const todoElement = event.target.closest('.todo');
@@ -344,7 +370,8 @@ class DOMHandler {
     }
 
     showProject () {
-        this.elements.sidebarNav.addEventListener('click', this.handleShowProject);
+        const sidebarNav = this.elements.sidebarNav;
+        sidebarNav.addEventListener('click', this.handleShowProject);
     }
 
     handleShowProject = (event) => {
@@ -362,7 +389,8 @@ class DOMHandler {
     }
 
     removeProject () {
-        this.elements.mainContent.addEventListener('click', this.handleRemoveProject);
+        const mainContent = this.elements.mainContent;
+        mainContent.addEventListener('click', this.handleRemoveProject);
     }
 
     handleRemoveProject = (event) => {
@@ -384,7 +412,8 @@ class DOMHandler {
     }
 
     deleteProject () {
-        this.elements.sidebarNav.addEventListener('click', this.handleDeleteProject);
+        const sidebarNav = this.elements.sidebarNav;
+        sidebarNav.addEventListener('click', this.handleDeleteProject);
     }
 
     handleDeleteProject = (event) => {
@@ -416,7 +445,8 @@ class DOMHandler {
     }
 
     deleteTodo () {
-        this.elements.todoBox.addEventListener('click', this.handleDeleteTodo);
+        const todoBox = this.elements.todoBox;
+        todoBox.addEventListener('click', this.handleDeleteTodo);
     }
 
     handleDeleteTodo = (event) => {
@@ -437,7 +467,8 @@ class DOMHandler {
     }
 //UI Manipulations
     showHideOptionsTodo () {
-        this.elements.todoMore.addEventListener('click', (event) => {
+        const todoBox = this.elements.todoBox;
+        todoBox.addEventListener('click', (event) => {
             const moreOptions = event.target.closest('.more-options-todo');
             if (!moreOptions) return;
 
@@ -450,7 +481,8 @@ class DOMHandler {
     }
 
     showHideOptionsProject () {
-        this.elements.projectMore.addEventListener('click', (event) => {
+        const sidebarNav = this.elements.sidebarNav;
+        sidebarNav.addEventListener('click', (event) => {
             const moreOptions = event.target.closest('.more-options-project');
             if (!moreOptions) return;
 
@@ -475,7 +507,7 @@ class DOMHandler {
             todo.querySelector('h4').textContent = title;
             todo.querySelector('p').textContent = details;
             
-            const dateElement = todo.this.todoDate; 
+            const dateElement = todo.querySelector('.todo-date'); 
             if (dateElement) {
                 dateElement.textContent = date;
             }
@@ -506,7 +538,8 @@ class DOMHandler {
     }
 
     editTodoValues () {
-        this.editTodoButton.addEventListener('click', (event) => {
+        const editTodoButton = this.elements.editTodoButton;
+        editTodoButton.addEventListener('click', (event) => {
             const edit = event.target.closest('.edit-todo-btn');
             if (edit) {
                 const todoElement = event.target.closest('.todo');
@@ -527,7 +560,8 @@ class DOMHandler {
     }
 
     editProjectValues () {
-        this.editProjectBtn.addEventListener('click', (event) => {
+        const editProjectBtn = this.elements.editProjectBtn;
+        editProjectBtn.addEventListener('click', (event) => {
             const edit = event.target.closest('.edit-project-btn');
             if (edit) {
                 const projectElement = event.target.closest('.new-project');
@@ -540,12 +574,8 @@ class DOMHandler {
                     this.projectDetails.value = project.details
                     
                     const prioID = this.getPriorityID();
-                    if (prioID === 'contemplativePrio') {
-                        this.contemplativePrio.checked = true;
-                    } else if (prioID === 'pragmaticPrio') {
-                        this.pragmaticPrio.checked = true;
-                    } else if (prioID === 'imperativePrio') {
-                        this.imperativePrio.checked = true;
+                    if (prioID) {
+                        document.getElementById(prioID).checked = true;
                     }
 
                     this.editProject = project;
@@ -557,11 +587,7 @@ class DOMHandler {
     }
 
     getPriorityID () {
-        for (let radio of this.projectPrio) {
-            if (radio.checked) {
-                return radio.id;
-            }
-        }
-        return  null;
+        const prioID = Array.from(this.projectPrio).find(radio => radio.checked);
+        return prioID ? prioID.id : null;
     }
 }
