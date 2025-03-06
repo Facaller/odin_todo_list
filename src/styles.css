@@ -155,7 +155,7 @@ h1 {
     margin-top: 20px;
 }
 
-.new-project {
+.project-item {
     position: relative;
     display: flex;
     align-items: center;
@@ -180,7 +180,7 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.new-project:hover > .nav-project-details {
+.project-item:hover > .nav-project-details {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;

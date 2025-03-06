@@ -10,7 +10,7 @@ class DOMElements {
         this.mainContent        = document.querySelector('.main-content');
         this.projectContainer   = document.querySelector('.project-container');
         this.projectExitBtn     = document.querySelector('.project-exit');
-        this.newProject         = document.querySelector('.new-project');
+        this.projectItem        = document.querySelector('.project-item');
         this.projectImage       = document.querySelector('.project-img');
         this.projectMore        = document.querySelector('.project-more');
         this.moreOptionsProject = document.querySelector('.more-options-project');
@@ -111,7 +111,7 @@ class DOMHandler {
 
     createProjectForNav (project) {
         const div = document.createElement('div');
-        div.classList.add('new-project');
+        div.classList.add('project-item');
 
         const projectImg = document.createElement('img');
         projectImg.classList.add('project-img');
@@ -208,10 +208,7 @@ class DOMHandler {
     }
 //Form Handling
     renderProjectForm () {
-        const addProject = this.elements.addProject;
-        addProject.addEventListener('click', () => {
-            this.elements.projectForm.style.display = 'block'
-        });
+        this.elements.projectForm.style.display = 'block'
     }
 // form can't be attached to project container because container doesn't exist yet
 // let form be free standing block that attaches to specific container when add
@@ -327,22 +324,27 @@ class DOMHandler {
                 switch (BtnID) {
                     case 'allTasks':
                         this.tasklist.getAllTasks();
-                        break
+                        break;
                     case 'today':
                         this.tasklist.getTasksDueToday();
-                        break
+                        break;
                     case 'next7Days':
                         this.tasklist.getTasksForNextSevenDays();
-                        break
+                        break;
                     case 'navImportant':
                         this.tasklist.getAllImportantTasks();
-                        break
+                        break;
                     case 'addProject':
                         this.renderProjectForm();
-                        break
+                        break;
                     default:
-                        break
+                        break;
                 }
+            }
+            const projectDiv = event.target.closest('.project-item');
+            if (projectDiv) {
+                const projectID = projectDiv.getAttribute('data-id');
+                this.showProject(event, projectID);
             }
         });
     }
@@ -369,22 +371,12 @@ class DOMHandler {
         });
     }
 
-    showProject () {
-        const sidebarNav = this.elements.sidebarNav;
-        sidebarNav.addEventListener('click', this.bindShowProject);
-    }
+    showProject = (event, projectID) => {
+        const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
 
-    bindShowProject = (event) => {
-        const navProject = event.target.closest('.new-project');
-
-        if (navProject) {
-            const navProjectID = navProject?.getAttribute('data-id');
-            const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
-
-            if (navProjectID) {
-                projectContainer.style.display = 'block';
-                this.markTaskAsRendered(navProjectID);
-            }
+        if (projectID) {
+            projectContainer.style.display = 'block';
+            this.markTaskAsRendered(projectID);
         }
     }
 
@@ -420,7 +412,7 @@ class DOMHandler {
         const deleteBtn = event.target.closest('.delete-project-btn');
 
         if (deleteBtn) {
-            const navProject = deleteBtn.closest('.new-project');
+            const navProject = deleteBtn.closest('.project-item');
             const navProjectID = navProject?.getAttribute('data-id');
 
             const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
@@ -429,7 +421,7 @@ class DOMHandler {
                 this.removeRenderedTask(navProjectID);
 
                 const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
-                const projectNavContainer = document.querySelector(`.new-project[data-id='${navProjectID}']`);
+                const projectNavContainer = document.querySelector(`.project-item[data-id='${navProjectID}']`);
 
                 if (projectContainer) {
                     projectContainer.remove();
@@ -536,8 +528,9 @@ class DOMHandler {
 
     editTodoValues () {
         const editTodoButton = this.elements.editTodoButton;
+        const todoMore = this.elements.todoMore;
+        
         editTodoButton.addEventListener('click', (event) => {
-            const todoMore = this.elements.todoMore;
             const edit = event.target.closest('.edit-todo-btn');
             if (edit) {
                 const todoElement = event.target.closest('.todo');
@@ -559,11 +552,12 @@ class DOMHandler {
 
     editProjectValues () {
         const editProjectBtn = this.elements.editProjectBtn;
-        editProjectBtn.addEventListener('click', (event) => {
-            const projectMore = this.elements.projectMore;
+        const projectMore = this.elements.projectMore;
+        
+        editProjectBtn.addEventListener('click', (event) => {    
             const edit = event.target.closest('.edit-project-btn');
             if (edit) {
-                const projectElement = event.target.closest('.new-project');
+                const projectElement = event.target.closest('.project-item');
 
                 if (projectElement) {
                     const projectID = projectElement.getAttribute('data-id');
