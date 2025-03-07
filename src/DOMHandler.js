@@ -49,6 +49,7 @@ class DOMHandler {
         this.editProject   = null;
 
         this.removeProject();
+        this.deleteProject();
     }
 
     markTaskAsRendered (taskID) {
@@ -69,10 +70,10 @@ class DOMHandler {
     renderProject () {
         this.tasklist.tasks.forEach(project => {
             if (getTaskType(task) === 'project') { 
-                if (!this.checkRenderedTask(taskID)) {
+                if (!this.checkRenderedTask(project.id)) {
                     this.createProjectForMain(project);
                     this.createProjectForNav(project);
-                    this.markTaskAsRendered(taskID);
+                    this.markTaskAsRendered(project.id);
                 }
             }
         })
@@ -81,9 +82,9 @@ class DOMHandler {
     renderTodo () {
         this.tasklist.tasks.forEach(todo => {
             if (getTaskType(task) === 'todo') {
-                if (!this.checkRenderedTask(taskID)) {
-                    this.createTodo(todo, projectID);
-                    this.markTaskAsRendered(taskID);
+                if (!this.checkRenderedTask(todo.id)) {
+                    this.createTodo(todo, todo.projectID);
+                    this.markTaskAsRendered(todo.id);
                 }
             }
         })
@@ -403,36 +404,45 @@ class DOMHandler {
         }
     }
 
-    deleteProject () {
-        const sidebarNav = this.elements.sidebarNav;
-        sidebarNav.addEventListener('click', this.bindDeleteProject);
+    bindProjectButtons () {
+        const sidebarProjects = this.elements.sidebarProjects;
+        sidebarProjects.addEventListener('click', (event) => {
+            const projectMore = event.target.closest('.project-more');
+            if (projectMore) {
+                this.toggleVisibilityForClass(projectMore);
+            }
+
+            const deleteBtn = event.target.closest('.delete-project-btn');
+            const editBtn = event.target.closest('.edit-project-btn');
+            if (deleteBtn) {
+                this.deleteProject(event);
+            } else if (editBtn) {
+                this.editProjectValues(event);
+            }
+        })
     }
 
-    bindDeleteProject = (event) => {
-        const deleteBtn = event.target.closest('.delete-project-btn');
+    deleteProject = (event) => {
+        const navProject = event.closest('.project-item');
+        const navProjectID = navProject?.getAttribute('data-id');
 
-        if (deleteBtn) {
-            const navProject = deleteBtn.closest('.project-item');
-            const navProjectID = navProject?.getAttribute('data-id');
+        const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
 
-            const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
+        if (businessProject) {
+            this.removeRenderedTask(navProjectID);
 
-            if (businessProject) {
-                this.removeRenderedTask(navProjectID);
+            const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
+            const projectNavContainer = document.querySelector(`.project-item[data-id='${navProjectID}']`);
 
-                const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
-                const projectNavContainer = document.querySelector(`.project-item[data-id='${navProjectID}']`);
-
-                if (projectContainer) {
-                    projectContainer.remove();
-                }
-
-                if (projectNavContainer) {
-                    projectNavContainer.remove();
-                }
-
-                this.tasklist.removeTask(navProjectID);
+            if (projectContainer) {
+                projectContainer.remove();
             }
+
+            if (projectNavContainer) {
+                projectNavContainer.remove();
+            }
+
+            this.tasklist.removeTask(navProjectID);
         }
     }
 
@@ -550,33 +560,23 @@ class DOMHandler {
         });
     }
 
-    editProjectValues () {
-        const editProjectBtn = this.elements.editProjectBtn;
-        const projectMore = this.elements.projectMore;
+    editProjectValues (event) {
+        const projectElement = event.closest('.project-item');
+        const projectID = projectElement.getAttribute('data-id');
+        const project = this.tasklist.tasks.find(task => task.id === projectID);
+
+        this.projectTitle.value = project.title
+        this.projectDetails.value = project.details
         
-        editProjectBtn.addEventListener('click', (event) => {    
-            const edit = event.target.closest('.edit-project-btn');
-            if (edit) {
-                const projectElement = event.target.closest('.project-item');
+        const prioID = this.getPriorityID();
+        if (prioID) {
+            document.getElementById(prioID).checked = true;
+        }
 
-                if (projectElement) {
-                    const projectID = projectElement.getAttribute('data-id');
-                    const project = this.tasklist.tasks.find(task => task.id === projectID);
-
-                    this.projectTitle.value = project.title
-                    this.projectDetails.value = project.details
-                    
-                    const prioID = this.getPriorityID();
-                    if (prioID) {
-                        document.getElementById(prioID).checked = true;
-                    }
-
-                    this.editProject = project;
-                    projectMore.classList.toggle('hidden');
-                    this.renderProjectForm();
-                }
-            }
-        })
+        this.editProject = project;
+        const projectMore = projectElement.querySelector('.project-more');
+        projectMore.classList.toggle('hidden');
+        this.renderProjectForm();
     }
 
     getPriorityID () {
