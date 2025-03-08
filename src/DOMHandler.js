@@ -216,6 +216,8 @@ class DOMHandler {
 // todo button is clicked. if clicked on separate containers, it removes from the
 // one and attaches to another, getting a new project container ID 
     renderTodoForm () {
+        //put listener on mainContent then check for specific project
+        // and add todo btn. add todo based on project container ID
         const addTodo = this.elements.addTodo;
         addTodo.addEventListener('click', () => {
             this.elements.todoForm.style.display = 'block'
@@ -350,6 +352,24 @@ class DOMHandler {
         });
     }
 
+    bindProjectButtons () {
+        const sidebarProjects = this.elements.sidebarProjects;
+        sidebarProjects.addEventListener('click', (event) => {
+            const projectMore = event.target.closest('.project-more');
+            if (projectMore) {
+                this.toggleVisibilityForClass(projectMore);
+            }
+
+            const deleteBtn = event.target.closest('.delete-project-btn');
+            const editBtn = event.target.closest('.edit-project-btn');
+            if (deleteBtn) {
+                this.deleteProject(event);
+            } else if (editBtn) {
+                this.editProjectValues(event);
+            }
+        })
+    }
+
     bindTodoButtons () {
         const todoBox = this.elements.todoBox;
         todoBox.addEventListener('click', (event) => {
@@ -365,7 +385,16 @@ class DOMHandler {
                     } else if (button.classList.contains('todo-complete')) {
                         markTaskProperty(todoID, 'complete');
                     } else if (button.classList.contains('todo-more')) {
-                        this.showHideOptionsTodo();
+                        this.toggleVisibilityForClass('todo-more');
+                    }
+
+                    const deleteBtn = event.target.closest('.delete-project-btn');
+                    const editBtn = event.target.closest('.edit-project-btn');
+
+                    if (deleteBtn) {
+                        this.deleteTodo(event);
+                    } else if (editBtn) {
+                        this.editTodoValues(event);
                     }
                 }
             }
@@ -404,24 +433,6 @@ class DOMHandler {
         }
     }
 
-    bindProjectButtons () {
-        const sidebarProjects = this.elements.sidebarProjects;
-        sidebarProjects.addEventListener('click', (event) => {
-            const projectMore = event.target.closest('.project-more');
-            if (projectMore) {
-                this.toggleVisibilityForClass(projectMore);
-            }
-
-            const deleteBtn = event.target.closest('.delete-project-btn');
-            const editBtn = event.target.closest('.edit-project-btn');
-            if (deleteBtn) {
-                this.deleteProject(event);
-            } else if (editBtn) {
-                this.editProjectValues(event);
-            }
-        })
-    }
-
     deleteProject = (event) => {
         const navProject = event.closest('.project-item');
         const navProjectID = navProject?.getAttribute('data-id');
@@ -446,25 +457,16 @@ class DOMHandler {
         }
     }
 
-    deleteTodo () {
-        const todoBox = this.elements.todoBox;
-        todoBox.addEventListener('click', this.bindDeleteTodo);
-    }
+    deleteTodo = (event) => {
+        const todoContainer = event.closest('.todo');
+        const todoContainerID = todoContainer?.getAttribute('data-id');
 
-    bindDeleteTodo = (event) => {
-        const removeTodo = event.target.closest('.delete-todo-btn');
+        const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
 
-        if (removeTodo) {
-            const todoContainer = removeTodo.closest('.todo');
-            const todoContainerID = todoContainer?.getAttribute('data-id');
-
-            const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
-
-            if (businessTodo) {
-                this.removeRenderedTask(todoContainerID)
-                todoContainer.remove();
-                this.tasklist.removeTask(todoContainerID);
-            }
+        if (businessTodo) {
+            this.removeRenderedTask(todoContainerID)
+            todoContainer.remove();
+            this.tasklist.removeTask(todoContainerID);
         }
     }
 //UI Manipulations
@@ -477,25 +479,8 @@ class DOMHandler {
         }
     }
 
-    showHideOptionsTodo () {
-        const todoBox = this.elements.todoBox;
-        todoBox.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('.more-options-todo');
-            this.toggleVisibilityForClass(moreOptions);
-        });
-    }
-
-    showHideOptionsProject () {
-        const sidebarNav = this.elements.sidebarNav;
-        sidebarNav.addEventListener('click', (event) => {
-            const moreOptions = event.target.closest('.more-options-project');
-            this.toggleVisibilityForClass(moreOptions);
-        });
-    }
-
     updateTodoDOM () {
         const todo = this.editTodo;
-        //keep an eye out, might have to set, instead of get ID
         const todoID = todo?.getAttribute('data-id');
         
         if (todoID) {
@@ -515,7 +500,6 @@ class DOMHandler {
 
     updateProjectDOM () {
         const project = this.editProject;
-        //keep an eye out, might have to set, instead of get ID
         const projectID = project?.getAttribute('data-id');
 
         if (projectID) {
@@ -536,28 +520,19 @@ class DOMHandler {
         }
     }
 
-    editTodoValues () {
-        const editTodoButton = this.elements.editTodoButton;
-        const todoMore = this.elements.todoMore;
-        
-        editTodoButton.addEventListener('click', (event) => {
-            const edit = event.target.closest('.edit-todo-btn');
-            if (edit) {
-                const todoElement = event.target.closest('.todo');
+    editTodoValues (event) {
+        const todoElement = event.target.closest('.todo');
+        const todoID = todoElement.getAttribute('data-id');
+        const todo = this.tasklist.tasks.find(task => task.id === todoID);
 
-                if (todoElement) {
-                    const todoID = todoElement.getAttribute('data-id');
-                    const todo = this.tasklist.tasks.find(task => task.id === todoID);
+        this.todoTitle.value   = todo.title;
+        this.todoDetails.value = todo.details;
+        this.todoDate.value    = todo.date;
+        this.editTodo = todo;
 
-                    this.todoTitle.value   = todo.title;
-                    this.todoDetails.value = todo.details;
-                    this.todoDate.value    = todo.date;
-                    this.editTodo = todo;
-                    todoMore.classList.toggle('hidden');
-                    this.renderTodoForm();
-                }
-            }
-        });
+        const todoMore = todoElement.querySelector('.todo-more');
+        todoMore.classList.toggle('hidden');
+        this.renderTodoForm();
     }
 
     editProjectValues (event) {
