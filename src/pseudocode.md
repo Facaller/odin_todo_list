@@ -122,3 +122,55 @@ Final Thoughts:
 You've done a solid job organizing your classes and methods. The main changes are mostly around fixing the undefined variable issues (taskID → project.id, todo.id), ensuring the correct DOM updates when editing tasks, and refining the way forms are attached to specific containers.
 
 Once you make these small tweaks, your project should work smoothly! Let me know if you run into any other issues.
+
+
+
+*********************************************
+
+To complete the renderTodoForm method based on the current structure, you need to ensure that the todo form can be inserted into a specific project container when the "add todo" button is clicked, and it should be removed from one container if it's already present in another container. This ensures that only one form is visible at a time.
+
+The key steps are:
+
+Detect the Project Container: When a user clicks the "Add Todo" button, you should find the corresponding project container.
+Attach the Todo Form: Insert the todo form into the selected project container, ensuring that it appears only in one container at a time.
+Hide the Form: You can toggle the visibility of the form once it has been inserted, and remove it when the user switches containers.
+Here's the completed renderTodoForm method:
+
+javascript
+Copy
+renderTodoForm (event) {
+    // Find the project container that was clicked (the closest container to the "Add Todo" button)
+    const projectContainer = event.target.closest('.project-container');
+    const projectContainerID = projectContainer?.getAttribute('data-id');
+    
+    if (projectContainer) {
+        // Get the form and the "Add Todo" button from the clicked project container
+        const todoForm = this.elements.todoForm;
+        const addTodo = this.elements.addTodo;
+
+        // Check if the form is already in another project container and remove it if so
+        const existingForm = document.querySelector('.todo-form:not(.hidden)');
+        if (existingForm) {
+            existingForm.classList.add('hidden');
+        }
+
+        // Insert the todo form before the "Add Todo" button in the current container
+        projectContainer.insertBefore(todoForm, addTodo);
+        
+        // Toggle the visibility of the form (it will show if hidden, hide if shown)
+        todoForm.classList.toggle('hidden');
+    }
+}
+Explanation of Changes:
+projectContainer: The method starts by finding the project container (project-container) that was clicked, using event.target.closest('.project-container'). This will ensure that the form is added to the correct project.
+
+Check for Existing Form: The line const existingForm = document.querySelector('.todo-form:not(.hidden)'); finds any currently visible todo form (.todo-form:not(.hidden)). If such a form exists, it is hidden with existingForm.classList.add('hidden') before showing the new one.
+
+insertBefore: This inserts the todo form right before the "Add Todo" button (addTodo), making it part of the clicked project container.
+
+Toggle the Form: Finally, todoForm.classList.toggle('hidden'); toggles the visibility of the form. If the form was hidden, it will be shown; if it was already visible, it will be hidden.
+
+Additional Considerations:
+Form Reset: If you want to reset the form fields when switching containers, you can use this.elements.todoForm.reset(); just before toggling visibility.
+One Form at a Time: By ensuring the form is removed from any other container before adding it to the current one, you ensure only one form is displayed at a time.
+This should now allow you to properly show the todo form within the correct project container and hide it when switching between containers!

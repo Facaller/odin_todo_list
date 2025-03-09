@@ -150,7 +150,7 @@ class DOMHandler {
 
         div.setAttribute('data-id', project.id);
 
-        this.elements.sidebarProjects.insertBefore(div, this.elements.projectForm);
+        this.elements.sidebarProjects.appendChild(div);
     }
 
     createTodo (todo, projectID) {
@@ -215,13 +215,23 @@ class DOMHandler {
 // let form be free standing block that attaches to specific container when add
 // todo button is clicked. if clicked on separate containers, it removes from the
 // one and attaches to another, getting a new project container ID 
-    renderTodoForm () {
+    renderTodoForm (event) {
         //put listener on mainContent then check for specific project
         // and add todo btn. add todo based on project container ID
-        const addTodo = this.elements.addTodo;
-        addTodo.addEventListener('click', () => {
-            this.elements.todoForm.style.display = 'block'
-        })
+        const projectContainer = event.target.closest('.project-container');
+        const projectContainerID = projectContainer?.getAttribute('data-id');
+        if (projectContainer) {
+            const todoForm = this.elements.todoForm;
+            const addTodo = this.elements.addTodo;
+
+            const existingForm = document.querySelector('.todo-form:not(.hidden)');
+            if (existingForm) {
+                existingForm.classList.add('hidden');
+            }
+            
+            projectContainer.insertBefore(todoForm, addTodo)
+            todoForm.toggle('hidden');
+        }
     }
 // add edit project logic same as for todo
     submitProjectForm () {
