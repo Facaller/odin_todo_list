@@ -1,6 +1,7 @@
 import { container } from "webpack";
 import { Project } from "./projects";
 import { Todo } from "./todos.js";
+import { id } from "date-fns/locale";
 
 class DOMElements {
     constructor () {
@@ -209,17 +210,17 @@ class DOMHandler {
     }
 //Form Handling
     renderProjectForm () {
-        this.elements.projectForm.style.display = 'block'
+        const projectForm = this.elements.projectForm;
+        if (projectForm.style.display = 'none') {
+            projectForm.toggle('hidden');
+        }
     }
 // form can't be attached to project container because container doesn't exist yet
 // let form be free standing block that attaches to specific container when add
 // todo button is clicked. if clicked on separate containers, it removes from the
 // one and attaches to another, getting a new project container ID 
     renderTodoForm (event) {
-        //put listener on mainContent then check for specific project
-        // and add todo btn. add todo based on project container ID
         const projectContainer = event.target.closest('.project-container');
-        const projectContainerID = projectContainer?.getAttribute('data-id');
         if (projectContainer) {
             const todoForm = this.elements.todoForm;
             const addTodo = this.elements.addTodo;
@@ -227,10 +228,12 @@ class DOMHandler {
             const existingForm = document.querySelector('.todo-form:not(.hidden)');
             if (existingForm) {
                 existingForm.classList.add('hidden');
+                existingForm.parentNode?.removeChild(existingForm);
+                todoForm.reset();
             }
             
             projectContainer.insertBefore(todoForm, addTodo)
-            todoForm.toggle('hidden');
+            todoForm.classList.remove('hidden');
         }
     }
 // add edit project logic same as for todo
@@ -409,6 +412,14 @@ class DOMHandler {
                 }
             }
         });
+    }
+
+    bindProjectFormButtons () {
+
+    }
+
+    bindTodoFormButtons () {
+        
     }
 
     showProject = (event, projectID) => {
