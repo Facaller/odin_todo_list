@@ -237,76 +237,74 @@ class DOMHandler {
         }
     }
 // add edit project logic same as for todo
-    submitProjectForm () {
-        const submitProject = this.elements.submitProject;
-        submitProject.addEventListener('click', (event) => {
-            event.preventDefault();
+    submitProjectForm (event) {
+        event.preventDefault();
 
-            if (this.editProject) {
-                const projectID = this.editProject.id;
-                const existingProject = this.tasklist.tasks.find(project => project.id === projectID);
-
-                if (existingProject) {
-                    const newTitle    = this.elements.projectTitle.value.trim();
-                    const newDetails  = this.elements.projectDetails.value.trim();
-                    const newPriority = Array.from(this.elements.projectPrio).find(prio => prio.checked)?.value || '';
-
-                    this.tasklist.updateTask(projectID, newTitle, newDetails, newPriority);
-                    this.updateProjectDOM();
-                    this.editProject = null;
-                }
-            } else {
-                const newProject = this.getProjectValues();
-                this.tasklist.addTask(newProject);
-                this.renderProject()
-            }
-            this.elements.projectForm.reset();
-            this.elements.projectForm.classList.toggle('hidden');
-        })
+        if (this.editProject) {
+            this.submitEditedProjectForm();
+        } else {
+            const newProject = this.getProjectValues();
+            this.tasklist.addTask(newProject);
+            this.renderProject()
+        }
+        this.elements.projectForm.reset();
+        this.elements.projectForm.classList.toggle('hidden');
     }
 
-    submitTodoForm () {
-        const submitTodo = this.elements.submitTodo;
-        submitTodo.addEventListener('click', (event) => {
-            event.preventDefault();
+    submitEditedProjectForm () {
+        const projectID = this.editProject.id;
+        const existingProject = this.tasklist.tasks.find(project => project.id === projectID);
 
-            if (this.editTodo) {
-                const todoID = this.editTodo.id;
-                const existingTodo = this.tasklist.tasks.find(todo => todo.id === todoID);
-                
-                if (existingTodo) {
-                    const newTitle   = this.elements.todoTitle.value.trim();
-                    const newDetails = this.elements.todoDetails.value.trim();
-                    const newDate    = this.elements.todoDate.value.trim();
+        if (existingProject) {
+            const newTitle    = this.elements.projectTitle.value.trim();
+            const newDetails  = this.elements.projectDetails.value.trim();
+            const newPriority = Array.from(this.elements.projectPrio).find(prio => prio.checked)?.value || '';
 
-                    this.tasklist.updateTask(todoID, newTitle, newDetails, newDate);
-                    this.updateTodoDOM();
-                    this.editTodo = null;
-                }
-            } else {
-                const newTodo = this.getTodoValues();
-                this.tasklist.addTask(newTodo);
-                this.renderTodo();
-            }
-            this.elements.todoForm.reset();
-            this.elements.todoForm.classList.toggle('hidden');
-        })
+            this.tasklist.updateTask(projectID, newTitle, newDetails, newPriority);
+            this.updateProjectDOM();
+            this.editProject = null;
+        }
+    }
+
+    submitTodoForm (event) {
+        event.preventDefault();
+
+        if (this.editTodo) {
+            this.submitEditedTodoForm();
+        } else {
+            const newTodo = this.getTodoValues();
+            this.tasklist.addTask(newTodo);
+            this.renderTodo();
+        }
+        this.elements.todoForm.reset();
+        this.elements.todoForm.classList.toggle('hidden');
+    }
+
+    submitEditedTodoForm () {
+        const todoID = this.editTodo.id;
+        const existingTodo = this.tasklist.tasks.find(todo => todo.id === todoID);
+        
+        if (existingTodo) {
+            const newTitle   = this.elements.todoTitle.value.trim();
+            const newDetails = this.elements.todoDetails.value.trim();
+            const newDate    = this.elements.todoDate.value.trim();
+
+            this.tasklist.updateTask(todoID, newTitle, newDetails, newDate);
+            this.updateTodoDOM();
+            this.editTodo = null;
+        }
     }
 
     cancelProjectForm () {
-        const cancelProject = this.elements.cancelProject;
-        cancelProject.addEventListener('click', () => {
-            this.elements.projectForm.reset();
-            this.elements.projectForm.classList.toggle('hidden');
-        });
+        const projectForm = this.elements.projectForm;
+        projectForm.reset();
+        projectForm.classList.toggle('hidden');
     }
 
     cancelTodoForm () {
-        const cancelTodo = this.elements.cancelTodo;
-        cancelTodo.addEventListener('click', () => {
-            this.elements.todoForm.reset();
-            this.elements.todoForm.classList.toggle('hidden');
-        });
+        const todoForm = this.elements.todoForm;
+        todoForm.reset();
+        todoForm.classList.toggle('hidden');
     }
 
     getProjectValues () {
@@ -415,11 +413,19 @@ class DOMHandler {
     }
 
     bindProjectFormButtons () {
+        const submitProject = this.elements.submitProject;
+        const cancelProject = this.elements.cancelProject;
 
+        submitProject.addEventListener('click', (event) => this.submitProjectForm(event));
+        cancelProject.addEventListener('click', () => this.cancelProjectForm());
     }
 
     bindTodoFormButtons () {
-        
+        const submitTodo = this.elements.submitTodo;
+        const cancelTodo = this.elements.cancelTodo;
+
+        submitTodo.addEventListener('click', (event) => this.submitTodoForm(event));
+        cancelTodo.addEventListener('click', () => this.cancelTodoForm());
     }
 
     showProject = (event, projectID) => {
@@ -553,7 +559,7 @@ class DOMHandler {
 
         const todoMore = todoElement.querySelector('.todo-more');
         todoMore.classList.toggle('hidden');
-        this.renderTodoForm();
+        this.renderTodoForm(event);
     }
 
     editProjectValues (event) {
@@ -572,7 +578,7 @@ class DOMHandler {
         this.editProject = project;
         const projectMore = projectElement.querySelector('.project-more');
         projectMore.classList.toggle('hidden');
-        this.renderProjectForm();
+        this.renderProjectForm(event);
     }
 
     getPriorityID () {
