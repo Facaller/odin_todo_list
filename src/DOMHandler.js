@@ -212,13 +212,10 @@ class DOMHandler {
     renderProjectForm () {
         const projectForm = this.elements.projectForm;
         if (projectForm.style.display = 'none') {
-            projectForm.toggle('hidden');
+            projectForm.classList.remove('hidden');
         }
     }
-// form can't be attached to project container because container doesn't exist yet
-// let form be free standing block that attaches to specific container when add
-// todo button is clicked. if clicked on separate containers, it removes from the
-// one and attaches to another, getting a new project container ID 
+
     renderTodoForm (event) {
         const projectContainer = event.target.closest('.project-container');
         if (projectContainer) {
@@ -231,12 +228,11 @@ class DOMHandler {
                 existingForm.parentNode?.removeChild(existingForm);
                 todoForm.reset();
             }
-            
             projectContainer.insertBefore(todoForm, addTodo)
             todoForm.classList.remove('hidden');
         }
     }
-// add edit project logic same as for todo
+
     submitProjectForm (event) {
         event.preventDefault();
 
@@ -248,7 +244,7 @@ class DOMHandler {
             this.renderProject()
         }
         this.elements.projectForm.reset();
-        this.elements.projectForm.classList.toggle('hidden');
+        this.elements.projectForm.classList.add('hidden');
     }
 
     submitEditedProjectForm () {
@@ -277,7 +273,7 @@ class DOMHandler {
             this.renderTodo();
         }
         this.elements.todoForm.reset();
-        this.elements.todoForm.classList.toggle('hidden');
+        this.elements.todoForm.classList.add('hidden');
     }
 
     submitEditedTodoForm () {
@@ -298,13 +294,13 @@ class DOMHandler {
     cancelProjectForm () {
         const projectForm = this.elements.projectForm;
         projectForm.reset();
-        projectForm.classList.toggle('hidden');
+        projectForm.classList.add('hidden');
     }
 
     cancelTodoForm () {
         const todoForm = this.elements.todoForm;
         todoForm.reset();
-        todoForm.classList.toggle('hidden');
+        todoForm.classList.add('hidden');
     }
 
     getProjectValues () {
@@ -393,10 +389,10 @@ class DOMHandler {
 
                     if (button.classList.contains('todo-important')) {
                         markTaskProperty(todoID, 'important');
-                    } else if (button.classList.contains('todo-complete')) {
+                    } else if (button.classList.contains('todo-completed')) {
                         markTaskProperty(todoID, 'complete');
                     } else if (button.classList.contains('todo-more')) {
-                        this.toggleVisibilityForClass('todo-more');
+                        this.toggleVisibilityForClass('.todo-more');
                     }
 
                     const deleteBtn = event.target.closest('.delete-project-btn');
@@ -428,6 +424,20 @@ class DOMHandler {
         cancelTodo.addEventListener('click', () => this.cancelTodoForm());
     }
 
+    bindMainContentButtons () {
+        const mainContent = this.elements.mainContent;
+        mainContent.addEventListener('click', (event) => {
+            const addTodo = event.target.closest('.add-todo');
+            const exit = event.target.closest('.project-exit');
+            
+            if (addTodo) {
+                this.renderTodoForm(event)
+            } else if (exit) {
+                this.removeProject(event);
+            }
+        });
+    }
+
     showProject = (event, projectID) => {
         const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
 
@@ -437,12 +447,7 @@ class DOMHandler {
         }
     }
 
-    removeProject () {
-        const mainContent = this.elements.mainContent;
-        mainContent.addEventListener('click', this.bindRemoveProject);
-    }
-
-    bindRemoveProject = (event) => {
+    removeProject = (event) => {
         const exitButton = event.target.closest('.project-exit');
             
         if (exitButton) {
@@ -453,7 +458,7 @@ class DOMHandler {
                 const businessProject = this.tasklist.tasks.find(project => project.id === projectContainerID);
 
                 if (businessProject) {
-                    projectContainer.classList.toggle('hidden');
+                    projectContainer.classList.add('hidden');
                     this.removeRenderedTask(projectContainerID);
                 }
             }
@@ -515,8 +520,11 @@ class DOMHandler {
             const details = this.elements.todoDetails.value.trim();
             const date    = this.elements.todoDate.value.trim();
 
-            todo.querySelector('h4').textContent = title;
-            todo.querySelector('p').textContent = details;
+            const todoElement = document.querySelector(`.todo[data-id='${todoID}']`);
+            if (todoElement) {
+                todo.querySelector('h4').textContent = title;
+                todo.querySelector('p').textContent = details;
+            }
             
             const dateElement = todo.querySelector('.todo-date'); 
             if (dateElement) {
@@ -558,7 +566,7 @@ class DOMHandler {
         this.editTodo = todo;
 
         const todoMore = todoElement.querySelector('.todo-more');
-        todoMore.classList.toggle('hidden');
+        todoMore.classList.add('hidden');
         this.renderTodoForm(event);
     }
 
@@ -577,7 +585,7 @@ class DOMHandler {
 
         this.editProject = project;
         const projectMore = projectElement.querySelector('.project-more');
-        projectMore.classList.toggle('hidden');
+        projectMore.classList.add('hidden');
         this.renderProjectForm(event);
     }
 
