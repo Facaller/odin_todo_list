@@ -92,18 +92,16 @@ class DOMHandler {
     }
 
     createProjectForMain (project) {
-        const div = document.createElement('div');
-        div.classList.add('project-container');
+        const div = this.createNewElement('div', 'project-container');
 
-        const box = document.createElement('div');
-        box.classList.add('todos-box')
+        const box = this.createNewElement('div', 'todos-box');
         div.appendChild(box);
 
-        const addTodoDiv = document.createElement('div');
-        addTodoDiv.classList.add('add-todo');
+        const addTodoDiv = this.createNewElement('div', 'add-todo');
         div.appendChild(addTodoDiv);
 
-        const addTodoBtn = document.createElement('button');
+        const addTodoBtn = this.createNewElement('button', '');
+        addTodoBtn.textContent = 'Add Todo';
         addTodoDiv.appendChild(addTodoBtn);
 
         div.setAttribute('data-id', project.id);
@@ -112,40 +110,33 @@ class DOMHandler {
     }
 
     createProjectForNav (project) {
-        const div = document.createElement('div');
-        div.classList.add('project-item');
+        const div = this.createNewElement('div', 'project-item');
 
-        const projectImg = document.createElement('img');
-        projectImg.classList.add('project-img');
+        const projectImg = this.createNewElement('img', 'project-img');
         div.appendChild(projectImg);
 
-        const title = document.createElement('h4');
+        const title = this.createNewElement('h4', '');
         title.textContent = project.title;
         div.appendChild(title);
 
-        const details = document.createElement('div');
-        details.classList.add('nav-project-details');
+        const details = this.createNewElement('div', 'nav-project-details');
         div.appendChild(details);
 
-        const detailsText = document.createElement('p');
+        const detailsText = this.createNewElement('p', '');
         detailsText.textContent = project.details;
         details.appendChild(detailsText);
 
-        const more = document.createElement('div');
-        more.classList.add('project-more');
+        const more = this.createNewElement('div', 'project-more');
         div.appendChild(more);
 
-        const moreOptions = document.createElement('div');
-        moreOptions.classList.add('more-options-project');
+        const moreOptions = this.createNewElement('div', 'more-options-project');
         more.appendChild(moreOptions);
 
-        const editBtn = document.createElement('button');
-        editBtn.classList.add('edit-project-btn');
+        const editBtn = this.createNewElement('button', 'edit-project-btn');
         editBtn.textContent = 'Edit';
         moreOptions.appendChild(editBtn);
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.classList.add('delete-project-btn');
+        const deleteBtn = this.createNewElement('button', 'delete-project-btn');
         deleteBtn.textContent = 'Delete';
         moreOptions.appendChild(deleteBtn);
 
@@ -155,50 +146,48 @@ class DOMHandler {
     }
 
     createTodo (todo, projectID) {
-        const div = document.createElement('div');
-        div.classList.add('todo');
+        const div = this.createNewElement('div', 'todo');
 
-        const h4 = document.createElement('h4');
+        const h4 = this.createNewElement('h4', '');
         h4.textContent = todo.title;
         div.appendChild(h4);
 
-        const p = document.createElement('p');
+        const p = this.createNewElement('p', '');
         p.textContent = todo.details;
         div.appendChild(p);
 
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add('todo-buttons');
+        const buttonDiv = this.createNewElement('div', 'todo-buttons');
         div.appendChild(buttonDiv);
 // need to add logic for background colour on img
-        const importantBtn = document.createElement('div');
-        importantBtn.classList.add('todo-important');
+        const importantBtn = this.createNewElement('div', 'todo-important');
         buttonDiv.appendChild(importantBtn);
 // need to add logic for strikethrough and fill on img
-        const completeBtn = document.createElement('div');
-        completeBtn.classList.add('todo-completed');
+        const completeBtn = this.createNewElement('div', 'todo-completed');
         buttonDiv.appendChild(completeBtn);
 
-        const todoMore = document.createElement('div');
-        todoMore.classList.add('todo-more');
+        const todoMore = this.createNewElement('div', 'todo-more');
         buttonDiv.appendChild(todoMore);
 
-        const moreOptions = document.createElement('div');
-        moreOptions.classList.add('more-options-todo');
+        const moreOptions = this.createNewElement('div', 'more-options-todo');
         todoMore.appendChild(moreOptions);
 
-        const editTodoBtn = document.createElement('button');
-        editTodoBtn.classList.add('edit-todo-btn');
+        const editTodoBtn = this.createNewElement('button', 'edit-todo-btn');
         editTodoBtn.textContent = 'Edit';
         moreOptions.appendChild(editTodoBtn);
 
-        const deleteTodo = document.createElement('button');
-        deleteTodo.classList.add('delete-todo-btn');
+        const deleteTodo = this.createNewElement('button', 'delete-todo-btn');
         deleteTodo.textContent = 'Delete';
         moreOptions.appendChild(deleteTodo);
 
         div.setAttribute('data-id', todo.id);
 
         this.targetProjectForTodo(projectID, div);
+    }
+
+    createNewElement(element, elementClass) {
+        const newElement = document.createElement(element);
+        newElement.classList.add(elementClass);
+        return newElement;
     }
 
     targetProjectForTodo (projectID, div) {
@@ -522,8 +511,8 @@ class DOMHandler {
 
             const todoElement = document.querySelector(`.todo[data-id='${todoID}']`);
             if (todoElement) {
-                todo.querySelector('h4').textContent = title;
-                todo.querySelector('p').textContent = details;
+                todoElement.querySelector('h4').textContent = title;
+                todoElement.querySelector('p').textContent = details;
             }
             
             const dateElement = todo.querySelector('.todo-date'); 
