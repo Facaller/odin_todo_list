@@ -531,17 +531,24 @@ class DOMHandler {
             const details = this.elements.projectDetails.value.trim();
             const prioID  = this.getPriorityID();
 
-            project.querySelector('h4').textContent = title;
-            project.querySelector('p').textContent = details;
+            const projectElement = document.querySelector(`.project[data-id='${projectID}']`);
+            if (projectElement) {
+                projectElement.querySelector('h4').textContent = title;
+                projectElement.querySelector('p').textContent = details;
 
-            if (prioID === 'contemplativePrio') {
-                this.projectImage = //img here
-            } else if (prioID === 'pragmaticPrio') {
-                this.projectImage = //img here
-            } else if (prioID === 'imperativePrio') {
-                this.projectImage = //img here
+                const projectImg = projectElement.querySelector('.project-img');
+                projectImg.src = this.getProjectImageSrc(prioID);
             }
         }
+    }
+
+    getProjectImageSrc (prioID) {
+        const imageSources = {
+            contemplativePrio: '//img here',
+            pragmaticPrio: '//img here',
+            imperativePrio: '//img here'
+        };
+        return imageSources[prioID];
     }
 
     editTodoValues (event) {
