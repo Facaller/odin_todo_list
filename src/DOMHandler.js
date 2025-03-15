@@ -200,7 +200,7 @@ class DOMHandler {
 //Form Handling
     renderProjectForm () {
         const projectForm = this.elements.projectForm;
-        if (projectForm.style.display = 'none') {
+        if (projectForm && projectForm.style.display === 'none') {
             projectForm.classList.remove('hidden');
         }
     }
@@ -366,34 +366,19 @@ class DOMHandler {
         })
     }
 
-    bindTodoButtons () {
-        const todoBox = this.elements.todoBox;
-        todoBox.addEventListener('click', (event) => {
-            const button = event.target.closest('.todo-buttons');
-            if (button) {
-                const todoElement = event.target.closest('.todo');
+    bindMainContentButtons () {
+        const mainContent = this.elements.mainContent;
+        mainContent.addEventListener('click', (event) => {
+            const addTodo = event.target.closest('.add-todo');
+            const exit = event.target.closest('.project-exit');
             
-                if (todoElement) {
-                    const todoID = todoElement.getAttribute('data-id');
-
-                    if (button.classList.contains('todo-important')) {
-                        markTaskProperty(todoID, 'important');
-                    } else if (button.classList.contains('todo-completed')) {
-                        markTaskProperty(todoID, 'complete');
-                    } else if (button.classList.contains('todo-more')) {
-                        this.toggleVisibilityForClass('.todo-more');
-                    }
-
-                    const deleteBtn = event.target.closest('.delete-project-btn');
-                    const editBtn = event.target.closest('.edit-project-btn');
-
-                    if (deleteBtn) {
-                        this.deleteTodo(event);
-                    } else if (editBtn) {
-                        this.editTodoValues(event);
-                    }
-                }
+            if (addTodo) {
+                this.renderTodoForm(event)
+            } else if (exit) {
+                this.removeProject(event);
             }
+
+            this.handleTodoButtonClicks(event);
         });
     }
 
@@ -413,18 +398,32 @@ class DOMHandler {
         cancelTodo.addEventListener('click', () => this.cancelTodoForm());
     }
 
-    bindMainContentButtons () {
-        const mainContent = this.elements.mainContent;
-        mainContent.addEventListener('click', (event) => {
-            const addTodo = event.target.closest('.add-todo');
-            const exit = event.target.closest('.project-exit');
-            
-            if (addTodo) {
-                this.renderTodoForm(event)
-            } else if (exit) {
-                this.removeProject(event);
+    handleTodoButtonClicks (event) {
+        const button = event.target.closest('.todo-buttons');
+        if (button) {
+            const todoElement = event.target.closest('.todo');
+        
+            if (todoElement) {
+                const todoID = todoElement.getAttribute('data-id');
+
+                if (button.classList.contains('todo-important')) {
+                    markTaskProperty(todoID, 'important');
+                } else if (button.classList.contains('todo-completed')) {
+                    markTaskProperty(todoID, 'complete');
+                } else if (button.classList.contains('todo-more')) {
+                    this.toggleVisibilityForClass('.todo-more');
+                }
+
+                const deleteBtn = event.target.closest('.delete-project-btn');
+                const editBtn = event.target.closest('.edit-project-btn');
+
+                if (deleteBtn) {
+                    this.deleteTodo(event);
+                } else if (editBtn) {
+                    this.editTodoValues(event);
+                }
             }
-        });
+        }
     }
 
     showProject = (event, projectID) => {
