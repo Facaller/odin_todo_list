@@ -5,39 +5,25 @@ import { id } from "date-fns/locale";
 
 class DOMElements {
     constructor () {
-        this.sidebarNav         = document.querySelector('.sidebar');
-        this.sidebarProjects    = document.querySelector('.sidebar-projects');
-        this.todoBox            = document.querySelector('.todos-box');
-        this.mainContent        = document.querySelector('.main-content');
-        this.projectContainer   = document.querySelector('.project-container');
-        this.projectExitBtn     = document.querySelector('.project-exit');
-        this.projectItem        = document.querySelector('.project-item');
-        this.projectImage       = document.querySelector('.project-img');
-        this.projectMore        = document.querySelector('.project-more');
-        this.moreOptionsProject = document.querySelector('.more-options-project');
-        this.editProjectBtn     = document.querySelector('.edit-project-btn');
-        this.deleteProjectBtn   = document.querySelector('.delete-project-btn');
-        this.projectForm        = document.querySelector('.project-form');
-        this.projectTitle       = document.getElementById('projectTitle');
-        this.projectDetails     = document.getElementById('projectDetails');
-        this.projectPrio        = document.querySelectorAll('input[name="priority"]');
-        this.contemplativePrio  = document.getElementById('contemplativePrio');
-        this.pragmaticPrio      = document.getElementById('pragmaticPrio');
-        this.imperativePrio     = document.getElementById('imperativePrio');
-        this.submitProject      = document.getElementById('submitProject');
-        this.cancelProject      = document.getElementById('cancelProject');
-        this.addProject         = document.getElementById('addProject');
-        this.todoMore           = document.querySelector('.todo-more');
-        this.moreOptionsTodo    = document.querySelector('.more-options-todo');
-        this.editTodoButton     = document.querySelector('.edit-todo-btn');
-        this.deleteTodoBtn      = document.querySelector('.delete-todo-btn');
-        this.todoForm           = document.querySelector('.todo-form');
-        this.todoTitle          = document.getElementById('todoTitle');
-        this.todoDetails        = document.getElementById('todoDetails');
-        this.todoDate           = document.getElementById('todoDate');
-        this.submitTodo         = document.getElementById('submitTodo');
-        this.cancelTodo         = document.getElementById('cancelTodo');
-        this.addTodo            = document.querySelector('.add-todo');
+        this.sidebarNav        = document.querySelector('.sidebar');
+        this.sidebarProjects   = document.querySelector('.sidebar-projects');
+        this.mainContent       = document.querySelector('.main-content');        
+        this.projectForm       = document.querySelector('.project-form');
+        this.projectTitle      = document.getElementById('projectTitle');
+        this.projectDetails    = document.getElementById('projectDetails');
+        this.projectPrio       = document.querySelectorAll('input[name="priority"]');
+        this.contemplativePrio = document.getElementById('contemplativePrio');
+        this.pragmaticPrio     = document.getElementById('pragmaticPrio');
+        this.imperativePrio    = document.getElementById('imperativePrio');
+        this.submitProject     = document.getElementById('submitProject');
+        this.cancelProject     = document.getElementById('cancelProject');
+        this.addProject        = document.getElementById('addProject');        
+        this.todoForm          = document.querySelector('.todo-form');
+        this.todoTitle         = document.getElementById('todoTitle');
+        this.todoDetails       = document.getElementById('todoDetails');
+        this.todoDate          = document.getElementById('todoDate');
+        this.submitTodo        = document.getElementById('submitTodo');
+        this.cancelTodo        = document.getElementById('cancelTodo');
     }
 }
 
@@ -192,8 +178,8 @@ class DOMHandler {
 
     targetProjectForTodo (projectID, div) {
         const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
+        const todoBox = projectContainer.querySelector('.todos-box');
         if (projectContainer) {
-            const todoBox = projectContainer.querySelector('.todos-box');
             todoBox.appendChild(div);
         }
     }
@@ -209,7 +195,7 @@ class DOMHandler {
         const projectContainer = event.target.closest('.project-container');
         if (projectContainer) {
             const todoForm = this.elements.todoForm;
-            const addTodo = this.elements.addTodo;
+            const addTodo = document.querySelector('.add-todo');
 
             const existingForm = document.querySelector('.todo-form:not(.hidden)');
             if (existingForm) {
@@ -437,31 +423,22 @@ class DOMHandler {
 
     removeProject = (event) => {
         const exitButton = event.target.closest('.project-exit');
-            
-        if (exitButton) {
-            const projectContainer = exitButton.closest('.project-container');
+        if (!exitButton) return;
+        
+        const projectContainer = exitButton.closest('.project-container');
+        if (projectContainer) {
             const projectContainerID = projectContainer?.getAttribute('data-id');
-
-            if (projectContainerID) {
-                const businessProject = this.tasklist.tasks.find(project => project.id === projectContainerID);
-
-                if (businessProject) {
-                    projectContainer.classList.add('hidden');
-                    this.removeRenderedTask(projectContainerID);
-                }
-            }
+            projectContainer.classList.add('hidden');
+            this.removeRenderedTask(projectContainerID);
         }
     }
 
     deleteProject = (event) => {
         const navProject = event.closest('.project-item');
+        if (!navProject) return;
+
         const navProjectID = navProject?.getAttribute('data-id');
-
-        const businessProject = this.tasklist.tasks.find(project => project.id === navProjectID);
-
-        if (businessProject) {
-            this.removeRenderedTask(navProjectID);
-
+        if (navProjectID) {
             const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
             const projectNavContainer = document.querySelector(`.project-item[data-id='${navProjectID}']`);
 
@@ -472,7 +449,7 @@ class DOMHandler {
             if (projectNavContainer) {
                 projectNavContainer.remove();
             }
-
+            this.removeRenderedTask(navProjectID);
             this.tasklist.removeTask(navProjectID);
         }
     }
