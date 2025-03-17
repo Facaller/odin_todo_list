@@ -177,7 +177,8 @@ class DOMHandler {
     }
 
     targetProjectForTodo (projectID, div) {
-        const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
+        const mainContent = this.elements.mainContent;
+        const projectContainer = mainContent.querySelector(`.project-container[data-id='${projectID}']`);
         const todoBox = projectContainer.querySelector('.todos-box');
         if (projectContainer) {
             todoBox.appendChild(div);
@@ -193,11 +194,13 @@ class DOMHandler {
 
     renderTodoForm (event) {
         const projectContainer = event.target.closest('.project-container');
+        const mainContent = this.elements.mainContent;
+
         if (projectContainer) {
             const todoForm = this.elements.todoForm;
-            const addTodo = document.querySelector('.add-todo');
+            const addTodo = projectContainer.querySelector('.add-todo');
 
-            const existingForm = document.querySelector('.todo-form:not(.hidden)');
+            const existingForm = mainContent.querySelector('.todo-form:not(.hidden)');
             if (existingForm) {
                 existingForm.classList.add('hidden');
                 existingForm.parentNode?.removeChild(existingForm);
@@ -413,7 +416,8 @@ class DOMHandler {
     }
 
     showProject = (event, projectID) => {
-        const projectContainer = document.querySelector(`.project-container[data-id='${projectID}']`);
+        const mainContent = this.elements.mainContent;
+        const projectContainer = mainContent.querySelector(`.project-container[data-id='${projectID}']`);
 
         if (projectID) {
             projectContainer.style.display = 'block';
@@ -434,13 +438,15 @@ class DOMHandler {
     }
 
     deleteProject = (event) => {
+        const mainContent = this.elements.mainContent;
+        const sidebar = this.elements.sidebarProjects
         const navProject = event.closest('.project-item');
         if (!navProject) return;
 
         const navProjectID = navProject?.getAttribute('data-id');
         if (navProjectID) {
-            const projectContainer = document.querySelector(`.project-container[data-id='${navProjectID}']`);
-            const projectNavContainer = document.querySelector(`.project-item[data-id='${navProjectID}']`);
+            const projectContainer = mainContent.querySelector(`.project-container[data-id='${navProjectID}']`);
+            const projectNavContainer = sidebar.querySelector(`.project-item[data-id='${navProjectID}']`);
 
             if (projectContainer) {
                 projectContainer.remove();
@@ -477,6 +483,7 @@ class DOMHandler {
     }
 
     updateTodoDOM () {
+        const mainContent = this.elements.mainContent;
         const todo = this.editTodo;
         const todoID = todo?.getAttribute('data-id');
         
@@ -485,7 +492,7 @@ class DOMHandler {
             const details = this.elements.todoDetails.value.trim();
             const date    = this.elements.todoDate.value.trim();
 
-            const todoElement = document.querySelector(`.todo[data-id='${todoID}']`);
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todoID}']`);
             if (todoElement) {
                 todoElement.querySelector('h4').textContent = title;
                 todoElement.querySelector('p').textContent = details;
@@ -499,6 +506,7 @@ class DOMHandler {
     }
 
     updateProjectDOM () {
+        const sidebar = this.elements.sidebarProjects;
         const project = this.editProject;
         const projectID = project?.getAttribute('data-id');
 
@@ -507,7 +515,7 @@ class DOMHandler {
             const details = this.elements.projectDetails.value.trim();
             const prioID  = this.getPriorityID();
 
-            const projectElement = document.querySelector(`.project[data-id='${projectID}']`);
+            const projectElement = sidebar.querySelector(`.project[data-id='${projectID}']`);
             if (projectElement) {
                 projectElement.querySelector('h4').textContent = title;
                 projectElement.querySelector('p').textContent = details;
@@ -543,6 +551,7 @@ class DOMHandler {
     }
 
     editProjectValues (event) {
+        const sidebar = this.elements.sidebarNav;
         const projectElement = event.closest('.project-item');
         const projectID = projectElement.getAttribute('data-id');
         const project = this.tasklist.tasks.find(task => task.id === projectID);
@@ -552,7 +561,7 @@ class DOMHandler {
         
         const prioID = this.getPriorityID();
         if (prioID) {
-            document.getElementById(prioID).checked = true;
+            sidebar.getElementById(prioID).checked = true;
         }
 
         this.editProject = project;
