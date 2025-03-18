@@ -130,7 +130,7 @@ class DOMHandler {
 
         this.elements.sidebarProjects.appendChild(div);
     }
-
+//need to add an element to hold date value
     createTodo (todo, projectID) {
         const div = this.createNewElement('div', 'todo');
 
@@ -306,7 +306,7 @@ class DOMHandler {
         sidebarNav.addEventListener('click', (event) => {
             const sidebarBtn = event.target.closest('button');
             
-            if (sidebarBtn) {
+            if (sidebarBtn && sidebarBtn.closest('.sidebar')) {
                 const BtnID = sidebarBtn.id;
 
                 switch (BtnID) {
@@ -341,7 +341,7 @@ class DOMHandler {
         const sidebarProjects = this.elements.sidebarProjects;
         sidebarProjects.addEventListener('click', (event) => {
             const projectMore = event.target.closest('.project-more');
-            if (projectMore) {
+            if (projectMore && projectMore.closest('.sidebar-projects')) {
                 this.toggleVisibilityForClass(projectMore);
             }
 
@@ -358,6 +358,9 @@ class DOMHandler {
     bindMainContentButtons () {
         const mainContent = this.elements.mainContent;
         mainContent.addEventListener('click', (event) => {
+            const projectContainer = event.target.closest('.project-container');
+            if (!projectContainer) return; 
+            
             const addTodo = event.target.closest('.add-todo');
             const exit = event.target.closest('.project-exit');
             
@@ -366,7 +369,6 @@ class DOMHandler {
             } else if (exit) {
                 this.removeProject(event);
             }
-
             this.handleTodoButtonClicks(event);
         });
     }
@@ -494,13 +496,22 @@ class DOMHandler {
 
             const todoElement = mainContent.querySelector(`.todo[data-id='${todoID}']`);
             if (todoElement) {
-                todoElement.querySelector('h4').textContent = title;
-                todoElement.querySelector('p').textContent = details;
-            }
-            
-            const dateElement = todo.querySelector('.todo-date'); 
-            if (dateElement) {
-                dateElement.textContent = date;
+                const titleElement = todoElement.querySelector('h4');
+                const detailsElement = todoElement.querySelector('p');
+                //need to add an element to hold date value
+                const dateElement = todoElement.querySelector('p');
+
+                if (titleElement && title !== titleElement.textContent) {
+                    titleElement.textContent = title;
+                }
+
+                if (detailsElement && details !== detailsElement.textContent) {
+                    detailsElement.textContent = details;
+                }
+                
+                if (dateElement && date !== dateElement.textContent) {
+                    dateElement.textContent = date
+                }
             }
         }
     }
@@ -517,11 +528,22 @@ class DOMHandler {
 
             const projectElement = sidebar.querySelector(`.project[data-id='${projectID}']`);
             if (projectElement) {
-                projectElement.querySelector('h4').textContent = title;
-                projectElement.querySelector('p').textContent = details;
-
+                const titleElement = projectElement.querySelector('h4');
+                const detailsElement = projectElement.querySelector('p');
                 const projectImg = projectElement.querySelector('.project-img');
-                projectImg.src = this.getProjectImageSrc(prioID);
+                
+                if (titleElement && title !== titleElement.textContent) {
+                    titleElement.textContent = title;
+                }
+                
+                if (detailsElement && details !== detailsElement.textContent) {
+                    detailsElement.textContent = details;
+                }
+                
+                const newImgSrc = this.getProjectImageSrc(prioID);
+                if (projectImg && projectImg.src !== newImgSrc) {
+                    projectImg.src = newImgSrc;
+                }
             }
         }
     }
