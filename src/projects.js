@@ -3,9 +3,9 @@ import { generateID } from './utility.js';
 
 
 export class Project extends Task {
-    constructor (title, details, status) {
+    constructor (title, details, priority) {
         super (title, details, 'project');
-        this.status = status;
+        this.priority = priority;
         this.id = generateID('project');
     }
 
@@ -15,7 +15,7 @@ export class Project extends Task {
             return false;
         }
 
-        if (this.status && this.status.trim() !== '') {
+        if (this.priority && this.priority.trim() !== '') {
             console.log('Valid status');
             return true;
         } else {

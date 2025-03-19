@@ -293,6 +293,15 @@ form > div:first-of-type {
     display: flex;
     align-items: center;
     column-gap: 10px;
+    font-family: 'andbasr';
+}
+
+.todo-item-date {
+    padding: 0px 2px 2px 2px;
+    margin-top: 4px;
+    font-size: 0.9em;
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .project-more,

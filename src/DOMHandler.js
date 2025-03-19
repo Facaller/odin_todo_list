@@ -130,7 +130,7 @@ class DOMHandler {
 
         this.elements.sidebarProjects.appendChild(div);
     }
-//need to add an element to hold date value
+
     createTodo (todo, projectID) {
         const div = this.createNewElement('div', 'todo');
 
@@ -144,6 +144,9 @@ class DOMHandler {
 
         const buttonDiv = this.createNewElement('div', 'todo-buttons');
         div.appendChild(buttonDiv);
+
+        const todoDate = this.createNewElement('div', 'todo-item-date');
+        buttonDiv.appendChild(todoDate);
 // need to add logic for background colour on img
         const importantBtn = this.createNewElement('div', 'todo-important');
         buttonDiv.appendChild(importantBtn);
@@ -498,8 +501,7 @@ class DOMHandler {
             if (todoElement) {
                 const titleElement = todoElement.querySelector('h4');
                 const detailsElement = todoElement.querySelector('p');
-                //need to add an element to hold date value
-                const dateElement = todoElement.querySelector('p');
+                const dateElement = todoElement.querySelector('.todo-item-date');
 
                 if (titleElement && title !== titleElement.textContent) {
                     titleElement.textContent = title;
