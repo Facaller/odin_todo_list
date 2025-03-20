@@ -81,7 +81,7 @@ export class TaskList {
     }
 
 // setter methods
-    updateTask (id, newTitle, newDetails, newDate = null, newStatus = null) {
+    updateTask (id, newTitle, newDetails, newDate = null, newPriority = null) {
         const task = this.tasks.find(task => task.id === id);
 
         if (!task) {
@@ -101,18 +101,18 @@ export class TaskList {
             updated = true;
         }
 
-        updated = this.updateSpecificTask (task, newDate, newStatus, updated)
+        updated = this.updateSpecificTask (task, newDate, newPriority, updated)
 
         if (updated && !task.validate()) {
             console.log('Failed to update task due to validation errors');
         }
     }
 
-    updateSpecificTask (task, newDate, newStatus, updated) {
+    updateSpecificTask (task, newDate, newPriority, updated) {
         if (task.type === 'todo') {
             updated = this.updateTodo (task, newDate, updated);
         } else if (task.type === 'project') {
-            updated = this.updateProject (task, newStatus, updated);
+            updated = this.updateProject (task, newPriority, updated);
         }
         return updated;
     }
@@ -125,9 +125,9 @@ export class TaskList {
         return updated;
     }
 
-    updateProject (project, newStatus, updated) {
-        if (newStatus && newStatus !== project.status) {
-            project.status = newStatus;
+    updateProject (project, newPriority, updated) {
+        if (newPriority && newPriority !== project.priority) {
+            project.priority = newPriority;
             updated = true;
         }
         return updated;

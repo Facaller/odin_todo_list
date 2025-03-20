@@ -1,4 +1,4 @@
-import { Task, TaskList } from "./task";
+import { Task } from "./task";
 import { generateID } from './utility.js';
 
 
@@ -16,10 +16,10 @@ export class Project extends Task {
         }
 
         if (this.priority && this.priority.trim() !== '') {
-            console.log('Valid status');
+            console.log('Valid priority');
             return true;
         } else {
-            console.log('Invalid status');
+            console.log('Invalid priority');
             return false;
         }
     }
