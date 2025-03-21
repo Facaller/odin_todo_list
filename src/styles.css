@@ -189,7 +189,7 @@ h1 {
 }
 
 .project-form, .todo-form {
-    /* display: none; */
+    display: none;
     padding: 10px;
     border-radius: 6px;
     margin-top: 20px;
@@ -320,7 +320,7 @@ form > div:first-of-type {
 .more-options-project,
 .more-options-todo {
     display: flex;
-    /* display: none; */
+    display: none;
     position: absolute;
     bottom: 20px;
     right: 10px;

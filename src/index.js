@@ -1,46 +1,27 @@
 import "./styles.css"
+import { TaskList } from "./task.js";
 import { Todo } from "./todos.js";
 import { Project } from "./projects.js";
-import { TaskList } from "./task.js";
+import { DOMHandler } from "./DOMHandler.js";
 
-// create a get ID method in TaskList for "general use (it's only for Projects ;))" 
 const taskList = new TaskList();
+const domHandler = new DOMHandler(taskList);
 
-const project = new Project("Build website", "Create a personal portfolio", "Complete");
-taskList.addTask(project);
 
-const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2025-01-04", project.id, taskList);
-const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2025-01-05", project.id, taskList);
-taskList.addTask(todo);
-taskList.addTask(todo2);
 
-const projectTodos = taskList.getTodosByProject(project.id);
-const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, taskList);
-taskList.addTask(todo3);
-console.log(projectTodos);
-console.log(taskList.sortTasks('title'));
-console.log(todo.id);
 
-// console.log(taskList.tasks);
 
-// console.log(taskList.sortTasks('title'))
+// const project = new Project("Build website", "Create a personal portfolio", "Complete");
+// taskList.addTask(project);
 
-// taskList.markAllProjectTodos(project.id, 'complete');
-// console.log(taskList.getAllCompletedTasks());
-// taskList.unmarkAllProjectTodos(project.id, 'complete');
-// console.log(taskList.getAllCompletedTasks());
+// const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2025-01-04", project.id, taskList);
+// const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2025-01-05", project.id, taskList);
+// taskList.addTask(todo);
+// taskList.addTask(todo2);
 
-// tasklist.updateTask(todo.id, "Buy burgers", "Cheese", "2010-10-10")
-
+// const projectTodos = taskList.getTodosByProject(project.id);
+// const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, taskList);
+// taskList.addTask(todo3);
+// console.log(projectTodos);
+// console.log(taskList.sortTasks('title'));
 // console.log(todo.id);
-// console.log(project.id);
-// console.log(todo);
-// console.log(project);
-// console.log(tasklist.getAllTasks());
-// console.log(tasklist.removeTask(todo.id));
-// console.log(tasklist.getAllTasks());
-// console.log(todo);
-// console.log(tasklist.markTaskProperty(project.id, 'complete'));
-// console.log(tasklist.getAllCompletedTasks());
-// console.log(todo.isComplete);
-// console.log(project.isComplete);

@@ -3,7 +3,7 @@ import { Project } from "./projects";
 import { Todo } from "./todos.js";
 import { id } from "date-fns/locale";
 
-class DOMElements {
+export class DOMElements {
     constructor () {
         this.sidebarNav        = document.querySelector('.sidebar');
         this.sidebarProjects   = document.querySelector('.sidebar-projects');
@@ -27,7 +27,7 @@ class DOMElements {
     }
 }
 
-class DOMHandler {
+export class DOMHandler {
     constructor (tasklist) {
         this.tasklist      = tasklist;
         this.elements      = new DOMElements();
@@ -552,9 +552,9 @@ class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: '//img here',
-            pragmaticPrio: '//img here',
-            imperativePrio: '//img here'
+            contemplativePrio: './src/assets/images/sculpture.png',
+            pragmaticPrio: './src/assets/images/sculpture.png',
+            imperativePrio: './src/assets/images/sculpture.png'
         };
         return imageSources[prioID];
     }
