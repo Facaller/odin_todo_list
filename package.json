@@ -19,6 +19,8 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.1.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "url": "^0.11.4"
   }
 }

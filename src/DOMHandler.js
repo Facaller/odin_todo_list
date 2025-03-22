@@ -1,7 +1,5 @@
-import { container } from "webpack";
 import { Project } from "./projects";
 import { Todo } from "./todos.js";
-import { id } from "date-fns/locale";
 
 export class DOMElements {
     constructor () {
@@ -35,8 +33,8 @@ export class DOMHandler {
         this.editTodo      = null;
         this.editProject   = null;
 
-        this.removeProject();
-        this.deleteProject();
+        // this.removeProject();
+        // this.deleteProject();
     }
 
     markTaskAsRendered (taskID) {
@@ -327,6 +325,7 @@ export class DOMHandler {
                         break;
                     case 'addProject':
                         this.renderProjectForm();
+                        console.log('This part works');
                         break;
                     default:
                         break;
