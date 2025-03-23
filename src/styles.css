@@ -189,7 +189,7 @@ h1 {
 }
 
 .project-form, .todo-form {
-    display: none;
+    /* display: none; */
     padding: 10px;
     border-radius: 6px;
     margin-top: 20px;

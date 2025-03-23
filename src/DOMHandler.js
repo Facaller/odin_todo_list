@@ -33,6 +33,12 @@ export class DOMHandler {
         this.editTodo      = null;
         this.editProject   = null;
 
+        this.bindMainContentButtons();
+        this.bindProjectButtons();
+        this.bindProjectFormButtons();
+        this.bindSidebarButtons();
+        this.bindTodoFormButtons();
+
         // this.removeProject();
         // this.deleteProject();
     }
@@ -186,10 +192,10 @@ export class DOMHandler {
         }
     }
 //Form Handling
-    renderProjectForm () {
+    renderProjectForm = () => {
         const projectForm = this.elements.projectForm;
-        if (projectForm && projectForm.style.display === 'none') {
-            projectForm.classList.remove('hidden');
+        if (projectForm && projectForm.classList.contains('hidden')) {
+            projectForm.classList.toggle('hidden');
         }
     }
 
@@ -208,7 +214,7 @@ export class DOMHandler {
                 todoForm.reset();
             }
             projectContainer.insertBefore(todoForm, addTodo)
-            todoForm.classList.remove('hidden');
+            todoForm.classList.toggle('hidden');
         }
     }
 
@@ -272,14 +278,23 @@ export class DOMHandler {
 
     cancelProjectForm () {
         const projectForm = this.elements.projectForm;
-        projectForm.reset();
-        projectForm.classList.add('hidden');
+        const form = projectForm.querySelector('form');
+
+        if (form) {
+            this.elements.cancelProject.focus();
+            form.reset();
+        }
+        projectForm.classList.toggle('hidden');
     }
 
     cancelTodoForm () {
         const todoForm = this.elements.todoForm;
-        todoForm.reset();
-        todoForm.classList.add('hidden');
+        const form = todoForm.querySelector('form');
+
+        if (form) {
+            todoForm.reset();
+        }
+        todoForm.classList.toggle('hidden');
     }
 
     getProjectValues () {
@@ -302,7 +317,7 @@ export class DOMHandler {
         return newTodo;
     }
 //Event Handlers
-    bindSidebarButtons () {
+    bindSidebarButtons = () => {
         const sidebarNav = this.elements.sidebarNav;
         sidebarNav.addEventListener('click', (event) => {
             const sidebarBtn = event.target.closest('button');
@@ -339,7 +354,7 @@ export class DOMHandler {
         });
     }
 
-    bindProjectButtons () {
+    bindProjectButtons = () => {
         const sidebarProjects = this.elements.sidebarProjects;
         sidebarProjects.addEventListener('click', (event) => {
             const projectMore = event.target.closest('.project-more');
@@ -357,7 +372,7 @@ export class DOMHandler {
         })
     }
 
-    bindMainContentButtons () {
+    bindMainContentButtons = () => {
         const mainContent = this.elements.mainContent;
         mainContent.addEventListener('click', (event) => {
             const projectContainer = event.target.closest('.project-container');
@@ -375,7 +390,7 @@ export class DOMHandler {
         });
     }
 
-    bindProjectFormButtons () {
+    bindProjectFormButtons = () => {
         const submitProject = this.elements.submitProject;
         const cancelProject = this.elements.cancelProject;
 
@@ -383,7 +398,7 @@ export class DOMHandler {
         cancelProject.addEventListener('click', () => this.cancelProjectForm());
     }
 
-    bindTodoFormButtons () {
+    bindTodoFormButtons = () => {
         const submitTodo = this.elements.submitTodo;
         const cancelTodo = this.elements.cancelTodo;
 
@@ -391,7 +406,7 @@ export class DOMHandler {
         cancelTodo.addEventListener('click', () => this.cancelTodoForm());
     }
 
-    handleTodoButtonClicks (event) {
+    handleTodoButtonClicks = (event) => {
         const button = event.target.closest('.todo-buttons');
         if (button) {
             const todoElement = event.target.closest('.todo');
