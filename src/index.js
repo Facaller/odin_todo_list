@@ -8,7 +8,7 @@ const taskList = new TaskList();
 const domHandler = new DOMHandler(taskList);
 
 
-
+// Hi there, I'm a beginner learning JS and creating a small todo app. I've imported my DOM module into my index.js file and am working through some of the errors I encounter as I test the app. Can you tell me what this error means please?
 
 
 // const project = new Project("Build website", "Create a personal portfolio", "Complete");

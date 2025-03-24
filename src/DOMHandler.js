@@ -205,13 +205,14 @@ export class DOMHandler {
 
         if (projectContainer) {
             const todoForm = this.elements.todoForm;
+            const form = todoForm.querySelector('form');
             const addTodo = projectContainer.querySelector('.add-todo');
 
             const existingForm = mainContent.querySelector('.todo-form:not(.hidden)');
             if (existingForm) {
-                existingForm.classList.add('hidden');
+                existingForm.classList.toggle('hidden');
                 existingForm.parentNode?.removeChild(existingForm);
-                todoForm.reset();
+                form.reset();
             }
             projectContainer.insertBefore(todoForm, addTodo)
             todoForm.classList.toggle('hidden');
@@ -220,6 +221,8 @@ export class DOMHandler {
 
     submitProjectForm (event) {
         event.preventDefault();
+        const projectForm = this.elements.projectForm;
+        const form = projectForm.querySelector('form');
 
         if (this.editProject) {
             this.submitEditedProjectForm();
@@ -228,7 +231,7 @@ export class DOMHandler {
             this.tasklist.addTask(newProject);
             this.renderProject()
         }
-        this.elements.projectForm.reset();
+        form.reset();
         this.elements.projectForm.classList.add('hidden');
     }
 
@@ -249,6 +252,8 @@ export class DOMHandler {
 
     submitTodoForm (event) {
         event.preventDefault();
+        const todoForm = this.elements.todoForm;
+        const form = todoForm.querySelector('form');
 
         if (this.editTodo) {
             this.submitEditedTodoForm();
@@ -257,7 +262,7 @@ export class DOMHandler {
             this.tasklist.addTask(newTodo);
             this.renderTodo();
         }
-        this.elements.todoForm.reset();
+        form.reset();
         this.elements.todoForm.classList.add('hidden');
     }
 
@@ -280,9 +285,9 @@ export class DOMHandler {
         const projectForm = this.elements.projectForm;
         const form = projectForm.querySelector('form');
 
-        if (form) {
-            this.elements.cancelProject.focus();
+        if (form) {            
             form.reset();
+            this.elements.cancelProject.focus();
         }
         projectForm.classList.toggle('hidden');
     }
@@ -292,7 +297,8 @@ export class DOMHandler {
         const form = todoForm.querySelector('form');
 
         if (form) {
-            todoForm.reset();
+            form.reset();
+            this.elements.cancelTodo.focus();
         }
         todoForm.classList.toggle('hidden');
     }
