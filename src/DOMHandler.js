@@ -22,6 +22,8 @@ export class DOMElements {
         this.todoDate          = document.getElementById('todoDate');
         this.submitTodo        = document.getElementById('submitTodo');
         this.cancelTodo        = document.getElementById('cancelTodo');
+
+        this.submitProject.disabled = true;
     }
 }
 
@@ -192,6 +194,13 @@ export class DOMHandler {
         }
     }
 //Form Handling
+    isFormValid (title, details) {
+        const titleValid = title && title.value.trim() !== '';
+        const detailsValid = details && details.value.trim() !== '';
+
+        return titleValid && detailsValid;
+    }
+
     renderProjectForm = () => {
         const projectForm = this.elements.projectForm;
         if (projectForm && projectForm.classList.contains('hidden')) {
@@ -224,15 +233,17 @@ export class DOMHandler {
         const projectForm = this.elements.projectForm;
         const form = projectForm.querySelector('form');
 
-        if (this.editProject) {
-            this.submitEditedProjectForm();
-        } else {
-            const newProject = this.getProjectValues();
-            this.tasklist.addTask(newProject);
-            this.renderProject()
-        }
+        if (this.isFormValid(this.projectTitle, this.projectDetails)) {
+            if (this.editProject) {
+                this.submitEditedProjectForm();
+            } else {
+                const newProject = this.getProjectValues();
+                this.tasklist.addTask(newProject);
+                this.renderProject()
+            }
         form.reset();
-        this.elements.projectForm.classList.add('hidden');
+        this.elements.projectForm.classList.toggle('hidden');
+        }
     }
 
     submitEditedProjectForm () {
@@ -410,6 +421,13 @@ export class DOMHandler {
 
         submitTodo.addEventListener('click', (event) => this.submitTodoForm(event));
         cancelTodo.addEventListener('click', () => this.cancelTodoForm());
+    }
+
+    bindProjectFormSubmit = () => {
+        const projectForm = this.elements.projectForm;
+        const form = projectForm.querySelector('form').addEventListener('input', () => {
+            this.elements.submitProject.disabled = !this.isFormValid(this.projectTitle, this.projectDetails);
+        });
     }
 
     handleTodoButtonClicks = (event) => {
