@@ -233,7 +233,7 @@ export class DOMHandler {
         const projectForm = this.elements.projectForm;
         const form = projectForm.querySelector('form');
 
-        if (this.isFormValid(this.projectTitle, this.projectDetails)) {
+        if (this.isFormValid(this.elements.projectTitle, this.elements.projectDetails)) {
             if (this.editProject) {
                 this.submitEditedProjectForm();
             } else {
@@ -406,10 +406,17 @@ export class DOMHandler {
             this.handleTodoButtonClicks(event);
         });
     }
-
+    //add check for other prio field, use delegation for clicks
     bindProjectFormButtons = () => {
         const submitProject = this.elements.submitProject;
         const cancelProject = this.elements.cancelProject;
+        const projectForm = this.elements.projectForm.querySelector('form');
+        const titleField = this.elements.projectTitle;
+        const detailsField = this.elements.projectDetails;
+
+        projectForm.addEventListener('input', () => {
+            this.elements.submitProject.disabled = !this.isFormValid(titleField, detailsField);
+        });
 
         submitProject.addEventListener('click', (event) => this.submitProjectForm(event));
         cancelProject.addEventListener('click', () => this.cancelProjectForm());
@@ -421,13 +428,6 @@ export class DOMHandler {
 
         submitTodo.addEventListener('click', (event) => this.submitTodoForm(event));
         cancelTodo.addEventListener('click', () => this.cancelTodoForm());
-    }
-
-    bindProjectFormSubmit = () => {
-        const projectForm = this.elements.projectForm;
-        const form = projectForm.querySelector('form').addEventListener('input', () => {
-            this.elements.submitProject.disabled = !this.isFormValid(this.projectTitle, this.projectDetails);
-        });
     }
 
     handleTodoButtonClicks = (event) => {
