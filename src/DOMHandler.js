@@ -24,6 +24,7 @@ export class DOMElements {
         this.cancelTodo        = document.getElementById('cancelTodo');
 
         this.submitProject.disabled = true;
+        this.submitTodo.disabled    = true;
     }
 }
 
@@ -194,11 +195,24 @@ export class DOMHandler {
         }
     }
 //Form Handling
-    isFormValid (title, details) {
-        const titleValid = title && title.value.trim() !== '';
-        const detailsValid = details && details.value.trim() !== '';
+    isFormValid (title, details, isProjectForm) {
+        const titleValid    = title && title.value.trim() !== '';
+        const detailsValid  = details && details.value.trim() !== '';
+        const specificValid = this.isPrioOrDateValid(isProjectForm);
 
-        return titleValid && detailsValid;
+        return titleValid && detailsValid && specificValid;
+    }
+
+    isPrioOrDateValid (isProjectForm) {
+        if (isProjectForm) {
+            const priority = this.elements.projectPrio;
+            const priorityValid = Array.from(priority).some(input => input.checked);
+            return priorityValid;
+        } else {
+            const date = this.elements.todoDate;
+            const dateValid = date && date.value.trim() !== '';
+            return dateValid;
+        }
     }
 
     renderProjectForm = () => {
@@ -242,7 +256,7 @@ export class DOMHandler {
                 this.renderProject()
             }
         form.reset();
-        this.elements.projectForm.classList.toggle('hidden');
+        projectForm.classList.toggle('hidden');
         }
     }
 
@@ -340,9 +354,9 @@ export class DOMHandler {
             const sidebarBtn = event.target.closest('button');
             
             if (sidebarBtn && sidebarBtn.closest('.sidebar')) {
-                const BtnID = sidebarBtn.id;
+                const btnID = sidebarBtn.id;
 
-                switch (BtnID) {
+                switch (btnID) {
                     case 'allTasks':
                         this.tasklist.getAllTasks();
                         break;
@@ -408,26 +422,49 @@ export class DOMHandler {
     }
     //add check for other prio field, use delegation for clicks
     bindProjectFormButtons = () => {
-        const submitProject = this.elements.submitProject;
-        const cancelProject = this.elements.cancelProject;
-        const projectForm = this.elements.projectForm.querySelector('form');
-        const titleField = this.elements.projectTitle;
-        const detailsField = this.elements.projectDetails;
+        const projectForm   = this.elements.projectForm.querySelector('form');
+        const titleField    = this.elements.projectTitle;
+        const detailsField  = this.elements.projectDetails;
 
         projectForm.addEventListener('input', () => {
-            this.elements.submitProject.disabled = !this.isFormValid(titleField, detailsField);
+            const isProjectForm = true;
+            this.elements.submitProject.disabled = !this.isFormValid(titleField, detailsField, isProjectForm);
         });
 
-        submitProject.addEventListener('click', (event) => this.submitProjectForm(event));
-        cancelProject.addEventListener('click', () => this.cancelProjectForm());
+        projectForm.addEventListener('click', (event) => {
+            const formBtn = event.target.closest('button');
+            if (formBtn) {
+                const btnID = formBtn.id
+                if (btnID === 'submitProject') {
+                    this.submitProjectForm(event);
+                } else if (btnID === 'cancelProject') {
+                    this.cancelProjectForm();
+                }
+            }
+        });
     }
 
     bindTodoFormButtons = () => {
-        const submitTodo = this.elements.submitTodo;
-        const cancelTodo = this.elements.cancelTodo;
+        const todoForm     = this.elements.todoForm.querySelector('form');
+        const titleField   = this.elements.todoTitle;
+        const detailsField = this.elements.todoDetails;
 
-        submitTodo.addEventListener('click', (event) => this.submitTodoForm(event));
-        cancelTodo.addEventListener('click', () => this.cancelTodoForm());
+        todoForm.addEventListener('input', () => {
+            const isProjectForm = false;
+            this.elements.submitTodo.disabled = !this.isFormValid(titleField, detailsField, isProjectForm);
+        });
+
+        todoForm.addEventListener('click', (event) => {
+            const formBtn = event.target.closest('button');
+            if (formBtn) {
+                const btnID = formBtn.id;
+                if (btnID === 'submitTodo') {
+                    this.submitTodoForm(event)
+                } else if (btnID === 'cancelTodo') {
+                    this.cancelTodoForm()
+                }
+            }
+        });
     }
 
     handleTodoButtonClicks = (event) => {
