@@ -246,8 +246,11 @@ export class DOMHandler {
         event.preventDefault();
         const projectForm = this.elements.projectForm;
         const form = projectForm.querySelector('form');
+        const title = this.elements.projectTitle;
+        const details = this.elements.projectDetails;
+        const isProjectForm = true;
 
-        if (this.isFormValid(this.elements.projectTitle, this.elements.projectDetails)) {
+        if (this.isFormValid(title, details, isProjectForm)) {
             if (this.editProject) {
                 this.submitEditedProjectForm();
             } else {
@@ -279,16 +282,21 @@ export class DOMHandler {
         event.preventDefault();
         const todoForm = this.elements.todoForm;
         const form = todoForm.querySelector('form');
+        const title = this.elements.todoTitle;
+        const details = this.elements.todoDetails;
+        const isProjectForm = false;
 
-        if (this.editTodo) {
-            this.submitEditedTodoForm();
-        } else {
-            const newTodo = this.getTodoValues();
-            this.tasklist.addTask(newTodo);
-            this.renderTodo();
+        if (this.isFormValid(title, details, isProjectForm)) {
+            if (this.editTodo) {
+                this.submitEditedTodoForm();
+            } else {
+                const newTodo = this.getTodoValues();
+                this.tasklist.addTask(newTodo);
+                this.renderTodo();
+            }
         }
         form.reset();
-        this.elements.todoForm.classList.add('hidden');
+        this.elements.todoForm.classList.toggle('hidden');
     }
 
     submitEditedTodoForm () {
@@ -331,7 +339,8 @@ export class DOMHandler {
     getProjectValues () {
         const newTitle    = this.elements.projectTitle.value.trim();
         const newDetails  = this.elements.projectDetails.value.trim();
-        const newPriority = [this.elements.projectPrio].find(prio => prio.checked)?.value || '';
+        const newPriority = Array.from(this.elements.projectPrio)
+        .find(prio => prio.checked)?.value || '';
 
         const newProject =  new Project(newTitle, newDetails, newPriority);
 
