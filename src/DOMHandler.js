@@ -63,7 +63,7 @@ export class DOMHandler {
 //Task Management
     renderProject () {
         this.tasklist.tasks.forEach(project => {
-            if (getTaskType(task) === 'project') { 
+            if (this.tasklist.getTaskType('project') === 'project') { 
                 if (!this.checkRenderedTask(project.id)) {
                     this.createProjectForMain(project);
                     this.createProjectForNav(project);
@@ -75,7 +75,7 @@ export class DOMHandler {
 
     renderTodo () {
         this.tasklist.tasks.forEach(todo => {
-            if (getTaskType(task) === 'todo') {
+            if (this.tasklist.getTaskType(task) === 'todo') {
                 if (!this.checkRenderedTask(todo.id)) {
                     this.createTodo(todo, todo.projectID);
                     this.markTaskAsRendered(todo.id);
@@ -182,7 +182,9 @@ export class DOMHandler {
 
     createNewElement(element, elementClass) {
         const newElement = document.createElement(element);
-        newElement.classList.add(elementClass);
+        if (elementClass) {
+            newElement.classList.add(elementClass);
+        }
         return newElement;
     }
 
@@ -637,8 +639,8 @@ export class DOMHandler {
     getProjectImageSrc (prioID) {
         const imageSources = {
             contemplativePrio: './src/assets/images/sculpture.png',
-            pragmaticPrio: './src/assets/images/sculpture.png',
-            imperativePrio: './src/assets/images/sculpture.png'
+            pragmaticPrio: './src/assets/images/hard-work.png',
+            imperativePrio: './src/assets/images/whip.png'
         };
         return imageSources[prioID];
     }
