@@ -233,6 +233,14 @@ form > div:first-of-type {
     margin: 8px 0;
 }
 
+.radio-img,
+.project-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
 /* main content area */
 
 .main-content {

@@ -106,6 +106,7 @@ export class DOMHandler {
         const div = this.createNewElement('div', 'project-item');
 
         const projectImg = this.createNewElement('img', 'project-img');
+        projectImg.src = this.getProjectImageSrc(this.getPriorityID());
         div.appendChild(projectImg);
 
         const title = this.createNewElement('h4', '');
@@ -638,9 +639,9 @@ export class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: './src/assets/images/sculpture.png',
-            pragmaticPrio: './src/assets/images/hard-work.png',
-            imperativePrio: './src/assets/images/whip.png'
+            contemplativePrio: './assets/images/sculpture.png',
+            pragmaticPrio:     './assets/images/hard-work.png',
+            imperativePrio:    './assets/images/whip.png'
         };
         return imageSources[prioID];
     }
@@ -681,7 +682,7 @@ export class DOMHandler {
     }
 
     getPriorityID () {
-        const prioID = Array.from(this.projectPrio).find(radio => radio.checked);
+        const prioID = Array.from(this.elements.projectPrio).find(radio => radio.checked);
         return prioID ? prioID.id : null;
     }
 }

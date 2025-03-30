@@ -41,17 +41,4 @@ module.exports = {
             },
         ],
     },
-    // resolve: {
-    //     fallback: {
-    //         "worker_threads": false,
-    //         "url": require.resolve("url/"),
-    //         "uglify-js/package.json": false
-    //     }
-    // },
-    // stats: {
-    //     warningsFilter: /Critical dependency/,
-    // },
-    // optimization: {
-    //     minimize: false,
-    // },
 };
