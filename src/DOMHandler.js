@@ -331,7 +331,7 @@ export class DOMHandler {
     cancelTodoForm () {
         const todoForm = this.elements.todoForm;
         const form = todoForm.querySelector('form');
-
+        console.log('Todo cancel works')
         if (form) {
             form.reset();
             this.elements.cancelTodo.focus();
@@ -467,7 +467,9 @@ export class DOMHandler {
         });
 
         todoForm.addEventListener('click', (event) => {
+            console.log('Button clicked:', event.target);
             const formBtn = event.target.closest('button');
+            console.log('formBtn:', formBtn);
             if (formBtn) {
                 const btnID = formBtn.id;
                 if (btnID === 'submitTodo') {
@@ -639,9 +641,9 @@ export class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: './assets/images/sculpture.png',
-            pragmaticPrio:     './assets/images/hard-work.png',
-            imperativePrio:    './assets/images/whip.png'
+            contemplativePrio: require('./assets/images/sculpture.png'),
+            pragmaticPrio:     require('./assets/images/hard-work.png'),
+            imperativePrio:    require('./assets/images/whip.png')
         };
         return imageSources[prioID];
     }
