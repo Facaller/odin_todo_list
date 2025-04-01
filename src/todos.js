@@ -1,4 +1,4 @@
-import { Task} from './task';
+import { Task } from './task';
 import { generateID } from './utility.js';
 import { parse, format, isValid } from 'date-fns';
 

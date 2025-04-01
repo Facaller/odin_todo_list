@@ -349,13 +349,16 @@ export class DOMHandler {
 
         return newProject;
     }
-
-    getTodoValues () {
+//start here, answer is in code I think. Just need data id somehow
+    getTodoValues (event) {
         const newTitle   = this.elements.todoTitle.value.trim();
         const newDetails = this.elements.todoDetails.value.trim();
         const newDate    = this.elements.todoDate.value.trim();
 
-        const newTodo = new Todo(newTitle, newDetails, newDate)
+        const project    = event.target.closest('.project-container');
+        const projectID  = project.getAttribute('data-id');
+
+        const newTodo = new Todo(newTitle, newDetails, newDate, projectID, this.tasklist)
 
         return newTodo;
     }
@@ -467,9 +470,7 @@ export class DOMHandler {
         });
 
         todoForm.addEventListener('click', (event) => {
-            console.log('Button clicked:', event.target);
             const formBtn = event.target.closest('button');
-            console.log('formBtn:', formBtn);
             if (formBtn) {
                 const btnID = formBtn.id;
                 if (btnID === 'submitTodo') {
