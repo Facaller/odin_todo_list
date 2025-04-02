@@ -235,7 +235,8 @@ h1 {
 }
 
 .radio-img,
-.project-img {
+.project-img,
+.more-img {
     width: 30px;
     height: 30px;
     margin-right: 10px;

@@ -28,10 +28,20 @@ export class DOMElements {
     }
 }
 
+export class DOMImages {
+    constructor () {
+        this.contemplativeIcon = require('./assets/images/sculpture.png');
+        this.pragmaticIcon     = require('./assets/images/hard-work.png');
+        this.imperativeIcon    = require('./assets/images/whip.png');
+        this.moreIcon          = require('./assets/images/more.png');
+    }
+}
+
 export class DOMHandler {
     constructor (tasklist) {
         this.tasklist      = tasklist;
         this.elements      = new DOMElements();
+        this.images        = new DOMImages();
         this.renderedTasks = [];
         this.editTodo      = null;
         this.editProject   = null;
@@ -75,7 +85,7 @@ export class DOMHandler {
 
     renderTodo () {
         this.tasklist.tasks.forEach(todo => {
-            if (this.tasklist.getTaskType(task) === 'todo') {
+            if (this.tasklist.getTaskType('todo') === 'todo') {
                 if (!this.checkRenderedTask(todo.id)) {
                     this.createTodo(todo, todo.projectID);
                     this.markTaskAsRendered(todo.id);
@@ -121,6 +131,9 @@ export class DOMHandler {
         details.appendChild(detailsText);
 
         const more = this.createNewElement('div', 'project-more');
+        const moreImg = this.createNewElement('img', 'more-img');
+        moreImg.src = this.images.moreIcon;
+        more.appendChild(moreImg);
         div.appendChild(more);
 
         const moreOptions = this.createNewElement('div', 'more-options-project');
@@ -293,7 +306,7 @@ export class DOMHandler {
             if (this.editTodo) {
                 this.submitEditedTodoForm();
             } else {
-                const newTodo = this.getTodoValues();
+                const newTodo = this.getTodoValues(event);
                 this.tasklist.addTask(newTodo);
                 this.renderTodo();
             }
@@ -642,9 +655,9 @@ export class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: require('./assets/images/sculpture.png'),
-            pragmaticPrio:     require('./assets/images/hard-work.png'),
-            imperativePrio:    require('./assets/images/whip.png')
+            contemplativePrio: this.images.contemplativeIcon,
+            pragmaticPrio:     this.images.pragmaticIcon,
+            imperativePrio:    this.images.imperativeIcon
         };
         return imageSources[prioID];
     }
