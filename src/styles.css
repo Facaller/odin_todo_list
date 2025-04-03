@@ -320,6 +320,11 @@ h1 {
     margin-left: auto;
 }
 
+.project-more:hover,
+.todo-more:hover {
+    cursor: pointer;
+}
+
 .edit-todo-btn,
 .delete-todo-btn,
 .edit-project-btn,
@@ -330,7 +335,6 @@ h1 {
 .more-options-project,
 .more-options-todo {
     display: flex;
-    display: none;
     position: absolute;
     bottom: 20px;
     right: 10px;

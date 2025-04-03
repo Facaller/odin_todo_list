@@ -417,8 +417,9 @@ export class DOMHandler {
         const sidebarProjects = this.elements.sidebarProjects;
         sidebarProjects.addEventListener('click', (event) => {
             const projectMore = event.target.closest('.project-more');
-            if (projectMore && projectMore.closest('.sidebar-projects')) {
-                this.toggleVisibilityForClass(projectMore);
+            if (projectMore) {
+                console.log('event works')
+                this.toggleVisibilityForClass(projectMore, 'project-item', 'more-options-project');
             }
 
             const deleteBtn = event.target.closest('.delete-project-btn');
@@ -581,13 +582,13 @@ export class DOMHandler {
         }
     }
 //UI Manipulations
-    toggleVisibilityForClass (elementClass) {
-        const element = document.querySelector(`.${elementClass}`);
-        if (!element) {
+    toggleVisibilityForClass (triggerElement, parentElement, targetClass) {
+        const targetElement = triggerElement.closest(`${parentElement}`)
+        .querySelector(`.${targetClass}`);
+        if (!targetElement) {
             return;
-        } else if (element) {
-            element.classList.toggle('hidden');
         }
+        targetElement.classList.toggle('hidden');
     }
 
     updateTodoDOM () {
