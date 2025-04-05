@@ -137,7 +137,7 @@ export class DOMHandler {
         div.appendChild(more);
 
         const moreOptions = this.createNewElement('div', 'more-options-project');
-        this.addClass(moreOptions, 'hidden');
+        this.addClass(moreOptions, 'hidden', 'toggle-hidden');
         more.appendChild(moreOptions);
 
         const editBtn = this.createNewElement('button', 'edit-project-btn');
@@ -203,11 +203,12 @@ export class DOMHandler {
         return newElement;
     }
 
-    addClass(selector, newClass) {
+    addClass(selector, newClass, newClassTwo = null) {
         // selector is passed as the element itself, not a parent element.
         if (selector && newClass) {
             console.log('This works');
             selector.classList.add(newClass);
+            selector.classList.add(newClassTwo);
         } else {
             console.error(`Element not found or class is not provided.`);
         }
@@ -429,8 +430,7 @@ export class DOMHandler {
         sidebarProjects.addEventListener('click', (event) => {
             const projectMore = event.target.closest('.project-more');
             if (projectMore) {
-                console.log('event works')
-                this.toggleVisibilityForClass(projectMore, 'project-item', 'more-options-project');
+                this.toggleVisibilityForClass(event, 'project-item', 'more-options-project');
             }
 
             const deleteBtn = event.target.closest('.delete-project-btn');
@@ -593,10 +593,12 @@ export class DOMHandler {
         }
     }
 //UI Manipulations
-    toggleVisibilityForClass (triggerElement, parentElement, targetClass) {
-        const targetElement = triggerElement.closest(`${parentElement}`)
-        .querySelector(`.${targetClass}`);
+    toggleVisibilityForClass (event, parentClass, targetClass, addSpecificityClass = null) {
+        const parentElement = event.target.closest(`.${parentClass}`);
+        const targetElement = parentElement.querySelector(`.${targetClass}`);
+        
         if (!targetElement) {
+            console.log(targetElement, 'does not exist')
             return;
         }
         targetElement.classList.toggle('hidden');
@@ -691,7 +693,7 @@ export class DOMHandler {
 
     editProjectValues (event) {
         const sidebar = this.elements.sidebarNav;
-        const projectElement = event.closest('.project-item');
+        const projectElement = event.target.closest('.project-item');
         const projectID = projectElement.getAttribute('data-id');
         const project = this.tasklist.tasks.find(task => task.id === projectID);
 
