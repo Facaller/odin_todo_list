@@ -326,6 +326,11 @@ h1 {
     cursor: pointer;
 }
 
+.project-more .hidden,
+.todo-more .hidden {
+    display: none;
+}
+
 .edit-todo-btn,
 .delete-todo-btn,
 .edit-project-btn,
