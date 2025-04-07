@@ -204,7 +204,6 @@ export class DOMHandler {
     }
 
     addClass(selector, newClass, newClassTwo = null) {
-        // selector is passed as the element itself, not a parent element.
         if (selector && newClass) {
             console.log('This works');
             selector.classList.add(newClass);
@@ -601,7 +600,7 @@ export class DOMHandler {
             console.log(targetElement, 'does not exist')
             return;
         }
-        targetElement.classList.toggle('hidden');
+        targetElement.classList.toggle('show');
     }
 
     updateTodoDOM () {
