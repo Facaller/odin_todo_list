@@ -137,7 +137,7 @@ export class DOMHandler {
         div.appendChild(more);
 
         const moreOptions = this.createNewElement('div', 'more-options-project');
-        this.addClass(moreOptions, 'hidden', 'toggle-hidden');
+        this.addClass(moreOptions, 'hidden');
         more.appendChild(moreOptions);
 
         const editBtn = this.createNewElement('button', 'edit-project-btn');
@@ -410,7 +410,6 @@ export class DOMHandler {
                         break;
                     case 'addProject':
                         this.renderProjectForm();
-                        console.log('This part works');
                         break;
                     default:
                         break;
