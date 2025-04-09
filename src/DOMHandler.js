@@ -130,15 +130,15 @@ export class DOMHandler {
         detailsText.textContent = project.details;
         details.appendChild(detailsText);
 
-        const more = this.createNewElement('div', 'project-more');
+        const projectMore = this.createNewElement('div', 'project-more');
         const moreImg = this.createNewElement('img', 'more-img');
         moreImg.src = this.images.moreIcon;
-        more.appendChild(moreImg);
-        div.appendChild(more);
+        projectMore.appendChild(moreImg);
+        div.appendChild(projectMore);
 
         const moreOptions = this.createNewElement('div', 'more-options-project');
         this.addClass(moreOptions, 'hidden');
-        more.appendChild(moreOptions);
+        projectMore.appendChild(moreOptions);
 
         const editBtn = this.createNewElement('button', 'edit-project-btn');
         editBtn.textContent = 'Edit';
@@ -177,9 +177,13 @@ export class DOMHandler {
         buttonDiv.appendChild(completeBtn);
 
         const todoMore = this.createNewElement('div', 'todo-more');
+        const moreImg = this.createNewElement('img', 'more-img');
+        moreImg.src = this.images.moreIcon;
+        todoMore.appendChild(moreImg);
         buttonDiv.appendChild(todoMore);
 
         const moreOptions = this.createNewElement('div', 'more-options-todo');
+        this.addClass(moreOptions, 'hidden');
         todoMore.appendChild(moreOptions);
 
         const editTodoBtn = this.createNewElement('button', 'edit-todo-btn');
@@ -205,11 +209,10 @@ export class DOMHandler {
 
     addClass(selector, newClass, newClassTwo = null) {
         if (selector && newClass) {
-            console.log('This works');
             selector.classList.add(newClass);
             selector.classList.add(newClassTwo);
         } else {
-            console.error(`Element not found or class is not provided.`);
+            throw new Error;
         }
     }    
 
@@ -506,29 +509,25 @@ export class DOMHandler {
     }
 
     handleTodoButtonClicks = (event) => {
-        const button = event.target.closest('.todo-buttons');
-        if (button) {
-            const todoElement = event.target.closest('.todo');
-        
-            if (todoElement) {
-                const todoID = todoElement.getAttribute('data-id');
+        const todoElement = event.target.closest('.todo');
+        if (todoElement) {
+            const todoID = todoElement.getAttribute('data-id');
 
-                if (button.classList.contains('todo-important')) {
-                    markTaskProperty(todoID, 'important');
-                } else if (button.classList.contains('todo-completed')) {
-                    markTaskProperty(todoID, 'complete');
-                } else if (button.classList.contains('todo-more')) {
-                    this.toggleVisibilityForClass('.todo-more');
-                }
+            if (event.target.closest('.todo-important')) {
+                markTaskProperty(todoID, 'important');
+            } else if (event.target.closest('.todo-completed')) {
+                markTaskProperty(todoID, 'complete');
+            } else if (event.target.closest('.todo-more')) {
+                this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
+            }
 
-                const deleteBtn = event.target.closest('.delete-project-btn');
-                const editBtn = event.target.closest('.edit-project-btn');
+            const deleteBtn = event.target.closest('.delete-project-btn');
+            const editBtn = event.target.closest('.edit-project-btn');
 
-                if (deleteBtn) {
-                    this.deleteTodo(event);
-                } else if (editBtn) {
-                    this.editTodoValues(event);
-                }
+            if (deleteBtn) {
+                this.deleteTodo(event);
+            } else if (editBtn) {
+                this.editTodoValues(event);
             }
         }
     }
