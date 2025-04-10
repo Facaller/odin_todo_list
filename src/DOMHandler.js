@@ -34,6 +34,9 @@ export class DOMImages {
         this.pragmaticIcon     = require('./assets/images/hard-work.png');
         this.imperativeIcon    = require('./assets/images/whip.png');
         this.moreIcon          = require('./assets/images/more.png');
+        this.completeIcon      = require('./assets/images/dry-clean.png');
+        this.completeIcon2     = require('./assets/images/rec.png');
+        this.importantIcon     = require('./assets/images/star-unchecked.png');
     }
 }
 
@@ -167,13 +170,20 @@ export class DOMHandler {
         const buttonDiv = this.createNewElement('div', 'todo-buttons');
         div.appendChild(buttonDiv);
 
-        const todoDate = this.createNewElement('div', 'todo-item-date');
+        const todoDate = this.createNewElement('p', 'todo-item-date');
+        todoDate.textContent = todo.formattedDate;
         buttonDiv.appendChild(todoDate);
-// need to add logic for background colour on img
+
         const importantBtn = this.createNewElement('div', 'todo-important');
+        const importantImg = this.createNewElement('img', 'radio-img');
+        importantImg.src = this.images.importantIcon;
+        importantBtn.appendChild(importantImg);
         buttonDiv.appendChild(importantBtn);
-// need to add logic for strikethrough and fill on img
+
         const completeBtn = this.createNewElement('div', 'todo-completed');
+        const completeImg = this.createNewElement('img', 'project-img');
+        completeImg.src = this.images.completeIcon;
+        completeBtn.appendChild(completeImg);
         buttonDiv.appendChild(completeBtn);
 
         const todoMore = this.createNewElement('div', 'todo-more');
