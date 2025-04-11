@@ -236,7 +236,8 @@ h1 {
 
 .radio-img,
 .project-img,
-.more-img {
+.more-img,
+.todo-important-img {
     width: 30px;
     height: 30px;
     margin-right: 10px;
@@ -314,6 +315,22 @@ h1 {
     border: 2px solid black;
     border-radius: 5px;
     font-family: 'andbasr';
+}
+
+.todo-completed {
+    height: 30px;
+    width: 30px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: 
+        radial-gradient(25% 25% at 50% 25%,#000 24%,#fff 26% 99%,#0000 101%), 
+        radial-gradient(25% 25% at 50% 75%,#fff 24%,#000 26% 99%,#0000 101%), 
+        conic-gradient(#000 50%, #fff 0);
+    border: 2px solid; 
+}
+
+.todo-important-img {
+    margin: 0px;
 }
 
 .project-more,

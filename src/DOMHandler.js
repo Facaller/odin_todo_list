@@ -30,13 +30,12 @@ export class DOMElements {
 
 export class DOMImages {
     constructor () {
-        this.contemplativeIcon = require('./assets/images/sculpture.png');
-        this.pragmaticIcon     = require('./assets/images/hard-work.png');
-        this.imperativeIcon    = require('./assets/images/whip.png');
-        this.moreIcon          = require('./assets/images/more.png');
-        this.completeIcon      = require('./assets/images/dry-clean.png');
-        this.completeIcon2     = require('./assets/images/rec.png');
-        this.importantIcon     = require('./assets/images/star-unchecked.png');
+        this.contemplative      = require('./assets/images/sculpture.png');
+        this.pragmatic          = require('./assets/images/hard-work.png');
+        this.imperative         = require('./assets/images/whip.png');
+        this.moreOptions        = require('./assets/images/more.png');
+        this.importantUnchecked = require('./assets/images/star-unchecked.png');
+        this.importantChecked   = require ('./assets/images/star-checked.png')
     }
 }
 
@@ -135,7 +134,7 @@ export class DOMHandler {
 
         const projectMore = this.createNewElement('div', 'project-more');
         const moreImg = this.createNewElement('img', 'more-img');
-        moreImg.src = this.images.moreIcon;
+        moreImg.src = this.images.moreOptions;
         projectMore.appendChild(moreImg);
         div.appendChild(projectMore);
 
@@ -175,20 +174,17 @@ export class DOMHandler {
         buttonDiv.appendChild(todoDate);
 
         const importantBtn = this.createNewElement('div', 'todo-important');
-        const importantImg = this.createNewElement('img', 'radio-img');
-        importantImg.src = this.images.importantIcon;
+        const importantImg = this.createNewElement('img', 'todo-important-img');
+        importantImg.src = this.images.importantUnchecked;
         importantBtn.appendChild(importantImg);
         buttonDiv.appendChild(importantBtn);
 
         const completeBtn = this.createNewElement('div', 'todo-completed');
-        const completeImg = this.createNewElement('img', 'project-img');
-        completeImg.src = this.images.completeIcon;
-        completeBtn.appendChild(completeImg);
         buttonDiv.appendChild(completeBtn);
 
         const todoMore = this.createNewElement('div', 'todo-more');
         const moreImg = this.createNewElement('img', 'more-img');
-        moreImg.src = this.images.moreIcon;
+        moreImg.src = this.images.moreOptions;
         todoMore.appendChild(moreImg);
         buttonDiv.appendChild(todoMore);
 
@@ -676,9 +672,9 @@ export class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: this.images.contemplativeIcon,
-            pragmaticPrio:     this.images.pragmaticIcon,
-            imperativePrio:    this.images.imperativeIcon
+            contemplativePrio: this.images.contemplative,
+            pragmaticPrio:     this.images.pragmatic,
+            imperativePrio:    this.images.imperative
         };
         return imageSources[prioID];
     }
