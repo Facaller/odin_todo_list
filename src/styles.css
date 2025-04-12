@@ -322,11 +322,14 @@ h1 {
     width: 30px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: 
-        radial-gradient(25% 25% at 50% 25%,#000 24%,#fff 26% 99%,#0000 101%), 
-        radial-gradient(25% 25% at 50% 75%,#fff 24%,#000 26% 99%,#0000 101%), 
-        conic-gradient(#000 50%, #fff 0);
     border: 2px solid; 
+}
+
+.todo-completed-full {
+    background: 
+    radial-gradient(25% 25% at 50% 25%,#000 24%,#fff 26% 99%,#0000 101%), 
+    radial-gradient(25% 25% at 50% 75%,#fff 24%,#000 26% 99%,#0000 101%), 
+    conic-gradient(#000 50%, #fff 0);
 }
 
 .todo-important-img {

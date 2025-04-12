@@ -514,15 +514,51 @@ export class DOMHandler {
         });
     }
 
+    // handleTodoButtonClicks = (event) => {
+    //     const todoElement = event.target.closest('.todo');
+    //     if (todoElement) {
+    //         const todoID = todoElement.getAttribute('data-id');
+
+    //         if (event.target.closest('.todo-important')) {
+    //             if (this.tasklist.markTaskProperty(todoID, 'important')) {
+    //                 this.toggleImportant(event);
+    //             } else if (this.tasklist.unmarkTaskProperty(todoID, 'important')) {
+    //                 this.toggleImportant(event);
+    //             }
+    //         } else if (event.target.closest('.todo-completed')) {
+    //             if (this.tasklist.markTaskProperty(todoID, 'complete')) {
+    //                 this.toggleComplete(event);
+    //             } else if (this.tasklist.unmarkTaskProperty(todoID, 'complete')) {
+    //                 this.toggleComplete(event);
+    //             }
+    //         } else if (event.target.closest('.todo-more')) {
+    //             this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
+    //         }
+
+    //         const deleteBtn = event.target.closest('.delete-project-btn');
+    //         const editBtn = event.target.closest('.edit-project-btn');
+
+    //         if (deleteBtn) {
+    //             this.deleteTodo(event);
+    //         } else if (editBtn) {
+    //             this.editTodoValues(event);
+    //         }
+    //     }
+    // }
+
     handleTodoButtonClicks = (event) => {
         const todoElement = event.target.closest('.todo');
         if (todoElement) {
             const todoID = todoElement.getAttribute('data-id');
 
             if (event.target.closest('.todo-important')) {
-                markTaskProperty(todoID, 'important');
+                this.tasklist.markTaskProperty(todoID, 'important');
+                this.tasklist.unmarkTaskProperty(todoID, 'important');
+                this.toggleImportant(event);
             } else if (event.target.closest('.todo-completed')) {
-                markTaskProperty(todoID, 'complete');
+                this.tasklist.markTaskProperty(todoID, 'complete');
+                this.tasklist.unmarkTaskProperty(todoID, 'important');
+                this.toggleComplete(event);
             } else if (event.target.closest('.todo-more')) {
                 this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
             }
@@ -605,6 +641,32 @@ export class DOMHandler {
             return;
         }
         targetElement.classList.toggle('show');
+    }
+
+    toggleImportant (event) {
+        const todoElement = event.target.closest('.todo');
+        const todoID = todoElement.getAttribute('data-id');
+        const todo = this.tasklist.tasks.find(task => task.id === todoID);
+        const importantImg = todoElement.querySelector('.todo-important-img');
+        
+        if (todo && todo.isImportant === true) {
+            importantImg.src = this.images.importantChecked;
+        } else if (todo && todo.isComplete === false) {
+            importantImg.src =this.images.importantUnchecked;
+        }
+    }
+
+    toggleComplete (event) {
+        const todoElement = event.target.closest('.todo');
+        const todoID = todoElement.getAttribute('data-id');
+        const todo = this.tasklist.tasks.find(task => task.id === todoID);
+
+        if (todo && todo.isComplete === true) {
+            const todoComplete = todoElement.querySelector('.todo-completed');
+            todoComplete.classList.toggle('todo.completed-full');
+        } else if (todo && todo.IsComplete === false) {
+            todoComplete.classList.toggle('todo-completed-full');
+        }
     }
 
     updateTodoDOM () {
