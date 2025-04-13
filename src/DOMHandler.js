@@ -552,12 +552,8 @@ export class DOMHandler {
             const todoID = todoElement.getAttribute('data-id');
 
             if (event.target.closest('.todo-important')) {
-                this.tasklist.markTaskProperty(todoID, 'important');
-                this.tasklist.unmarkTaskProperty(todoID, 'important');
                 this.toggleImportant(event);
             } else if (event.target.closest('.todo-completed')) {
-                this.tasklist.markTaskProperty(todoID, 'complete');
-                this.tasklist.unmarkTaskProperty(todoID, 'important');
                 this.toggleComplete(event);
             } else if (event.target.closest('.todo-more')) {
                 this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
@@ -648,10 +644,14 @@ export class DOMHandler {
         const todoID = todoElement.getAttribute('data-id');
         const todo = this.tasklist.tasks.find(task => task.id === todoID);
         const importantImg = todoElement.querySelector('.todo-important-img');
-        
-        if (todo && todo.isImportant === true) {
+
+        if (!todo) {
+            return;
+        } else if (todo.isImportant === false) {
+            this.tasklist.markTaskProperty(todoID, 'important');
             importantImg.src = this.images.importantChecked;
-        } else if (todo && todo.isComplete === false) {
+        } else if (todo.isImportant == true) {
+            this.tasklist.unmarkTaskProperty(todoID, 'important');
             importantImg.src =this.images.importantUnchecked;
         }
     }
@@ -660,11 +660,15 @@ export class DOMHandler {
         const todoElement = event.target.closest('.todo');
         const todoID = todoElement.getAttribute('data-id');
         const todo = this.tasklist.tasks.find(task => task.id === todoID);
+        const todoComplete = todoElement.querySelector('.todo-completed');
 
-        if (todo && todo.isComplete === true) {
-            const todoComplete = todoElement.querySelector('.todo-completed');
-            todoComplete.classList.toggle('todo.completed-full');
-        } else if (todo && todo.IsComplete === false) {
+        if (!todo) {    
+            return;
+        } else if (todo.isComplete === false) {
+            this.tasklist.markTaskProperty(todoID, 'complete');
+            todoComplete.classList.toggle('todo-completed-full');
+        } else if (todo.isComplete === true) {
+            this.tasklist.unmarkTaskProperty(todoID, 'complete');
             todoComplete.classList.toggle('todo-completed-full');
         }
     }
