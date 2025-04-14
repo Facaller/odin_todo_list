@@ -661,16 +661,30 @@ export class DOMHandler {
         const todoID = todoElement.getAttribute('data-id');
         const todo = this.tasklist.tasks.find(task => task.id === todoID);
         const todoComplete = todoElement.querySelector('.todo-completed');
+        
+        const h4 = todoElement.querySelector('h4');
+        const p = todoElement.querySelector('p');
 
         if (!todo) {    
             return;
         } else if (todo.isComplete === false) {
             this.tasklist.markTaskProperty(todoID, 'complete');
             todoComplete.classList.toggle('todo-completed-full');
+            h4.classList.toggle('strike-through');
+            p.classList.toggle('strike-through');
         } else if (todo.isComplete === true) {
             this.tasklist.unmarkTaskProperty(todoID, 'complete');
             todoComplete.classList.toggle('todo-completed-full');
+            h4.classList.toggle('strike-through');
+            p.classList.toggle('strike-through');
         }
+    }
+
+    addClickFeedback(element) {
+        if (!element) return;
+        element.classList.remove('click-feedback');
+        void element.offsetWidth;
+        element.classList.add('click-feedback');
     }
 
     updateTodoDOM () {

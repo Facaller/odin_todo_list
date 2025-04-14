@@ -87,6 +87,8 @@ button {
 button:hover,
 a:hover,
 label:hover {
+    transform: scale(1.05);
+    transition: transform 120ms ease-in-out;
     cursor: pointer;
 }
 
@@ -104,6 +106,22 @@ h4 {
 
 .hidden {
     display: none;
+}
+
+.click-feedback {
+    animation: pressEffect 150ms ease-in-out;
+}
+
+@keyframes pressEffect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 /* header area */
 
@@ -268,9 +286,10 @@ h1 {
     position: relative;
 }
 
-.project-container p,
-.project-container h4 {
+.project-container h4,
+.project-container p {
     white-space: normal;
+    transition: color 0.3s ease-in-out, text-decoration-color 0.3s ease-in-out;
 }
 
 .project-exit {
@@ -318,18 +337,25 @@ h1 {
 }
 
 .todo-completed {
-    height: 30px;
-    width: 30px;
+    height: 26px;
+    width: 26px;
     aspect-ratio: 1;
     border-radius: 50%;
     border: 2px solid; 
 }
 
 .todo-completed-full {
+    height: 28px;
+    width: 28px;
     background: 
     radial-gradient(25% 25% at 50% 25%,#000 24%,#fff 26% 99%,#0000 101%), 
     radial-gradient(25% 25% at 50% 75%,#fff 24%,#000 26% 99%,#0000 101%), 
     conic-gradient(#000 50%, #fff 0);
+}
+
+.strike-through {
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.4);
 }
 
 .todo-important-img {
