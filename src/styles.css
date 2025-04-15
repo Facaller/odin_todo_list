@@ -378,6 +378,7 @@ h1 {
 .edit-project-btn,
 .delete-project-btn  {
     margin: 0px;
+    text-align: center;
 }
 
 .more-options-project,
@@ -406,10 +407,6 @@ h1 {
 .more-options button {
     text-align: center;
     margin: 0px;
-}
-
-.todos-box button {
-    padding-left: 0;
 }
 
 /* footer area */

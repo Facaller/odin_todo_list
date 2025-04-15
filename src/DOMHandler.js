@@ -514,38 +514,6 @@ export class DOMHandler {
         });
     }
 
-    // handleTodoButtonClicks = (event) => {
-    //     const todoElement = event.target.closest('.todo');
-    //     if (todoElement) {
-    //         const todoID = todoElement.getAttribute('data-id');
-
-    //         if (event.target.closest('.todo-important')) {
-    //             if (this.tasklist.markTaskProperty(todoID, 'important')) {
-    //                 this.toggleImportant(event);
-    //             } else if (this.tasklist.unmarkTaskProperty(todoID, 'important')) {
-    //                 this.toggleImportant(event);
-    //             }
-    //         } else if (event.target.closest('.todo-completed')) {
-    //             if (this.tasklist.markTaskProperty(todoID, 'complete')) {
-    //                 this.toggleComplete(event);
-    //             } else if (this.tasklist.unmarkTaskProperty(todoID, 'complete')) {
-    //                 this.toggleComplete(event);
-    //             }
-    //         } else if (event.target.closest('.todo-more')) {
-    //             this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
-    //         }
-
-    //         const deleteBtn = event.target.closest('.delete-project-btn');
-    //         const editBtn = event.target.closest('.edit-project-btn');
-
-    //         if (deleteBtn) {
-    //             this.deleteTodo(event);
-    //         } else if (editBtn) {
-    //             this.editTodoValues(event);
-    //         }
-    //     }
-    // }
-
     handleTodoButtonClicks = (event) => {
         const todoElement = event.target.closest('.todo');
         if (todoElement) {
@@ -720,15 +688,14 @@ export class DOMHandler {
 
     updateProjectDOM () {
         const sidebar = this.elements.sidebarProjects;
-        const project = this.editProject;
-        const projectID = project?.getAttribute('data-id');
+        const projectID = this.editProject.id;
 
         if (projectID) {
             const title   = this.elements.projectTitle.value.trim();
             const details = this.elements.projectDetails.value.trim();
             const prioID  = this.getPriorityID();
 
-            const projectElement = sidebar.querySelector(`.project[data-id='${projectID}']`);
+            const projectElement = sidebar.querySelector(`.project-item[data-id='${projectID}']`);
             if (projectElement) {
                 const titleElement = projectElement.querySelector('h4');
                 const detailsElement = projectElement.querySelector('p');
@@ -764,9 +731,9 @@ export class DOMHandler {
         const todoID = todoElement.getAttribute('data-id');
         const todo = this.tasklist.tasks.find(task => task.id === todoID);
 
-        this.todoTitle.value   = todo.title;
-        this.todoDetails.value = todo.details;
-        this.todoDate.value    = todo.date;
+        this.elements.todoTitle.value   = todo.title;
+        this.elements.todoDetails.value = todo.details;
+        this.elements.todoDate.value    = todo.date;
         this.editTodo = todo;
 
         const todoMore = todoElement.querySelector('.todo-more');
@@ -780,8 +747,8 @@ export class DOMHandler {
         const projectID = projectElement.getAttribute('data-id');
         const project = this.tasklist.tasks.find(task => task.id === projectID);
 
-        this.projectTitle.value = project.title
-        this.projectDetails.value = project.details
+        this.elements.projectTitle.value = project.title
+        this.elements.projectDetails.value = project.details
         
         const prioID = this.getPriorityID();
         if (prioID) {
@@ -789,8 +756,6 @@ export class DOMHandler {
         }
 
         this.editProject = project;
-        const projectMore = projectElement.querySelector('.project-more');
-        projectMore.classList.add('hidden');
         this.renderProjectForm(event);
     }
 
