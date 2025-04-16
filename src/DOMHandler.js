@@ -382,7 +382,7 @@ export class DOMHandler {
 
         return newProject;
     }
-//start here, answer is in code I think. Just need data id somehow
+
     getTodoValues (event) {
         const newTitle   = this.elements.todoTitle.value.trim();
         const newDetails = this.elements.todoDetails.value.trim();
@@ -424,11 +424,11 @@ export class DOMHandler {
                         break;
                 }
             }
-            const projectDiv = event.target.closest('.project-item');
-            if (projectDiv) {
-                const projectID = projectDiv.getAttribute('data-id');
-                this.showProject(event, projectID);
-            }
+            // const projectDiv = event.target.closest('.project-item');
+            // if (projectDiv) {
+            //     const projectID = projectDiv.getAttribute('data-id');
+            //     this.showProject(event, projectID);
+            // }
         });
     }
 
@@ -527,12 +527,14 @@ export class DOMHandler {
                 this.toggleVisibilityForClass(event, 'todo', 'more-options-todo');
             }
 
-            const deleteBtn = event.target.closest('.delete-project-btn');
-            const editBtn = event.target.closest('.edit-project-btn');
+            const deleteBtn = event.target.closest('.delete-todo-btn');
+            const editBtn = event.target.closest('.edit-todo-btn');
 
             if (deleteBtn) {
+                console.log('todo delete success')
                 this.deleteTodo(event);
             } else if (editBtn) {
+                console.log('todo edit success')
                 this.editTodoValues(event);
             }
         }
@@ -563,7 +565,7 @@ export class DOMHandler {
     deleteProject = (event) => {
         const mainContent = this.elements.mainContent;
         const sidebar = this.elements.sidebarProjects
-        const navProject = event.closest('.project-item');
+        const navProject = event.target.closest('.project-item');
         if (!navProject) return;
 
         const navProjectID = navProject?.getAttribute('data-id');
@@ -584,7 +586,7 @@ export class DOMHandler {
     }
 
     deleteTodo = (event) => {
-        const todoContainer = event.closest('.todo');
+        const todoContainer = event.target.closest('.todo');
         const todoContainerID = todoContainer?.getAttribute('data-id');
 
         const businessTodo = this.tasklist.tasks.find(todo => todo.id === todoContainerID);
@@ -657,8 +659,7 @@ export class DOMHandler {
 
     updateTodoDOM () {
         const mainContent = this.elements.mainContent;
-        const todo = this.editTodo;
-        const todoID = todo?.getAttribute('data-id');
+        const todoID = this.editTodo.id;
         
         if (todoID) {
             const title   = this.elements.todoTitle.value.trim();
@@ -736,8 +737,6 @@ export class DOMHandler {
         this.elements.todoDate.value    = todo.date;
         this.editTodo = todo;
 
-        const todoMore = todoElement.querySelector('.todo-more');
-        todoMore.classList.add('hidden');
         this.renderTodoForm(event);
     }
 
