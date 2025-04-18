@@ -358,6 +358,10 @@ export class DOMHandler {
             form.reset();
             this.elements.cancelProject.focus();
         }
+
+        if (this.editProject) {
+            this.editProject = null;
+        }
         projectForm.classList.toggle('hidden');
     }
 
@@ -368,6 +372,10 @@ export class DOMHandler {
         if (form) {
             form.reset();
             this.elements.cancelTodo.focus();
+        }
+
+        if (this.editTodo) {
+            this.editTodo = null;
         }
         todoForm.classList.toggle('hidden');
     }
@@ -732,6 +740,10 @@ export class DOMHandler {
         const todoID = todoElement.getAttribute('data-id');
         const todo = this.tasklist.tasks.find(task => task.id === todoID);
 
+        const projectForm = this.elements.projectForm;
+        const form = projectForm.querySelector('form');
+        form.reset();
+
         this.elements.todoTitle.value   = todo.title;
         this.elements.todoDetails.value = todo.details;
         this.elements.todoDate.value    = todo.date;
@@ -745,6 +757,10 @@ export class DOMHandler {
         const projectElement = event.target.closest('.project-item');
         const projectID = projectElement.getAttribute('data-id');
         const project = this.tasklist.tasks.find(task => task.id === projectID);
+
+        const projectForm = this.elements.projectForm;
+        const form = projectForm.querySelector('form');
+        form.reset();
 
         this.elements.projectTitle.value = project.title
         this.elements.projectDetails.value = project.details
