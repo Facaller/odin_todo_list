@@ -468,6 +468,9 @@ export class DOMHandler {
             const exit = event.target.closest('.project-exit');
             
             if (addTodo) {
+                if (this.editTodo) {
+                    this.editTodo = null;
+                }
                 this.renderTodoForm(event)
             } else if (exit) {
                 this.removeProject(event);
