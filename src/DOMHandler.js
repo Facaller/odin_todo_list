@@ -99,6 +99,10 @@ export class DOMHandler {
     createProjectForMain (project) {
         const div = this.createNewElement('div', 'project-container');
 
+        const containerTitle = this.createNewElement('div', 'project-container-title');
+        containerTitle.textContent = project.title;
+        div.appendChild(containerTitle);
+
         const box = this.createNewElement('div', 'todos-box');
         div.appendChild(box);
 
