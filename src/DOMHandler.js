@@ -99,9 +99,12 @@ export class DOMHandler {
     createProjectForMain (project) {
         const div = this.createNewElement('div', 'project-container');
 
-        const containerTitle = this.createNewElement('div', 'project-container-title');
-        containerTitle.textContent = project.title;
-        div.appendChild(containerTitle);
+        const titleContainer = this.createNewElement('div', 'project-container-title');
+        div.appendChild(titleContainer);
+
+        const title = this.createNewElement('h4', '');
+        title.textContent = project.title;
+        titleContainer.appendChild(title);
 
         const box = this.createNewElement('div', 'todos-box');
         div.appendChild(box);
@@ -579,7 +582,7 @@ export class DOMHandler {
 //need to delete todos here as well
     deleteProject = (event) => {
         const mainContent = this.elements.mainContent;
-        const sidebar = this.elements.sidebarProjects
+        const sidebar = this.elements.sidebarProjects;
         const navProject = event.target.closest('.project-item');
         if (!navProject) return;
 
@@ -701,24 +704,28 @@ export class DOMHandler {
             }
         }
     }
-//change project container title as well with edit
+
     updateProjectDOM () {
-        const sidebar = this.elements.sidebarProjects;
-        const projectID = this.editProject.id;
+        const sidebar     = this.elements.sidebarProjects;
+        const mainContent = this.elements.mainContent;
+        const projectID   = this.editProject.id;
 
         if (projectID) {
             const title   = this.elements.projectTitle.value.trim();
             const details = this.elements.projectDetails.value.trim();
             const prioID  = this.getPriorityID();
 
-            const projectElement = sidebar.querySelector(`.project-item[data-id='${projectID}']`);
-            if (projectElement) {
-                const titleElement = projectElement.querySelector('h4');
-                const detailsElement = projectElement.querySelector('p');
-                const projectImg = projectElement.querySelector('.project-img');
+            const navProjectElement = sidebar.querySelector(`.project-item[data-id='${projectID}']`);
+            const mainProjectElement = mainContent.querySelector(`.project-container[data-id='${projectID}']`);
+
+            if (navProjectElement) {
+                const navTitleElement  = navProjectElement.querySelector('h4');
+                const detailsElement   = navProjectElement.querySelector('p');
+                const projectImg       = navProjectElement.querySelector('.project-img');
+                const mainTitleElement = mainProjectElement.querySelector('h4');
                 
-                if (titleElement && title !== titleElement.textContent) {
-                    titleElement.textContent = title;
+                if (navTitleElement && title !== navTitleElement.textContent) {
+                    navTitleElement.textContent = title;
                 }
                 
                 if (detailsElement && details !== detailsElement.textContent) {
@@ -728,6 +735,10 @@ export class DOMHandler {
                 const newImgSrc = this.getProjectImageSrc(prioID);
                 if (projectImg && projectImg.src !== newImgSrc) {
                     projectImg.src = newImgSrc;
+                }
+
+                if (mainTitleElement && title !== mainTitleElement.textContent) {
+                    mainTitleElement.textContent = title;
                 }
             }
         }
