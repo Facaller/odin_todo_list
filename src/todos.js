@@ -3,6 +3,9 @@ import { generateID } from './utility.js';
 import { parse, format, isValid } from 'date-fns';
 
 export class Todo extends Task {
+    static MAX_TITLE_LENGTH = 50;
+    static MAX_DETAILS_LENGTH = 150;
+
     constructor (title, details, date, objectID, taskList) {
         super (title, details, 'todo');
         this.date = date;
@@ -23,6 +26,15 @@ export class Todo extends Task {
             this.projectID = projectID
         } else {
             throw new Error('Project not found');
+        }
+    }
+
+    _validateInputLengths (title, details) {
+        if (title.length > Todo.MAX_TITLE_LENGTH) {
+            throw new Error(`Todo title too long. Max: ${Todo.MAX_TITLE_LENGTH} characters.`);            
+        }
+        if (details.length > Todo.MAX_DETAILS_LENGTH) {
+            throw new Error(`Todo details too long. Max: ${Todo.MAX_DETAILS_LENGTH} characters.`);
         }
     }
 

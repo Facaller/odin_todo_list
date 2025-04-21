@@ -36,9 +36,9 @@
                 <form action="">
                     <div>
                         <label for="projectTitle"></label>
-                        <input type="text" name="projectTitle" id="projectTitle" placeholder="Enter Project Name" required>
+                        <input type="text" name="projectTitle" id="projectTitle" placeholder="Enter Project Name" maxlength="20" required>
                         <label for="projectDetails"></label>
-                        <input type="text" name="projectDetails" id="projectDetails" placeholder="Enter Project Details" required>
+                        <input type="text" name="projectDetails" id="projectDetails" placeholder="Enter Project Details" maxlength="50" required>
                     </div>
                     <div class="radio-buttons">
                         <h4>Select Priority</h4>
@@ -98,9 +98,9 @@
         <div class="todo-form hidden" id="todoForm">
             <form action="">
                 <label for="todoTitle"></label>
-                <input type="text" name="todoTitle" id="todoTitle" placeholder="Enter Todo Name" required>
+                <input type="text" name="todoTitle" id="todoTitle" placeholder="Enter Todo Name" maxlength="40" required>
                 <label for="todoDetails"></label>
-                <input type="text" name="todoDetails" id="todoDetails" placeholder="Enter Todo Details" required>
+                <input type="text" name="todoDetails" id="todoDetails" placeholder="Enter Todo Details" maxlength="120" required>
                 <label for="todoDate"></label>
                 <input type="date" name="todoDate" id="todoDate" required>
                 <div class="form-buttons">

@@ -123,6 +123,18 @@ h4 {
         transform: scale(1);
     }
 }
+
+.sidebar,
+.nav-project-details,
+.project-item h4,
+.todo h4,
+.todo p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /* header area */
 
 .header {
@@ -188,14 +200,13 @@ h1 {
 .nav-project-details {
     visibility: hidden;
     position: absolute;
-    bottom: 0%;
+    top: 90%;
     left: 50%;
     transform: translateX(-50%);
-    justify-content: center;
     align-items: center;
     width: 75%;
     padding: 4px;
-    height: 50px;
+    height: auto;
     border-radius: 10px;
     background-color: #D3D3D3;
     opacity: 0;
@@ -267,6 +278,10 @@ h1 {
     height: 30px;
     margin-right: 10px;
     vertical-align: middle;
+}
+
+.more-img {
+    margin-right: 0;
 }
 
 /* main content area */
@@ -389,6 +404,7 @@ h1 {
 .todo-more {
     position: relative;
     margin-left: auto;
+    z-index: 3;
 }
 
 .project-more:hover,

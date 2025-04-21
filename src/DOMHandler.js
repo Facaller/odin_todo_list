@@ -576,7 +576,7 @@ export class DOMHandler {
             this.removeRenderedTask(projectContainerID);
         }
     }
-
+//need to delete todos here as well
     deleteProject = (event) => {
         const mainContent = this.elements.mainContent;
         const sidebar = this.elements.sidebarProjects
@@ -701,7 +701,7 @@ export class DOMHandler {
             }
         }
     }
-
+//change project container title as well with edit
     updateProjectDOM () {
         const sidebar = this.elements.sidebarProjects;
         const projectID = this.editProject.id;
