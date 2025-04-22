@@ -579,7 +579,7 @@ export class DOMHandler {
             this.removeRenderedTask(projectContainerID);
         }
     }
-//need to delete todos here as well
+
     deleteProject = (event) => {
         const mainContent = this.elements.mainContent;
         const sidebar = this.elements.sidebarProjects;
@@ -598,9 +598,22 @@ export class DOMHandler {
             if (projectNavContainer) {
                 projectNavContainer.remove();
             }
+            this.deleteTodosInProject(navProjectID);
             this.removeRenderedTask(navProjectID);
             this.tasklist.removeTask(navProjectID);
         }
+    }
+
+    deleteTodosInProject = (projectID) => {
+        const todos = this.tasklist.getTodosByProject(projectID);
+        todos.forEach(todo => {
+            this.removeRenderedTask(todo.id);
+            const todoDOM = document.querySelector(`.todo[data-id='${todo.id}']`);
+            if (todoDOM) {
+                todoDOM.remove();
+            }
+            this.tasklist.removeTask(todo.id);
+        })
     }
 
     deleteTodo = (event) => {

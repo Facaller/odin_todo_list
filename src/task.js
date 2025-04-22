@@ -47,15 +47,17 @@ export class TaskList {
     }
 
     removeTask (taskID) {
-        const index = this.tasks.findIndex(task => task.id === taskID);
-        
-        if (index !== -1) {
-            this.tasks.splice(index, 1);
-            console.log('Task removed')
-            return true;
+        const task = this.tasks.find(task => task.id === taskID);
+        if (!task) {
+            return false;
         }
-        console.log('Task not removed')
-        return false;
+
+        if (task.type === 'project') {
+            this.tasks = this.tasks.filter(todo => todo.projectID !== taskID && todo.id !== taskID);
+        } else {
+            this.tasks = this.tasks.filter(todo => todo.id !== taskID);
+        }
+        return true;
     }
 
     sortTasks (property, ascending = true) {
