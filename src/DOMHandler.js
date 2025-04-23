@@ -72,6 +72,14 @@ export class DOMHandler {
             this.renderedTasks.splice(index, 1);
         }
     }
+
+    removeAllRenderedTasks () {
+        const renderedTodos = this.renderedTasks;
+        renderedTodos.forEach(todo => {
+            const todoID = todo.id;
+            this.removeRenderedTask(todoID);
+        })
+    }
 //Task Management
     renderProject () {
         this.tasklist.tasks.forEach(project => {
@@ -430,7 +438,7 @@ export class DOMHandler {
                         this.tasklist.getTasksForNextSevenDays();
                         break;
                     case 'navImportant':
-                        this.tasklist.getAllImportantTasks();
+                        this.filterImportantTodos();
                         break;
                     case 'addProject':
                         this.renderProjectForm();
@@ -655,6 +663,16 @@ export class DOMHandler {
             this.tasklist.unmarkTaskProperty(todoID, 'important');
             importantImg.src =this.images.importantUnchecked;
         }
+    }
+
+    filterImportantTodos = () => {
+        const importantTodos = this.tasklist.getAllImportantTasks();
+        this.removeAllRenderedTasks();
+
+        importantTodos.forEach(todo => {
+            const todoID = todo.id;
+            this.renderTodo();
+        })
     }
 
     toggleComplete (event) {
