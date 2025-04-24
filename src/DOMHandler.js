@@ -72,13 +72,17 @@ export class DOMHandler {
             this.renderedTasks.splice(index, 1);
         }
     }
-
+//issue is somehwere here
     removeAllRenderedTasks () {
-        const renderedTodos = this.renderedTasks;
-        renderedTodos.forEach(todo => {
-            const todoID = todo.id;
+        const renderedTodos = [...this.renderedTasks];
+        const mainContent = this.elements.mainContent;
+        renderedTodos.forEach(todoID => {
+            const todoDOM = mainContent.querySelector(`.todo[data-id='${todoID}']`);
+            if (todoDOM) {
+                todoDOM.remove();
+            }
             this.removeRenderedTask(todoID);
-        })
+        });
     }
 //Task Management
     renderProject () {
@@ -90,7 +94,7 @@ export class DOMHandler {
                     this.markTaskAsRendered(project.id);
                 }
             }
-        })
+        });
     }
 
     renderTodo () {
@@ -101,7 +105,16 @@ export class DOMHandler {
                     this.markTaskAsRendered(todo.id);
                 }
             }
-        })
+        });
+    }
+
+    renderSpecificTodos (todos) {
+        todos.forEach(todo => {
+            if (!this.checkRenderedTask(todo.id)) {
+                this.createTodo(todo, todo.projectID);
+                this.markTaskAsRendered(todo.id);
+            }
+        });
     }
 
     createProjectForMain (project) {
@@ -616,7 +629,8 @@ export class DOMHandler {
         const todos = this.tasklist.getTodosByProject(projectID);
         todos.forEach(todo => {
             this.removeRenderedTask(todo.id);
-            const todoDOM = document.querySelector(`.todo[data-id='${todo.id}']`);
+            const mainContent = this.elements.mainContent;
+            const todoDOM = mainContent.querySelector(`.todo[data-id='${todo.id}']`);
             if (todoDOM) {
                 todoDOM.remove();
             }
@@ -668,11 +682,7 @@ export class DOMHandler {
     filterImportantTodos = () => {
         const importantTodos = this.tasklist.getAllImportantTasks();
         this.removeAllRenderedTasks();
-
-        importantTodos.forEach(todo => {
-            const todoID = todo.id;
-            this.renderTodo();
-        })
+        this.renderSpecificTodos(importantTodos);
     }
 
     toggleComplete (event) {
