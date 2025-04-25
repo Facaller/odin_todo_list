@@ -73,15 +73,18 @@ export class DOMHandler {
         }
     }
 //issue is somehwere here
-    removeAllRenderedTasks () {
-        const renderedTodos = [...this.renderedTasks];
+    removeAllRenderedTodos () {
+        const todos = this.tasklist.getTasksByType('todo');
         const mainContent = this.elements.mainContent;
-        renderedTodos.forEach(todoID => {
-            const todoDOM = mainContent.querySelector(`.todo[data-id='${todoID}']`);
-            if (todoDOM) {
-                todoDOM.remove();
+        todos.forEach(todo => {
+            const todoID = todo.id;
+            if (this.checkRenderedTask(todoID)) {
+                const todoDOM = mainContent.querySelector(`.todo[data-id='${todoID}']`);
+                if (todoDOM) {
+                    todoDOM.remove();
+                }
+                this.removeRenderedTask(todoID);
             }
-            this.removeRenderedTask(todoID);
         });
     }
 //Task Management
@@ -681,7 +684,7 @@ export class DOMHandler {
 
     filterImportantTodos = () => {
         const importantTodos = this.tasklist.getAllImportantTasks();
-        this.removeAllRenderedTasks();
+        this.removeAllRenderedTodos();
         this.renderSpecificTodos(importantTodos);
     }
 
