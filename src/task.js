@@ -269,8 +269,8 @@ export class TaskList {
         return tasksDates.date
     }
 
-    getTaskType (type) {
-        const task = this.tasks.find(task => task.type === type);
+    getTaskType (taskID) {
+        const task = this.tasks.find(task => task.id === taskID);
         return task.type
     }
 

@@ -88,6 +88,15 @@ export class DOMHandler {
         });
     }
 //Task Management
+    testRenderProject (project) {
+        //start here, then move to visibility for important todos
+                if (!this.checkRenderedTask(project.id)) {
+                    this.createProjectForMain(project);
+                    this.createProjectForNav(project);
+                    this.markTaskAsRendered(project.id);
+                }
+    }
+
     renderProject () {
         this.tasklist.tasks.forEach(project => {
             if (this.tasklist.getTaskType('project') === 'project') { 
@@ -323,7 +332,7 @@ export class DOMHandler {
             } else {
                 const newProject = this.getProjectValues();
                 this.tasklist.addTask(newProject);
-                this.renderProject()
+                this.testRenderProject(newProject);
             }
         form.reset();
         projectForm.classList.toggle('hidden');
