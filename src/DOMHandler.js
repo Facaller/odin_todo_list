@@ -88,8 +88,7 @@ export class DOMHandler {
         });
     }
 //Task Management
-    testRenderProject (project) {
-        //start here, then move to visibility for important todos
+    renderProject (project) {
                 if (!this.checkRenderedTask(project.id)) {
                     this.createProjectForMain(project);
                     this.createProjectForNav(project);
@@ -97,28 +96,36 @@ export class DOMHandler {
                 }
     }
 
-    renderProject () {
-        this.tasklist.tasks.forEach(project => {
-            if (this.tasklist.getTaskType('project') === 'project') { 
-                if (!this.checkRenderedTask(project.id)) {
-                    this.createProjectForMain(project);
-                    this.createProjectForNav(project);
-                    this.markTaskAsRendered(project.id);
-                }
-            }
-        });
+    renderTodo (todo) {
+        if (!this.checkRenderedTask(todo.id)) {
+            this.createTodo(todo, todo.projectID);
+            this.markTaskAsRendered(todo.id);
+        }
     }
 
-    renderTodo () {
-        this.tasklist.tasks.forEach(todo => {
-            if (this.tasklist.getTaskType('todo') === 'todo') {
-                if (!this.checkRenderedTask(todo.id)) {
-                    this.createTodo(todo, todo.projectID);
-                    this.markTaskAsRendered(todo.id);
-                }
-            }
-        });
-    }
+    // ******old render methods*****
+    // renderProject () {
+    //     this.tasklist.tasks.forEach(project => {
+    //         if (this.tasklist.getTaskType('project') === 'project') { 
+    //             if (!this.checkRenderedTask(project.id)) {
+    //                 this.createProjectForMain(project);
+    //                 this.createProjectForNav(project);
+    //                 this.markTaskAsRendered(project.id);
+    //             }
+    //         }
+    //     });
+    // }
+
+    // renderTodo () {
+    //     this.tasklist.tasks.forEach(todo => {
+    //         if (this.tasklist.getTaskType('todo') === 'todo') {
+    //             if (!this.checkRenderedTask(todo.id)) {
+    //                 this.createTodo(todo, todo.projectID);
+    //                 this.markTaskAsRendered(todo.id);
+    //             }
+    //         }
+    //     });
+    // }
 
     renderSpecificTodos (todos) {
         todos.forEach(todo => {
@@ -332,7 +339,7 @@ export class DOMHandler {
             } else {
                 const newProject = this.getProjectValues();
                 this.tasklist.addTask(newProject);
-                this.testRenderProject(newProject);
+                this.renderProject(newProject);
             }
         form.reset();
         projectForm.classList.toggle('hidden');
@@ -368,7 +375,7 @@ export class DOMHandler {
             } else {
                 const newTodo = this.getTodoValues(event);
                 this.tasklist.addTask(newTodo);
-                this.renderTodo();
+                this.renderTodo(newTodo);
             }
         }
         form.reset();
