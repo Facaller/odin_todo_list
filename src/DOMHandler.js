@@ -470,7 +470,7 @@ export class DOMHandler {
                         this.tasklist.getTasksForNextSevenDays();
                         break;
                     case 'navImportant':
-                        this.filterImportantTodos();
+                        this.newFilterImportantTodos();
                         break;
                     case 'addProject':
                         this.renderProjectForm();
@@ -696,6 +696,22 @@ export class DOMHandler {
             this.tasklist.unmarkTaskProperty(todoID, 'important');
             importantImg.src =this.images.importantUnchecked;
         }
+    }
+
+    newFilterImportantTodos () {
+        const todos = this.tasklist.getTasksByType('todo');
+        const mainContent = this.elements.mainContent;
+        
+        todos.forEach(todo => {
+            const todoID = todo.id;
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todoID}']`)
+            
+            if (this.checkRenderedTask(todoID)) {
+                if (todo.isImportant !== true) {
+                    todoElement.classList.add('hidden');
+                };
+            }
+        })
     }
 
     filterImportantTodos = () => {
