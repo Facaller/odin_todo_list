@@ -53,9 +53,6 @@ export class DOMHandler {
         this.bindProjectFormButtons();
         this.bindSidebarButtons();
         this.bindTodoFormButtons();
-
-        // this.removeProject();
-        // this.deleteProject();
     }
 
     markTaskAsRendered (taskID) {
@@ -72,7 +69,7 @@ export class DOMHandler {
             this.renderedTasks.splice(index, 1);
         }
     }
-//issue is somehwere here
+
     removeAllRenderedTodos () {
         const todos = this.tasklist.getTasksByType('todo');
         const mainContent = this.elements.mainContent;
@@ -89,11 +86,11 @@ export class DOMHandler {
     }
 //Task Management
     renderProject (project) {
-                if (!this.checkRenderedTask(project.id)) {
-                    this.createProjectForMain(project);
-                    this.createProjectForNav(project);
-                    this.markTaskAsRendered(project.id);
-                }
+        if (!this.checkRenderedTask(project.id)) {
+            this.createProjectForMain(project);
+            this.createProjectForNav(project);
+            this.markTaskAsRendered(project.id);
+        }
     }
 
     renderTodo (todo) {
@@ -104,7 +101,7 @@ export class DOMHandler {
     }
 
     // ******old render methods*****
-    // renderProject () {
+    // renderAllProjects () {
     //     this.tasklist.tasks.forEach(project => {
     //         if (this.tasklist.getTaskType('project') === 'project') { 
     //             if (!this.checkRenderedTask(project.id)) {
@@ -116,7 +113,7 @@ export class DOMHandler {
     //     });
     // }
 
-    // renderTodo () {
+    // renderAllTodos () {
     //     this.tasklist.tasks.forEach(todo => {
     //         if (this.tasklist.getTaskType('todo') === 'todo') {
     //             if (!this.checkRenderedTask(todo.id)) {
@@ -461,7 +458,7 @@ export class DOMHandler {
 
                 switch (btnID) {
                     case 'allTasks':
-                        this.tasklist.getAllTasks();
+                        this.showAllTodos();
                         break;
                     case 'today':
                         this.tasklist.getTasksDueToday();
@@ -470,7 +467,7 @@ export class DOMHandler {
                         this.tasklist.getTasksForNextSevenDays();
                         break;
                     case 'navImportant':
-                        this.newFilterImportantTodos();
+                        this.filterImportantTodos();
                         break;
                     case 'addProject':
                         this.renderProjectForm();
@@ -681,6 +678,20 @@ export class DOMHandler {
         targetElement.classList.toggle('show');
     }
 
+    showAllTodos () {
+        const todos = this.tasklist.getTasksByType('todo');
+        const mainContent = this.elements.mainContent;
+
+        todos.forEach(todo => {
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`)
+
+            if (!todoElement) return;
+            if (todoElement.classList.contains('hidden')) {
+                todoElement.classList.remove('hidden');
+            }
+        });
+    }
+
     toggleImportant (event) {
         const todoElement = event.target.closest('.todo');
         const todoID = todoElement.getAttribute('data-id');
@@ -698,26 +709,22 @@ export class DOMHandler {
         }
     }
 
-    newFilterImportantTodos () {
+    filterImportantTodos () {
         const todos = this.tasklist.getTasksByType('todo');
         const mainContent = this.elements.mainContent;
         
         todos.forEach(todo => {
-            const todoID = todo.id;
-            const todoElement = mainContent.querySelector(`.todo[data-id='${todoID}']`)
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`)
             
-            if (this.checkRenderedTask(todoID)) {
-                if (todo.isImportant !== true) {
-                    todoElement.classList.add('hidden');
-                };
+            if (!this.checkRenderedTask(todo.id)) return;
+            if (!todoElement) return;
+            
+            if (todo.isImportant) {
+                todoElement.classList.remove('hidden');
+            } else {
+                todoElement.classList.add('hidden');
             }
-        })
-    }
-
-    filterImportantTodos = () => {
-        const importantTodos = this.tasklist.getAllImportantTasks();
-        this.removeAllRenderedTodos();
-        this.renderSpecificTodos(importantTodos);
+        });
     }
 
     toggleComplete (event) {

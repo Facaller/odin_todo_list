@@ -225,7 +225,6 @@ h1 {
 }
 
 .project-form, .todo-form {
-    /* display: none; */
     padding: 10px;
     border-radius: 6px;
     margin-top: 20px;
@@ -349,10 +348,14 @@ h1 {
     padding-bottom: 0;
 }
 
-.todos-box > div {
+.todo {
     display: flex;
     flex-direction: column;
     padding-bottom: 30px;
+}
+
+.todo.hidden {
+    display: none;
 }
 
 .todo-buttons {
