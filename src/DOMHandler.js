@@ -139,6 +139,10 @@ export class DOMHandler {
         const titleContainer = this.createNewElement('div', 'project-container-title');
         div.appendChild(titleContainer);
 
+        const projectImg = this.createNewElement('img', 'project-img');
+        projectImg.src = this.getProjectImageSrc(this.getPriorityID());
+        titleContainer.appendChild(projectImg);
+
         const title = this.createNewElement('h4', '');
         title.textContent = project.title;
         titleContainer.appendChild(title);
@@ -806,6 +810,7 @@ export class DOMHandler {
                 const detailsElement   = navProjectElement.querySelector('p');
                 const projectImg       = navProjectElement.querySelector('.project-img');
                 const mainTitleElement = mainProjectElement.querySelector('h4');
+                const projectImgMain   = mainProjectElement.querySelector('.project-img');
                 
                 if (navTitleElement && title !== navTitleElement.textContent) {
                     navTitleElement.textContent = title;
@@ -822,6 +827,10 @@ export class DOMHandler {
 
                 if (mainTitleElement && title !== mainTitleElement.textContent) {
                     mainTitleElement.textContent = title;
+                }
+
+                if (projectImgMain && projectImgMain.src !== newImgSrc) {
+                    projectImgMain.src = newImgSrc;
                 }
             }
         }
