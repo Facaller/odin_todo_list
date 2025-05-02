@@ -463,15 +463,15 @@ export class DOMHandler {
                 switch (btnID) {
                     case 'allTasks':
                         this.showAllTodos();
-                        break;
-                    case 'today':
-                        this.tasklist.getTasksDueToday();
+                        this.addSelectedBackground(event)
                         break;
                     case 'next7Days':
                         this.tasklist.getTasksForNextSevenDays();
+                        this.addSelectedBackground(event)
                         break;
                     case 'navImportant':
                         this.filterImportantTodos();
+                        this.addSelectedBackground(event)
                         break;
                     case 'addProject':
                         this.renderProjectForm();
@@ -753,6 +753,17 @@ export class DOMHandler {
             h4.classList.toggle('strike-through');
             p.classList.toggle('strike-through');
         }
+    }
+
+    addSelectedBackground (event) {
+        const sidebarProjects   = this.elements.sidebarNav;
+        const sidebarItemsGroup = sidebarProjects.querySelectorAll('.sidebar-item');
+        const sidebarItem       = event.target.closest('.sidebar-item');
+
+        sidebarItemsGroup.forEach(item => item.classList.remove('selected'));
+        if (sidebarItem) {
+            sidebarItem.classList.add('selected');
+        };
     }
 
     addClickFeedback(element) {

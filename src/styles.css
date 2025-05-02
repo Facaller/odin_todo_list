@@ -79,7 +79,7 @@ button {
     border-radius: 6px;
     border: none;
     margin: 5px 0;
-    text-align: left;
+    text-align: center;
     font-size: 1.1em;
     background-color: #8B2A2A;
 }
@@ -185,7 +185,27 @@ h1 {
     margin-bottom: 20px;
 }
 
-.sidebar-home > div,
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    border-radius: 6px;
+}
+
+.sidebar-item:hover {
+    background-color:#A9A9A9;
+}
+
+.sidebar-item button {
+    width: 100%;
+    background-color: transparent;
+    text-align: left;
+}
+
+.selected {
+    background-color: hsla(75, 62%, 23%, 1);
+}
+
 .add-project,
 .add-todo {
     display: flex;
@@ -304,9 +324,9 @@ h1 {
     grid-auto-flow: column;
 
     background-image: url('./assets/images/thinker.png');
-    background-size: auto 100%;
+    background-size: auto 90%;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: bottom center;
     background-attachment: fixed;
 }
 
