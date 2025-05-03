@@ -554,11 +554,16 @@ export class DOMHandler {
         const todoForm     = this.elements.todoForm.querySelector('form');
         const titleField   = this.elements.todoTitle;
         const detailsField = this.elements.todoDetails;
+        const dateField    = this.elements.todoDate;
 
         todoForm.addEventListener('input', () => {
             const isProjectForm = false;
             this.elements.submitTodo.disabled = !this.isFormValid(titleField, detailsField, isProjectForm);
         });
+
+        dateField.addEventListener('focus', () => {
+            dateField.showPicker?.();
+        })
 
         todoForm.addEventListener('click', (event) => {
             const formBtn = event.target.closest('button');

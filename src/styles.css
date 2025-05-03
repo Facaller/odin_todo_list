@@ -33,14 +33,7 @@ Colour Palette:
 --Silver: #C0C0C0;
 --Silver: #B4B4B4;
 --Silver: #A9A9A9;
---OU Crimson: #8B2A2A;
-
---isabelline: hsla(40, 23%, 92%, 1);
---timberwolf: hsla(32, 21%, 83%, 1);
---battleship-gray: hsla(37, 6%, 58%, 1);
---coyote: hsla(40, 19%, 37%, 1);
---dark-moss-green: hsla(75, 62%, 23%, 1);
- */
+--Sinopla: #C7360A;
 
 /* General styling */
 
@@ -81,7 +74,7 @@ button {
     margin: 5px 0;
     text-align: center;
     font-size: 1.1em;
-    background-color: #8B2A2A;
+    background-color: #C7360A;
 }
 
 button:hover,
@@ -203,7 +196,7 @@ h1 {
 }
 
 .selected {
-    background-color: hsla(75, 62%, 23%, 1);
+    background-color: #C7360A;
 }
 
 .add-project,
@@ -455,7 +448,11 @@ h1 {
 }
 
 .project-more:hover,
-.todo-more:hover {
+.todo-more:hover,
+.todo-important:hover,
+.todo-completed:hover {
+    transform: scale(1.05);
+    transition: transform 120ms ease-in-out;
     cursor: pointer;
 }
 
@@ -465,6 +462,14 @@ h1 {
 .delete-project-btn  {
     margin: 0px;
     text-align: center;
+    background-color: transparent;
+}
+
+.edit-todo-btn:hover,
+.delete-todo-btn:hover,
+.edit-project-btn:hover,
+.delete-project-btn:hover {
+    background-color: #A9A9A9;
 }
 
 .more-options-project,
