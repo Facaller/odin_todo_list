@@ -466,7 +466,7 @@ export class DOMHandler {
                         this.addSelectedBackground(event)
                         break;
                     case 'next7Days':
-                        this.tasklist.getTasksForNextSevenDays();
+                        this.filterNextWeekTodos();
                         this.addSelectedBackground(event)
                         break;
                     case 'navImportant':
@@ -692,11 +692,47 @@ export class DOMHandler {
         const mainContent = this.elements.mainContent;
 
         todos.forEach(todo => {
-            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`)
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`);
 
             if (!todoElement) return;
             if (todoElement.classList.contains('hidden')) {
                 todoElement.classList.remove('hidden');
+            }
+        });
+    }
+
+    filterNextWeekTodos () {
+        const todos = this.tasklist.getTasksForNextSevenDays();
+        const mainContent = this.elements.mainContent;
+
+        todos.forEach(todo => {
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`);
+
+            if (!this.checkRenderedTask(todo.id)) return;
+            if (!todoElement) return;
+
+            if (this.renderedTasks.includes(todo.id)) {
+                todoElement.classList.remove('hidden');
+            } else if (!this.renderedTasks.includes(todo.id)) {
+                todoElement.classList.add('hidden');
+            }
+        });
+    }
+
+    filterImportantTodos () {
+        const todos = this.tasklist.getTasksByType('todo');
+        const mainContent = this.elements.mainContent;
+        
+        todos.forEach(todo => {
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`)
+            
+            if (!this.checkRenderedTask(todo.id)) return;
+            if (!todoElement) return;
+            
+            if (todo.isImportant) {
+                todoElement.classList.remove('hidden');
+            } else {
+                todoElement.classList.add('hidden');
             }
         });
     }
@@ -716,24 +752,6 @@ export class DOMHandler {
             this.tasklist.unmarkTaskProperty(todoID, 'important');
             importantImg.src =this.images.importantUnchecked;
         }
-    }
-
-    filterImportantTodos () {
-        const todos = this.tasklist.getTasksByType('todo');
-        const mainContent = this.elements.mainContent;
-        
-        todos.forEach(todo => {
-            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`)
-            
-            if (!this.checkRenderedTask(todo.id)) return;
-            if (!todoElement) return;
-            
-            if (todo.isImportant) {
-                todoElement.classList.remove('hidden');
-            } else {
-                todoElement.classList.add('hidden');
-            }
-        });
     }
 
     toggleComplete (event) {
