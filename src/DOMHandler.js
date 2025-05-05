@@ -35,7 +35,7 @@ export class DOMImages {
         this.imperative         = require('./assets/images/whip.png');
         this.moreOptions        = require('./assets/images/more.png');
         this.importantUnchecked = require('./assets/images/star-unchecked.png');
-        this.importantChecked   = require ('./assets/images/star-checked.png')
+        this.importantChecked   = require('./assets/images/star-checked.png')
     }
 }
 
@@ -70,20 +70,6 @@ export class DOMHandler {
         }
     }
 
-    removeAllRenderedTodos () {
-        const todos = this.tasklist.getTasksByType('todo');
-        const mainContent = this.elements.mainContent;
-        todos.forEach(todo => {
-            const todoID = todo.id;
-            if (this.checkRenderedTask(todoID)) {
-                const todoDOM = mainContent.querySelector(`.todo[data-id='${todoID}']`);
-                if (todoDOM) {
-                    todoDOM.remove();
-                }
-                this.removeRenderedTask(todoID);
-            }
-        });
-    }
 //Task Management
     renderProject (project) {
         if (!this.checkRenderedTask(project.id)) {
@@ -98,39 +84,6 @@ export class DOMHandler {
             this.createTodo(todo, todo.projectID);
             this.markTaskAsRendered(todo.id);
         }
-    }
-
-    // ******old render methods*****
-    // renderAllProjects () {
-    //     this.tasklist.tasks.forEach(project => {
-    //         if (this.tasklist.getTaskType('project') === 'project') { 
-    //             if (!this.checkRenderedTask(project.id)) {
-    //                 this.createProjectForMain(project);
-    //                 this.createProjectForNav(project);
-    //                 this.markTaskAsRendered(project.id);
-    //             }
-    //         }
-    //     });
-    // }
-
-    // renderAllTodos () {
-    //     this.tasklist.tasks.forEach(todo => {
-    //         if (this.tasklist.getTaskType('todo') === 'todo') {
-    //             if (!this.checkRenderedTask(todo.id)) {
-    //                 this.createTodo(todo, todo.projectID);
-    //                 this.markTaskAsRendered(todo.id);
-    //             }
-    //         }
-    //     });
-    // }
-
-    renderSpecificTodos (todos) {
-        todos.forEach(todo => {
-            if (!this.checkRenderedTask(todo.id)) {
-                this.createTodo(todo, todo.projectID);
-                this.markTaskAsRendered(todo.id);
-            }
-        });
     }
 
     createProjectForMain (project) {
@@ -513,15 +466,12 @@ export class DOMHandler {
             if (!projectContainer) return; 
             
             const addTodo = event.target.closest('.add-todo');
-            const exit = event.target.closest('.project-exit');
             
             if (addTodo) {
                 if (this.editTodo) {
                     this.editTodo = null;
                 }
                 this.renderTodoForm(event)
-            } else if (exit) {
-                this.removeProject(event);
             }
             this.handleTodoButtonClicks(event);
         });
@@ -604,28 +554,6 @@ export class DOMHandler {
         }
     }
 
-    showProject = (event, projectID) => {
-        const mainContent = this.elements.mainContent;
-        const projectContainer = mainContent.querySelector(`.project-container[data-id='${projectID}']`);
-
-        if (projectID) {
-            projectContainer.style.display = 'block';
-            this.markTaskAsRendered(projectID);
-        }
-    }
-
-    removeProject = (event) => {
-        const exitButton = event.target.closest('.project-exit');
-        if (!exitButton) return;
-        
-        const projectContainer = exitButton.closest('.project-container');
-        if (projectContainer) {
-            const projectContainerID = projectContainer?.getAttribute('data-id');
-            projectContainer.classList.add('hidden');
-            this.removeRenderedTask(projectContainerID);
-        }
-    }
-
     deleteProject = (event) => {
         const mainContent = this.elements.mainContent;
         const sidebar = this.elements.sidebarProjects;
@@ -702,18 +630,21 @@ export class DOMHandler {
     }
 
     filterNextWeekTodos () {
-        const todos = this.tasklist.getTasksForNextSevenDays();
-        const mainContent = this.elements.mainContent;
+        const todos         = this.renderedTasks;
+        const nextWeekTodos = this.tasklist.getTasksForNextSevenDays();
+        const mainContent   = this.elements.mainContent;
 
-        todos.forEach(todo => {
-            const todoElement = mainContent.querySelector(`.todo[data-id='${todo.id}']`);
+        todos.forEach(todoID => {
+            const todoElement = mainContent.querySelector(`.todo[data-id='${todoID}']`);
 
-            if (!this.checkRenderedTask(todo.id)) return;
+            if (!this.checkRenderedTask(todoID)) return;
             if (!todoElement) return;
 
-            if (this.renderedTasks.includes(todo.id)) {
+            const isInNextWeek = nextWeekTodos.some(task => task.id === todoID)
+
+            if (isInNextWeek) {
                 todoElement.classList.remove('hidden');
-            } else if (!this.renderedTasks.includes(todo.id)) {
+            } else {
                 todoElement.classList.add('hidden');
             }
         });
@@ -787,13 +718,6 @@ export class DOMHandler {
         if (sidebarItem) {
             sidebarItem.classList.add('selected');
         };
-    }
-
-    addClickFeedback(element) {
-        if (!element) return;
-        element.classList.remove('click-feedback');
-        void element.offsetWidth;
-        element.classList.add('click-feedback');
     }
 
     updateTodoDOM () {

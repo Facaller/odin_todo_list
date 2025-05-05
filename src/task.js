@@ -1,5 +1,5 @@
 import { generateID } from './utility.js';
-import { format, startOfDay, endOfDay, addDays, isToday } from 'date-fns';
+import { startOfDay, endOfDay, addDays } from 'date-fns';
 
 export class Task {
     constructor (title, details, type) {
@@ -58,28 +58,6 @@ export class TaskList {
             this.tasks = this.tasks.filter(todo => todo.id !== taskID);
         }
         return true;
-    }
-
-    sortTasks (property, ascending = true) {
-
-        const validProperties = ['title', 'date', 'isComplete', 'isImportant'];
-        
-        if (!validProperties.includes(property) && property !== null) {
-            console.log('Invalid property to sort by');
-            return;
-        }
-        // values are checked against 'date',
-        // if false they are checked against other properties
-        this.tasks.sort((a, b) => {
-            const ValueA = property === 'date' ? a.date : a[property];
-            const ValueB = property === 'date' ? b.date : b[property];
-
-            if (ValueA < ValueB) return ascending ? -1 : 1
-            if (ValueA > ValueB) return ascending ? 1 : -1
-            return 0
-        });
-
-        return this.tasks;
     }
 
 // setter methods
@@ -170,65 +148,7 @@ export class TaskList {
         return true;
     }
 
-    markAllProjectTodos (projectID, property) {
-        const validProperties = ['complete', 'important'];
-        
-        if (!validProperties.includes(property)) {
-            console.log('Invalid property');
-            return false;
-        }
-
-        const projectTodos = this.getTodosByProject(projectID);
-        
-        if (projectTodos.length === 0) {
-            console.log('No todos found for this project');
-            return false;
-        }
-        
-        projectTodos.forEach(task => {
-            task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = true;
-        });
-        return true
-    }
-
-    unmarkAllProjectTodos (projectID, property) {
-        const validProperties = ['complete', 'important'];
-        if (!validProperties.includes(property)) {
-            console.log('Invalid property');
-            return false;
-        }
-
-        const projectTodos = this.getTodosByProject(projectID);
-
-        if (projectTodos.length === 0) {
-            console.log('No todos found for this project');
-            return false;
-        }
-
-        projectTodos.forEach(task => {
-            task[`is${property.charAt(0).toUpperCase() + property.slice(1)}`] = false;
-        });
-        return true;
-    }
-
 // getter methods
-    getTasksDueToday () {
-        return this.tasks.filter(task => {
-            const taskDate = new Date(task.date);
-            const isDueToday = isToday(task.date);
-            const isIncomplete = !task.isComplete;
-            
-            return task.type === 'todo' && taskDate && isDueToday && isIncomplete});
-    }
-
-    getOverDueTasks () {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0)
-        return this.tasks.filter(task => 
-            task.type === 'todo' && task.date && new Date(task.date) < today
-        );
-    }
-
     getTasksForNextSevenDays() {
         const today = new Date();
         const startDate = startOfDay(today);
@@ -251,29 +171,6 @@ export class TaskList {
         return task.id;
     }
 
-    getTasksTitles (title) {
-        const tasksTitles = this.tasks.filter(task => task.title === title);
-        if (!tasksTitles) {
-            console.log('Task does not exist');
-            return null;
-        }
-        return tasksTitles.title
-    }
-
-    getTasksDates (date) {
-        const tasksDates = this.tasks.filter(task => task.date === date);
-        if (!tasksDates) {
-            console.log('Task does not exist');
-            return null;
-        }
-        return tasksDates.date
-    }
-
-    getTaskType (taskID) {
-        const task = this.tasks.find(task => task.id === taskID);
-        return task.type
-    }
-
     getTasksByType (type) {
         return this.tasks.filter(task => task.type === type)
     }
@@ -281,10 +178,6 @@ export class TaskList {
     getTodosByProject (projectID) {
         const todos = this.tasks.filter(task => task.id === projectID && task.type === 'todo');
         return todos;
-    }
-
-    getAllTasks () {
-        return this.tasks;
     }
 
     getAllCompletedTasks () {
