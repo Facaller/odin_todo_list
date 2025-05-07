@@ -1,7 +1,5 @@
 import "./styles.css"
 import { TaskList } from "./task.js";
-import { Todo } from "./todos.js";
-import { Project } from "./projects.js";
 import { DOMHandler } from "./DOMHandler.js";
 
 const taskList = new TaskList();
