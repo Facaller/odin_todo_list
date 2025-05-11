@@ -1,25 +1,13 @@
 import "./styles.css"
+import { Storage } from "./storage.js";
 import { TaskList } from "./task.js";
 import { DOMHandler } from "./DOMHandler.js";
+import { fromJSON } from "./rehydrator.js";
 
-const taskList = new TaskList();
-const domHandler = new DOMHandler(taskList);
+const storage = new Storage();
 
+const saved = storage.loadTasklist();
 
-// Hi there, I'm a beginner learning JS and creating a small todo app. I've imported my DOM module into my index.js file and am working through some of the errors I encounter as I test the app. Can you tell me what this error means please?
+let tasklist = saved ? fromJSON(saved) : new TaskList();
 
-
-// const project = new Project("Build website", "Create a personal portfolio", "Complete");
-// taskList.addTask(project);
-
-// const todo = new Todo ("Buy groceries", "Milk, eggs, bread", "2025-01-04", project.id, taskList);
-// const todo2 = new Todo ("Sell groceries", "Bananas, potatoes, apples", "2025-01-05", project.id, taskList);
-// taskList.addTask(todo);
-// taskList.addTask(todo2);
-
-// const projectTodos = taskList.getTodosByProject(project.id);
-// const todo3 = new Todo ("Make groceries", "Organic", "2024-02-11", project.id, taskList);
-// taskList.addTask(todo3);
-// console.log(projectTodos);
-// console.log(taskList.sortTasks('title'));
-// console.log(todo.id);
+const domHandler = new DOMHandler(tasklist);

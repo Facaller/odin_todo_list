@@ -6,12 +6,23 @@ export class Todo extends Task {
     static MAX_TITLE_LENGTH = 50;
     static MAX_DETAILS_LENGTH = 150;
 
-    constructor (title, details, date, objectID, taskList) {
+    constructor (title, details, date, projectID, id = null) {
         super (title, details, 'todo');
         this.date = date;
-        this.id   = generateID('todo');
+        this.id = id || generateID('todo');
 
-        const parsedDate = parse(this.date, 'yyyy-MM-dd', new Date());
+        let parsedDate;
+
+        if (typeof date === 'string' && date.includes('T')) {
+            parsedDate = new Date(date);
+        } else if (typeof date === 'string') {
+            parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+        } else if (date instanceof Date) {
+            parsedDate = date;
+        } else {
+            console.warn('Unexpected date format:', date);
+            parsedDate = new Date();
+        }
 
         if (!isValid(parsedDate)) {
             throw new Error('Invalid date');
@@ -20,13 +31,11 @@ export class Todo extends Task {
         this.date = parsedDate;
         this.formattedDate = format(parsedDate, 'dd/MM/yyyy');
 
-        const projectID = taskList.getTaskID(objectID);
-
-        if (projectID) {
-            this.projectID = projectID
-        } else {
-            throw new Error('Project not found');
+        if (!projectID) {
+            throw new Error('Project ID is required');
         }
+    
+        this.projectID = projectID;
     }
 
     _validateInputLengths (title, details) {
@@ -45,5 +54,15 @@ export class Todo extends Task {
         }
 
         return isValid(new Date(this.date));
+    }
+
+    static fromJSON(data) {
+        return new Todo(
+            data.title,
+            data.details,
+            data.date,
+            data.projectID,
+            data.id
+        );
     }
 }

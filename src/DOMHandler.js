@@ -1,5 +1,6 @@
 import { Project } from "./projects";
 import { Todo } from "./todos.js";
+import { Storage } from "./storage.js";
 
 export class DOMElements {
     constructor () {
@@ -10,9 +11,9 @@ export class DOMElements {
         this.projectTitle      = document.getElementById('projectTitle');
         this.projectDetails    = document.getElementById('projectDetails');
         this.projectPrio       = document.querySelectorAll('input[name="priority"]');
-        this.contemplativePrio = document.getElementById('contemplativePrio');
-        this.pragmaticPrio     = document.getElementById('pragmaticPrio');
-        this.imperativePrio    = document.getElementById('imperativePrio');
+        this.contemplative     = document.getElementById('contemplative');
+        this.pragmatic         = document.getElementById('pragmatic');
+        this.imperative        = document.getElementById('imperative');
         this.submitProject     = document.getElementById('submitProject');
         this.cancelProject     = document.getElementById('cancelProject');
         this.addProject        = document.getElementById('addProject');        
@@ -42,6 +43,7 @@ export class DOMImages {
 export class DOMHandler {
     constructor (tasklist) {
         this.tasklist      = tasklist;
+        this.storage       = new Storage();
         this.elements      = new DOMElements();
         this.images        = new DOMImages();
         this.renderedTasks = [];
@@ -53,6 +55,7 @@ export class DOMHandler {
         this.bindProjectFormButtons();
         this.bindSidebarButtons();
         this.bindTodoFormButtons();
+        this.renderAllTasks();
     }
 
     markTaskAsRendered (taskID) {
@@ -72,6 +75,7 @@ export class DOMHandler {
 
 //Task Management
     renderProject (project) {
+        console.log("Rendering project:", project);
         if (!this.checkRenderedTask(project.id)) {
             this.createProjectForMain(project);
             this.createProjectForNav(project);
@@ -86,6 +90,16 @@ export class DOMHandler {
         }
     }
 
+    renderAllTasks () {
+        this.tasklist.tasks
+            .filter(task => task.type === 'project')
+            .forEach(project => this.renderProject(project));
+
+        this.tasklist.tasks
+            .filter(task => task.type === 'todo')
+            .forEach(todo => this.renderTodo(todo));
+    }
+
     createProjectForMain (project) {
         const div = this.createNewElement('div', 'project-container');
 
@@ -93,7 +107,7 @@ export class DOMHandler {
         div.appendChild(titleContainer);
 
         const projectImg = this.createNewElement('img', 'project-img');
-        projectImg.src = this.getProjectImageSrc(this.getPriorityID());
+        projectImg.src = this.getProjectImageSrc(project.priority);
         titleContainer.appendChild(projectImg);
 
         const title = this.createNewElement('h4', '');
@@ -119,7 +133,7 @@ export class DOMHandler {
         const div = this.createNewElement('div', 'project-item');
 
         const projectImg = this.createNewElement('img', 'project-img');
-        projectImg.src = this.getProjectImageSrc(this.getPriorityID());
+        projectImg.src = this.getProjectImageSrc(project.priority);
         div.appendChild(projectImg);
 
         const title = this.createNewElement('h4', '');
@@ -226,6 +240,10 @@ export class DOMHandler {
     targetProjectForTodo (projectID, div) {
         const mainContent = this.elements.mainContent;
         const projectContainer = mainContent.querySelector(`.project-container[data-id='${projectID}']`);
+        if (!projectContainer) {
+            console.warn(`Project container not found for project ID: ${projectID}`);
+        return;
+        }
         const todoBox = projectContainer.querySelector('.todos-box');
         if (projectContainer) {
             todoBox.appendChild(div);
@@ -295,9 +313,10 @@ export class DOMHandler {
                 this.tasklist.addTask(newProject);
                 this.renderProject(newProject);
             }
+        }
+        this.storage.saveTaskList(this.tasklist);
         form.reset();
         projectForm.classList.toggle('hidden');
-        }
     }
 
     submitEditedProjectForm () {
@@ -313,6 +332,7 @@ export class DOMHandler {
             this.updateProjectDOM();
             this.editProject = null;
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 
     submitTodoForm (event) {
@@ -332,6 +352,7 @@ export class DOMHandler {
                 this.renderTodo(newTodo);
             }
         }
+        this.storage.saveTaskList(this.tasklist);
         form.reset();
         this.elements.todoForm.classList.toggle('hidden');
     }
@@ -349,6 +370,7 @@ export class DOMHandler {
             this.updateTodoDOM();
             this.editTodo = null;
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 
     cancelProjectForm () {
@@ -369,7 +391,6 @@ export class DOMHandler {
     cancelTodoForm () {
         const todoForm = this.elements.todoForm;
         const form = todoForm.querySelector('form');
-        console.log('Todo cancel works')
         if (form) {
             form.reset();
             this.elements.cancelTodo.focus();
@@ -400,7 +421,7 @@ export class DOMHandler {
         const project    = event.target.closest('.project-container');
         const projectID  = project.getAttribute('data-id');
 
-        const newTodo = new Todo(newTitle, newDetails, newDate, projectID, this.tasklist)
+        const newTodo = new Todo(newTitle, newDetails, newDate, projectID)
 
         return newTodo;
     }
@@ -545,10 +566,8 @@ export class DOMHandler {
             const editBtn = event.target.closest('.edit-todo-btn');
 
             if (deleteBtn) {
-                console.log('todo delete success')
                 this.deleteTodo(event);
             } else if (editBtn) {
-                console.log('todo edit success')
                 this.editTodoValues(event);
             }
         }
@@ -576,6 +595,7 @@ export class DOMHandler {
             this.removeRenderedTask(navProjectID);
             this.tasklist.removeTask(navProjectID);
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 
     deleteTodosInProject = (projectID) => {
@@ -589,6 +609,7 @@ export class DOMHandler {
             }
             this.tasklist.removeTask(todo.id);
         })
+        this.storage.saveTaskList(this.tasklist);
     }
 
     deleteTodo = (event) => {
@@ -602,6 +623,7 @@ export class DOMHandler {
             todoContainer.remove();
             this.tasklist.removeTask(todoContainerID);
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 //UI Manipulations
     toggleVisibilityForClass (event, parentClass, targetClass, addSpecificityClass = null) {
@@ -609,7 +631,6 @@ export class DOMHandler {
         const targetElement = parentElement.querySelector(`.${targetClass}`);
         
         if (!targetElement) {
-            console.log(targetElement, 'does not exist')
             return;
         }
         targetElement.classList.toggle('show');
@@ -683,6 +704,7 @@ export class DOMHandler {
             this.tasklist.unmarkTaskProperty(todoID, 'important');
             importantImg.src =this.images.importantUnchecked;
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 
     toggleComplete (event) {
@@ -707,6 +729,7 @@ export class DOMHandler {
             h4.classList.toggle('strike-through');
             p.classList.toggle('strike-through');
         }
+        this.storage.saveTaskList(this.tasklist);
     }
 
     addSelectedBackground (event) {
@@ -796,9 +819,9 @@ export class DOMHandler {
 
     getProjectImageSrc (prioID) {
         const imageSources = {
-            contemplativePrio: this.images.contemplative,
-            pragmaticPrio:     this.images.pragmatic,
-            imperativePrio:    this.images.imperative
+            contemplative: this.images.contemplative,
+            pragmatic:     this.images.pragmatic,
+            imperative:    this.images.imperative
         };
         return imageSources[prioID];
     }

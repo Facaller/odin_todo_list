@@ -6,10 +6,10 @@ export class Project extends Task {
     static MAX_TITLE_LENGTH = 30;
     static MAX_DETAILS_LENGTH = 100;
 
-    constructor (title, details, priority) {
+    constructor (title, details, priority, id = null) {
         super (title, details, 'project');
         this.priority = priority;
-        this.id = generateID('project');
+        this.id = id || generateID('project');
     }
 
     _validateInputLength(title, details) {
@@ -34,5 +34,9 @@ export class Project extends Task {
             console.log('Invalid priority');
             return false;
         }
+    }
+
+    static fromJSON (data) {
+        return new Project (data.title, data.details, data.priority, data.id);
     }
 }

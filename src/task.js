@@ -16,11 +16,9 @@ export class Task {
 
         if (field && field.trim() !== '') {
             if (!pattern.test(field)) {
-                console.log(`${field === this.title ? 'Task title' : 'Task details'} contains invalid characters`);
                 return false;
             }
         } else {
-            console.log(`${field === this.title ? 'Task title' : 'Task details'} is empty or invalid`);
             return false;
         }
         return true;
@@ -42,7 +40,7 @@ export class TaskList {
         if (task instanceof Task && task.validate()) {
             this.tasks.push(task);
         } else {
-            console.log('Failed to add task due to validation errors');
+            throw new Error;
         }
     }
 
@@ -65,7 +63,6 @@ export class TaskList {
         const task = this.tasks.find(task => task.id === id);
 
         if (!task) {
-            console.log('Task not found')
             return;
         }
 
@@ -84,7 +81,7 @@ export class TaskList {
         updated = this.updateSpecificTask (task, newDate, newPriority, updated)
 
         if (updated && !task.validate()) {
-            console.log('Failed to update task due to validation errors');
+            throw new Error;
         }
     }
 
@@ -123,7 +120,6 @@ export class TaskList {
     markTaskProperty (taskID, property) {
         const validProperties = ['complete', 'important'];
         if (!validProperties.includes(property)) {
-            console.log('Invalid property');
             return false;
         }
 
@@ -137,7 +133,6 @@ export class TaskList {
     unmarkTaskProperty (taskID, property) {
         const validProperties = ['complete', 'important'];
         if (!validProperties.includes(property)) {
-            console.log('Invalid property')
             return false;
         }
 
@@ -160,15 +155,6 @@ export class TaskList {
         });
         
         return tasksForNextSevenDays;
-    }
-
-    getTaskID (id) {
-        const task = this.tasks.find(task => task.id === id);
-        if (!task) {
-            console.log('Task does not exist');
-            return null;
-        }
-        return task.id;
     }
 
     getTasksByType (type) {
